@@ -5,7 +5,6 @@ final serviceLocator = GetIt.instance;
 Future<void> initDependencies() async {
   _initAuth();
   // _initBlog();
-
   final supabase = await Supabase.initialize(
     url: AppSecrets.supabaseUrl,
     anonKey: AppSecrets.supabaseAnonKey,
@@ -24,6 +23,9 @@ Future<void> initDependencies() async {
   // core
   serviceLocator.registerLazySingleton(
     () => AppUserCubit(),
+  );
+  serviceLocator.registerLazySingleton(
+    () => NavBookingCubit(),
   );
   serviceLocator.registerFactory<ConnectionChecker>(
     () => ConnectionCheckerImpl(

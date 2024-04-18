@@ -10,9 +10,10 @@ import 'package:house_helper_rental_application/features/auth/domain/usecases/us
 import 'package:house_helper_rental_application/features/auth/presentation/bloc/auth_bloc.dart';
 
 import 'package:get_it/get_it.dart';
-import 'package:hive/hive.dart';
+//import 'package:hive/hive.dart';
+import 'package:house_helper_rental_application/features/bottom_nav/cubit/nav_booking_cubit.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
-import 'package:path_provider/path_provider.dart';
+//import 'package:path_provider/path_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'init_dependencies.main.dart';
