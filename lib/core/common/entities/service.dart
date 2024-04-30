@@ -1,9 +1,9 @@
 class Service {
-  final String id;
-  final String service;
+  final String title;
+  final String image;
 
   Service({
-    required this.id,
-    required this.service,
+    required this.title,
+    required this.image,
   });
 }

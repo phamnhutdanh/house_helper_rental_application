@@ -10,6 +10,14 @@ import 'package:house_helper_rental_application/features/auth/domain/usecases/us
 import 'package:house_helper_rental_application/features/auth/presentation/bloc/auth_bloc.dart';
 
 import 'package:get_it/get_it.dart';
+import 'package:house_helper_rental_application/features/booking/data/datasources/employees_remote_data_source.dart';
+import 'package:house_helper_rental_application/features/booking/data/datasources/services_remote_data_source.dart';
+import 'package:house_helper_rental_application/features/booking/data/repositories/booking_repository_impl.dart';
+import 'package:house_helper_rental_application/features/booking/domain/repository/booking_repository.dart';
+import 'package:house_helper_rental_application/features/booking/domain/usecases/get_all_employees.dart';
+import 'package:house_helper_rental_application/features/booking/domain/usecases/get_all_services.dart';
+import 'package:house_helper_rental_application/features/booking/domain/usecases/get_top_employees.dart';
+import 'package:house_helper_rental_application/features/booking/presentation/bloc/booking_bloc.dart';
 //import 'package:hive/hive.dart';
 import 'package:house_helper_rental_application/features/bottom_nav/cubit/nav_booking_cubit.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';

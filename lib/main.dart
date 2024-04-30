@@ -2,6 +2,7 @@ import 'package:house_helper_rental_application/core/common/cubits/app_user/app_
 import 'package:house_helper_rental_application/core/theme/theme.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/pages/login_page.dart';
+import 'package:house_helper_rental_application/features/booking/presentation/bloc/booking_bloc.dart';
 import 'package:house_helper_rental_application/features/bottom_nav/cubit/nav_booking_cubit.dart';
 import 'package:house_helper_rental_application/features/bottom_nav/pages/booking_wrapper.dart';
 import 'package:house_helper_rental_application/init_dependencies.dart';
@@ -19,10 +20,10 @@ void main() async {
       BlocProvider(
         create: (_) => serviceLocator<AuthBloc>(),
       ),
-      BlocProvider(create: (_) => serviceLocator<NavBookingCubit>())
-      // BlocProvider(
-      //   create: (_) => serviceLocator<BlogBloc>(),
-      // ),
+      BlocProvider(create: (_) => serviceLocator<NavBookingCubit>()),
+      BlocProvider(
+        create: (_) => serviceLocator<BookingBloc>(),
+      ),
     ],
     child: const MyApp(),
   ));
