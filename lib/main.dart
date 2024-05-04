@@ -3,8 +3,7 @@ import 'package:house_helper_rental_application/core/theme/theme.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/pages/login_page.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/bloc/booking_bloc.dart';
-import 'package:house_helper_rental_application/features/bottom_nav/cubit/nav_booking_cubit.dart';
-import 'package:house_helper_rental_application/features/bottom_nav/pages/booking_wrapper.dart';
+import 'package:house_helper_rental_application/core/routers/customer_app/main_router.dart';
 import 'package:house_helper_rental_application/init_dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +19,6 @@ void main() async {
       BlocProvider(
         create: (_) => serviceLocator<AuthBloc>(),
       ),
-      BlocProvider(create: (_) => serviceLocator<NavBookingCubit>()),
       BlocProvider(
         create: (_) => serviceLocator<BookingBloc>(),
       ),
@@ -55,7 +53,7 @@ class _MyAppState extends State<MyApp> {
         },
         builder: (context, isLoggedIn) {
           if (isLoggedIn) {
-            return const BookingWrapper();
+            return MainRouter();
           }
           return const LoginPage();
         },

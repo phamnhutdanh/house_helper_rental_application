@@ -10,10 +10,8 @@ import 'package:house_helper_rental_application/features/booking/presentation/wi
 import 'package:house_helper_rental_application/features/booking/presentation/widgets/top_employees_grid.dart';
 
 class HomePage extends StatefulWidget {
-  static route() => MaterialPageRoute(
-        builder: (context) => const HomePage(),
-      );
-  const HomePage({super.key});
+  final String detailsPath;
+  const HomePage({super.key, required this.detailsPath});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -31,10 +29,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-    context
-        .read<BookingBloc>()
-        //  ..add(BookingFetchAllServices())
-        .add(BookingFetchAllHomeData());
+    context.read<BookingBloc>().add(BookingFetchAllHomeData());
   }
 
   @override
@@ -108,7 +103,10 @@ class _HomePageState extends State<HomePage> {
                       return const Loader();
                     }
                     if (state is HomeInfoDisplaySuccess) {
-                      return TopEmployeesGrid(topEmployees: state.topEmployees);
+                      return TopEmployeesGrid(
+                        topEmployees: state.topEmployees,
+                        detailsPath: widget.detailsPath,
+                      );
                     }
                     return const SizedBox();
                   },

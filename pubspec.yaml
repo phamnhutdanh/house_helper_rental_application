@@ -47,7 +47,8 @@ dependencies:
   path_provider: ^2.1.0
   iconly: ^1.0.1
   google_fonts: ^6.1.0
-
+  simple_animations: ^5.0.2
+  beamer: ^1.6.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -70,9 +71,11 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+assets:
+  - assets/images/emma.jpg
+  - assets/images/emma-1.jpg
+  - assets/images/emma-2.jpg
+  - assets/images/emma-3.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

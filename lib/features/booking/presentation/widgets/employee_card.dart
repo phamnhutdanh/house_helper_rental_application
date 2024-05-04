@@ -1,3 +1,4 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -6,17 +7,16 @@ import 'package:iconly/iconly.dart';
 
 class EmployeeCard extends StatelessWidget {
   final Employee employee;
-  const EmployeeCard({super.key, required this.employee});
+  final String detailsPath;
+
+  const EmployeeCard(
+      {super.key, required this.employee, required this.detailsPath});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Navigator.of(context).push(
-        //   MaterialPageRoute(
-        //     builder: (context) => ProductScreen(product: product),
-        //   ),
-        // );
+        Beamer.of(context).beamToNamed(detailsPath);
       },
       child: Stack(
         children: [

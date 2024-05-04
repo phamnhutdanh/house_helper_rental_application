@@ -4,30 +4,13 @@ import 'package:house_helper_rental_application/features/booking/presentation/wi
 
 class TopEmployeesGrid extends StatelessWidget {
   final List<Employee> topEmployees;
-  const TopEmployeesGrid({super.key, required this.topEmployees});
+  final String detailsPath;
+
+  const TopEmployeesGrid(
+      {super.key, required this.topEmployees, required this.detailsPath});
 
   @override
   Widget build(BuildContext context) {
-    // return Container(
-    //   child: new GridView.count(
-    //     crossAxisCount: 2,
-    //     childAspectRatio: (4 / 3),
-    //     controller: new ScrollController(keepScrollOffset: false),
-    //     shrinkWrap: true,
-    //     scrollDirection: Axis.vertical,
-    //     children: topEmployees.map((Employee employee) {
-    //       return new Container(
-    //         color: Colors.green,
-    //         margin: new EdgeInsets.all(1.0),
-    //         child: new Expanded(
-    //             child: EmployeeCard(
-    //           employee: employee,
-    //         )),
-    //       );
-    //     }).toList(),
-    //   ),
-    // );
-
     return GridView.builder(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
@@ -40,27 +23,11 @@ class TopEmployeesGrid extends StatelessWidget {
       itemBuilder: (context, index) {
         return Container(
             margin: const EdgeInsets.all(8),
-            child: EmployeeCard(employee: topEmployees[index]));
+            child: EmployeeCard(
+              employee: topEmployees[index],
+              detailsPath: detailsPath,
+            ));
       },
     );
   }
 }
-
-
-
-// BlocConsumer<BookingBloc, BookingState>(
-//         listener: (context, state) {
-//           if (state is BookingFailure) {
-//             showSnackBar(context, state.error);
-//           }
-//         },
-//         builder: (context, state) {
-//           if (state is BookingLoading) {
-//             return const Loader();
-//           }
-//           if (state is TopEmployeesDisplaySuccess) {
-//             return const Text("SUCCESS");
-          
-//           }
-//           return const SizedBox();
-//         }, )

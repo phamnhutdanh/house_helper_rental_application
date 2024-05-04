@@ -41,20 +41,3 @@ class ServicesList extends StatelessWidget {
         ));
   }
 }
-
-  // child: BlocConsumer<BookingBloc, BookingState>(
-  //       listener: (context, state) {
-  //         if (state is BookingFailure) {
-  //           showSnackBar(context, state.error);
-  //         }
-  //       },
-  //       builder: (context, state) {
-  //         if (state is BookingLoading) {
-  //           return const Loader();
-  //         }
-  //         if (state is ServicesDisplaySuccess) {
-           
-  //         }
-  //         return const SizedBox();
-  //       },
-  //     ),
