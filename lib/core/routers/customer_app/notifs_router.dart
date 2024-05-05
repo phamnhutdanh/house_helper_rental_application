@@ -1,6 +1,7 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:house_helper_rental_application/core/routers/customer_app/TestScreen.dart';
+import 'package:house_helper_rental_application/features/booking/presentation/pages/notification_page.dart';
 
 class NotificationRouter extends BeamLocation<BeamState> {
   NotificationRouter(super.routeInformation);
@@ -13,7 +14,7 @@ class NotificationRouter extends BeamLocation<BeamState> {
           key: ValueKey('notifs'),
           title: 'Tab C',
           type: BeamPageType.noTransition,
-          child: RootScreen(label: 'C', detailsPath: '/notifs/details'),
+          child: NotificationPage(),
         ),
         if (state.uri.pathSegments.length == 2)
           const BeamPage(

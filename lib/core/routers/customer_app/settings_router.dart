@@ -1,6 +1,7 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:house_helper_rental_application/core/routers/customer_app/TestScreen.dart';
+import 'package:house_helper_rental_application/features/booking/presentation/pages/settings_page.dart';
 
 class SettingsRouter extends BeamLocation<BeamState> {
   SettingsRouter(super.routeInformation);
@@ -13,7 +14,7 @@ class SettingsRouter extends BeamLocation<BeamState> {
           key: ValueKey('settings'),
           title: 'Tab D',
           type: BeamPageType.noTransition,
-          child: RootScreen(label: 'D', detailsPath: '/settings/details'),
+          child: SettingsPage(),
         ),
         if (state.uri.pathSegments.length == 2)
           const BeamPage(

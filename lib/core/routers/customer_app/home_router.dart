@@ -14,7 +14,7 @@ class HomeRouter extends BeamLocation<BeamState> {
           key: ValueKey('home'),
           title: 'Tab A',
           type: BeamPageType.noTransition,
-          child: HomePage(detailsPath: '/home/details'),
+          child: HomePage(),
         ),
         if (state.uri.pathSegments.length == 2)
           const BeamPage(

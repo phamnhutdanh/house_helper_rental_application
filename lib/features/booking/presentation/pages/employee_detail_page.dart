@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:house_helper_rental_application/core/theme/app_pallete.dart';
 
 class EmployeeDetailPage extends StatefulWidget {
   static route() => MaterialPageRoute(
@@ -16,14 +17,14 @@ class _EmployeeDetailPageState extends State<EmployeeDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: AppPallete.whiteColor,
       body: Stack(
         children: <Widget>[
           CustomScrollView(
             slivers: <Widget>[
               SliverAppBar(
                 expandedHeight: 450,
-                backgroundColor: Colors.black,
+                backgroundColor: AppPallete.transparentColor,
                 flexibleSpace: FlexibleSpaceBar(
                   collapseMode: CollapseMode.pin,
                   background: Container(
@@ -37,8 +38,8 @@ class _EmployeeDetailPageState extends State<EmployeeDetailPage> {
                           gradient: LinearGradient(
                               begin: Alignment.bottomRight,
                               colors: [
-                            Colors.black,
-                            Colors.black.withOpacity(.3)
+                            AppPallete.blackColor,
+                            AppPallete.blackColor.withOpacity(.3)
                           ])),
                       child: const Padding(
                         padding: EdgeInsets.all(20),
@@ -49,7 +50,7 @@ class _EmployeeDetailPageState extends State<EmployeeDetailPage> {
                             Text(
                               "Emma Watson",
                               style: TextStyle(
-                                  color: Colors.white,
+                                  color: AppPallete.whiteColor,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 40),
                             ),
@@ -61,7 +62,8 @@ class _EmployeeDetailPageState extends State<EmployeeDetailPage> {
                                 Text(
                                   "60 Videos",
                                   style: TextStyle(
-                                      color: Colors.grey, fontSize: 16),
+                                      color: AppPallete.greyColor,
+                                      fontSize: 16),
                                 ),
                                 SizedBox(
                                   width: 50,
@@ -69,7 +71,8 @@ class _EmployeeDetailPageState extends State<EmployeeDetailPage> {
                                 Text(
                                   "240K Subscribers",
                                   style: TextStyle(
-                                      color: Colors.grey, fontSize: 16),
+                                      color: AppPallete.greyColor,
+                                      fontSize: 16),
                                 )
                               ],
                             )
@@ -89,7 +92,8 @@ class _EmployeeDetailPageState extends State<EmployeeDetailPage> {
                       children: <Widget>[
                         const Text(
                           "Emma Charlotte Duerre Watson was born in Paris, France, to English parents, Jacqueline Luesby and Chris Watson, both lawyers. She moved to Oxfordshire when she was five, where she attended the Dragon School.",
-                          style: TextStyle(color: Colors.grey, height: 1.4),
+                          style: TextStyle(
+                              color: AppPallete.greyColor, height: 1.4),
                         ),
                         const SizedBox(
                           height: 40,
@@ -97,7 +101,7 @@ class _EmployeeDetailPageState extends State<EmployeeDetailPage> {
                         const Text(
                           "Born",
                           style: TextStyle(
-                              color: Colors.white,
+                              color: AppPallete.blackColor,
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),
@@ -106,7 +110,7 @@ class _EmployeeDetailPageState extends State<EmployeeDetailPage> {
                         ),
                         const Text(
                           "April, 15th 1990, Paris, France",
-                          style: TextStyle(color: Colors.grey),
+                          style: TextStyle(color: AppPallete.greyColor),
                         ),
                         const SizedBox(
                           height: 20,
@@ -114,7 +118,7 @@ class _EmployeeDetailPageState extends State<EmployeeDetailPage> {
                         const Text(
                           "Nationality",
                           style: TextStyle(
-                              color: Colors.white,
+                              color: AppPallete.blackColor,
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),
@@ -123,7 +127,7 @@ class _EmployeeDetailPageState extends State<EmployeeDetailPage> {
                         ),
                         const Text(
                           "British",
-                          style: TextStyle(color: Colors.grey),
+                          style: TextStyle(color: AppPallete.greyColor),
                         ),
                         const SizedBox(
                           height: 20,
@@ -131,7 +135,7 @@ class _EmployeeDetailPageState extends State<EmployeeDetailPage> {
                         const Text(
                           "Videos",
                           style: TextStyle(
-                              color: Colors.white,
+                              color: AppPallete.blackColor,
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),
@@ -150,32 +154,27 @@ class _EmployeeDetailPageState extends State<EmployeeDetailPage> {
                           ),
                         ),
                         const SizedBox(
-                          height: 120,
-                        )
+                          height: 20,
+                        ),
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 30),
+                          height: 50,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: AppPallete.greyColor),
+                          child: const Align(
+                            child: Text(
+                              "Follow",
+                              style: TextStyle(color: AppPallete.whiteColor),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   )
                 ]),
-              )
-            ],
-          ),
-          Container(
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 30),
-                height: 50,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    color: Colors.yellow[700]),
-                child: const Align(
-                  child: Text(
-                    "Follow",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
               ),
-            ),
+            ],
           ),
         ],
       ),
@@ -196,13 +195,13 @@ class _EmployeeDetailPageState extends State<EmployeeDetailPage> {
         child: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(begin: Alignment.bottomRight, colors: [
-            Colors.black.withOpacity(.9),
-            Colors.black.withOpacity(.3)
+            AppPallete.blackColor.withOpacity(.9),
+            AppPallete.blackColor.withOpacity(.3)
           ])),
           child: const Align(
             child: Icon(
               Icons.play_arrow,
-              color: Colors.white,
+              color: AppPallete.whiteColor,
               size: 70,
             ),
           ),

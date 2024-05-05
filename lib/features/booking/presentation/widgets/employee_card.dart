@@ -7,16 +7,14 @@ import 'package:iconly/iconly.dart';
 
 class EmployeeCard extends StatelessWidget {
   final Employee employee;
-  final String detailsPath;
 
-  const EmployeeCard(
-      {super.key, required this.employee, required this.detailsPath});
+  const EmployeeCard({super.key, required this.employee});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Beamer.of(context).beamToNamed(detailsPath);
+        Beamer.of(context).beamToNamed('/home/details');
       },
       child: Stack(
         children: [

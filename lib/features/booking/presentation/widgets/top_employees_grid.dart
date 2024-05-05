@@ -4,10 +4,8 @@ import 'package:house_helper_rental_application/features/booking/presentation/wi
 
 class TopEmployeesGrid extends StatelessWidget {
   final List<Employee> topEmployees;
-  final String detailsPath;
 
-  const TopEmployeesGrid(
-      {super.key, required this.topEmployees, required this.detailsPath});
+  const TopEmployeesGrid({super.key, required this.topEmployees});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +23,6 @@ class TopEmployeesGrid extends StatelessWidget {
             margin: const EdgeInsets.all(8),
             child: EmployeeCard(
               employee: topEmployees[index],
-              detailsPath: detailsPath,
             ));
       },
     );
