@@ -1,4 +1,4 @@
-import 'package:house_helper_rental_application/core/common/cubits/app_user/app_user_cubit.dart';
+import 'package:house_helper_rental_application/core/common/cubits/app_user/app_account_cubit.dart';
 import 'package:house_helper_rental_application/core/theme/theme.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/pages/login_page.dart';
@@ -14,7 +14,7 @@ void main() async {
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(
-        create: (_) => serviceLocator<AppUserCubit>(),
+        create: (_) => serviceLocator<AppAccountCubit>(),
       ),
       BlocProvider(
         create: (_) => serviceLocator<AuthBloc>(),
@@ -38,7 +38,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    context.read<AuthBloc>().add(AuthIsUserLoggedIn());
+    context.read<AuthBloc>().add(AuthIsAccountLoggedIn());
   }
 
   @override
@@ -47,9 +47,9 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'House Helper Rental App',
       theme: AppTheme.lightThemeMode,
-      home: BlocSelector<AppUserCubit, AppUserState, bool>(
+      home: BlocSelector<AppAccountCubit, AppAccountState, bool>(
         selector: (state) {
-          return state is AppUserLoggedIn;
+          return state is AppAccountLoggedIn;
         },
         builder: (context, isLoggedIn) {
           if (isLoggedIn) {

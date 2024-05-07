@@ -1,58 +1,62 @@
-import 'package:flutter/material.dart';
 import 'package:house_helper_rental_application/core/common/entities/employee.dart';
 
 class EmployeeModel extends Employee {
   EmployeeModel({
-    required super.title,
+    required super.id,
+    required super.name,
+    required super.phoneNumber,
+    required super.imageUri,
     required super.description,
-    required super.image,
-    required super.price,
-    required super.colors,
-    required super.category,
-    required super.rate,
+    required super.age,
+    required super.workingHours,
+    required super.accountInfoId,
   });
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
-      'title': title,
+      'id': id,
+      'name': name,
+      'phoneNumber': phoneNumber,
+      'imageUri': imageUri,
       'description': description,
-      'image': image,
-      'price': price,
-      'colors': colors,
-      'category': category,
-      'rate': rate,
+      'age': age,
+      'workingHours': workingHours,
+      'accountInfoId': accountInfoId,
     };
   }
 
   factory EmployeeModel.fromJson(Map<String, dynamic> map) {
     return EmployeeModel(
-      title: map['title'] as String,
+      id: map['id'] as String,
+      name: map['name'] as String,
+      phoneNumber: map['phoneNumber'] as String,
+      imageUri: map['imageUri'] as String,
       description: map['description'] as String,
-      image: map['image'] as String,
-      price: map['price'] as double,
-      colors: List<Color>.from(map['colors'] ?? []),
-      category: map['category'] as String,
-      rate: map['rate'] as double,
+      age: map['age'] as double,
+      workingHours: map['workingHours'] as double,
+      accountInfoId: map['accountInfoId'] as String,
     );
   }
 
   EmployeeModel copyWith({
-    String? title,
-    String? image,
+    String? id,
+    String? name,
+    String? phoneNumber,
+    String? imageUri,
     String? description,
-    String? category,
-    double? price,
-    double? rate,
-    List<Color>? colors,
+    double? age,
+    double? workingHours,
+    String? accountInfoId,
   }) {
     return EmployeeModel(
-      title: title ?? this.title,
-      image: image ?? this.image,
+      id: id ?? this.id,
+      name: name ?? this.name,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      imageUri: imageUri ?? this.imageUri,
       description: description ?? this.description,
-      category: category ?? this.category,
-      price: price ?? this.price,
-      rate: rate ?? this.rate,
-      colors: colors ?? this.colors,
+      age: age ?? this.age,
+      workingHours: workingHours ?? this.workingHours,
+      accountInfoId: id ?? this.accountInfoId,
     );
   }
 }

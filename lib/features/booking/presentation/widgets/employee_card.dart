@@ -27,12 +27,12 @@ class EmployeeCard extends StatelessWidget {
             child: Column(
               children: [
                 Image.network(
-                  employee.image,
+                  employee.imageUri,
                   width: 120,
                   height: 120,
                 ),
                 Text(
-                  employee.title,
+                  employee.name,
                   style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -42,26 +42,26 @@ class EmployeeCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Text(
-                      "\$${employee.price}",
+                      "${employee.description}",
                       style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                           overflow: TextOverflow.ellipsis),
                     ),
-                    Row(
-                      children: List.generate(
-                        employee.colors.length,
-                        (cindex) => Container(
-                          height: 15,
-                          width: 15,
-                          margin: const EdgeInsets.only(right: 2),
-                          decoration: BoxDecoration(
-                            color: employee.colors[cindex],
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                      ),
-                    )
+                    // Row(
+                    //   children: List.generate(
+                    //     employee.colors.length,
+                    //     (cindex) => Container(
+                    //       height: 15,
+                    //       width: 15,
+                    //       margin: const EdgeInsets.only(right: 2),
+                    //       decoration: BoxDecoration(
+                    //         color: employee.colors[cindex],
+                    //         shape: BoxShape.circle,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // )
                   ],
                 )
               ],

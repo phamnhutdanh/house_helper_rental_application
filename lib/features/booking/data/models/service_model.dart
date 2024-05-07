@@ -2,54 +2,46 @@ import 'package:house_helper_rental_application/core/common/entities/service.dar
 
 class ServiceModel extends Service {
   ServiceModel({
-    required super.title,
-    required super.image,
+    required super.id,
+    required super.name,
+    required super.description,
+    required super.imageUri,
   });
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
-      'title': title,
-      'image': image,
+      'id': id,
+      'name': name,
+      'description': description,
+      'imageUri': imageUri,
       //'updated_at': updatedAt.toIso8601String(),
     };
   }
 
   factory ServiceModel.fromJson(Map<String, dynamic> map) {
     return ServiceModel(
-        title: map['title'] as String, image: map['image'] as String
-        // id: map['id'] as String,
-        // posterId: map['poster_id'] as String,
-        // title: map['title'] as String,
-        // content: map['content'] as String,
-        // imageUrl: map['image_url'] as String,
-        // topics: List<String>.from(map['topics'] ?? []),
-        // updatedAt: map['updated_at'] == null
-        //     ? DateTime.now()
-        //     : DateTime.parse(map['updated_at']),
-        );
+      id: map['id'] as String,
+      name: map['name'] as String,
+      description: map['description'] as String,
+      imageUri: map['imageUri'] as String,
+
+      // topics: List<String>.from(map['topics'] ?? []),
+      // updatedAt: map['updated_at'] == null
+      //     ? DateTime.now()
+      //     : DateTime.parse(map['updated_at']),
+    );
   }
 
-  ServiceModel copyWith({String? title, String? image
-      // String? id,
-      // String? posterId,
-      // String? title,
-      // String? content,
-      // String? imageUrl,
+  ServiceModel copyWith(
+      {String? id, String? name, String? description, String? imageUri
       // List<String>? topics,
       // DateTime? updatedAt,
-      // String? posterName,
       }) {
     return ServiceModel(
-      title: title ?? this.title,
-      image: image ?? this.image,
-      // id: id ?? this.id,
-      // posterId: posterId ?? this.posterId,
-      // title: title ?? this.title,
-      // content: content ?? this.content,
-      // imageUrl: imageUrl ?? this.imageUrl,
-      // topics: topics ?? this.topics,
-      // updatedAt: updatedAt ?? this.updatedAt,
-      // posterName: posterName ?? this.posterName,
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      imageUri: imageUri ?? this.imageUri,
     );
   }
 }

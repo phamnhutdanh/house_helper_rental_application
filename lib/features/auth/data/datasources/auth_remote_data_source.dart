@@ -1,19 +1,19 @@
 import 'package:house_helper_rental_application/core/error/exceptions.dart';
-import 'package:house_helper_rental_application/features/auth/data/models/user_model.dart';
+import 'package:house_helper_rental_application/features/auth/data/models/account_info_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract interface class AuthRemoteDataSource {
   Session? get currentUserSession;
-  Future<UserModel> signUpWithEmailPassword({
+  Future<AccountInfoModel> signUpWithEmailPassword({
     required String name,
     required String email,
     required String password,
   });
-  Future<UserModel> loginWithEmailPassword({
+  Future<AccountInfoModel> loginWithEmailPassword({
     required String email,
     required String password,
   });
-  Future<UserModel?> getCurrentUserData();
+  Future<AccountInfoModel?> getCurrentAccountInfoData();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -24,7 +24,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Session? get currentUserSession => supabaseClient.auth.currentSession;
 
   @override
-  Future<UserModel> loginWithEmailPassword({
+  Future<AccountInfoModel> loginWithEmailPassword({
     required String email,
     required String password,
   }) async {
@@ -36,7 +36,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       if (response.user == null) {
         throw const ServerException('User is null!');
       }
-      return UserModel.fromJson(response.user!.toJson());
+      return AccountInfoModel.fromJson(response.user!.toJson());
     } on AuthException catch (e) {
       throw ServerException(e.message);
     } catch (e) {
@@ -45,7 +45,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<UserModel> signUpWithEmailPassword({
+  Future<AccountInfoModel> signUpWithEmailPassword({
     required String name,
     required String email,
     required String password,
@@ -61,7 +61,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       if (response.user == null) {
         throw const ServerException('User is null!');
       }
-      return UserModel.fromJson(response.user!.toJson());
+      return AccountInfoModel.fromJson(response.user!.toJson());
     } on AuthException catch (e) {
       throw ServerException(e.message);
     } catch (e) {
@@ -70,14 +70,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<UserModel?> getCurrentUserData() async {
+  Future<AccountInfoModel?> getCurrentAccountInfoData() async {
     try {
       if (currentUserSession != null) {
         final userData = await supabaseClient.from('profiles').select().eq(
               'id',
               currentUserSession!.user.id,
             );
-        return UserModel.fromJson(userData.first).copyWith(
+        return AccountInfoModel.fromJson(userData.first).copyWith(
           email: currentUserSession!.user.email,
         );
       }

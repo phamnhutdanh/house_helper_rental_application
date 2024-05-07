@@ -1,10 +1,11 @@
+import 'package:house_helper_rental_application/core/common/entities/account_info.dart';
+import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
 import 'package:house_helper_rental_application/core/constants/constants.dart';
 import 'package:house_helper_rental_application/core/error/exceptions.dart';
 import 'package:house_helper_rental_application/core/error/failures.dart';
 import 'package:house_helper_rental_application/core/network/connection_checker.dart';
 import 'package:house_helper_rental_application/features/auth/data/datasources/auth_remote_data_source.dart';
-import 'package:house_helper_rental_application/core/common/entities/user.dart';
-import 'package:house_helper_rental_application/features/auth/data/models/user_model.dart';
+import 'package:house_helper_rental_application/features/auth/data/models/account_info_model.dart';
 import 'package:house_helper_rental_application/features/auth/domain/repository/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -17,7 +18,7 @@ class AuthRepositoryImpl implements AuthRepository {
   );
 
   @override
-  Future<Either<Failure, User>> currentUser() async {
+  Future<Either<Failure, AccountInfo>> currentAccountInfo() async {
     try {
       if (!await (connectionChecker.isConnected)) {
         final session = remoteDataSource.currentUserSession;
@@ -27,14 +28,14 @@ class AuthRepositoryImpl implements AuthRepository {
         }
 
         return right(
-          UserModel(
+          AccountInfoModel(
             id: session.user.id,
             email: session.user.email ?? '',
-            name: '',
+            role: AccountInfoRole.CUSTOMER,
           ),
         );
       }
-      final user = await remoteDataSource.getCurrentUserData();
+      final user = await remoteDataSource.getCurrentAccountInfoData();
       if (user == null) {
         return left(Failure('User not logged in!'));
       }
@@ -46,11 +47,11 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, User>> loginWithEmailPassword({
+  Future<Either<Failure, AccountInfo>> loginWithEmailPassword({
     required String email,
     required String password,
   }) async {
-    return _getUser(
+    return _getAccountInfo(
       () async => await remoteDataSource.loginWithEmailPassword(
         email: email,
         password: password,
@@ -59,12 +60,12 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, User>> signUpWithEmailPassword({
+  Future<Either<Failure, AccountInfo>> signUpWithEmailPassword({
     required String name,
     required String email,
     required String password,
   }) async {
-    return _getUser(
+    return _getAccountInfo(
       () async => await remoteDataSource.signUpWithEmailPassword(
         name: name,
         email: email,
@@ -73,8 +74,8 @@ class AuthRepositoryImpl implements AuthRepository {
     );
   }
 
-  Future<Either<Failure, User>> _getUser(
-    Future<User> Function() fn,
+  Future<Either<Failure, AccountInfo>> _getAccountInfo(
+    Future<AccountInfo> Function() fn,
   ) async {
     try {
       if (!await (connectionChecker.isConnected)) {

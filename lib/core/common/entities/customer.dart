@@ -1,21 +1,15 @@
-class Employee {
+class Customer {
   final String id;
   final String name;
   final String phoneNumber;
   final String imageUri;
-  final String description;
-  final int age;
-  final int workingHours;
   final String accountInfoId;
 
-  Employee({
+  Customer({
     required this.id,
     required this.name,
     required this.phoneNumber,
     required this.imageUri,
-    required this.description,
-    required this.age,
-    required this.workingHours,
     required this.accountInfoId,
   });
 }

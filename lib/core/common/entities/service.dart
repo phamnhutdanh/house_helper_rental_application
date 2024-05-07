@@ -1,9 +1,13 @@
 class Service {
-  final String title;
-  final String image;
+  final String id;
+  final String name;
+  final String description;
+  final String imageUri;
 
   Service({
-    required this.title,
-    required this.image,
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.imageUri,
   });
 }

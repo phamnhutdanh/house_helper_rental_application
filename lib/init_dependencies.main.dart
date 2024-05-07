@@ -22,7 +22,7 @@ Future<void> initDependencies() async {
 
   // core
   serviceLocator.registerLazySingleton(
-    () => AppUserCubit(),
+    () => AppAccountCubit(),
   );
   serviceLocator.registerFactory<ConnectionChecker>(
     () => ConnectionCheckerImpl(
@@ -49,27 +49,27 @@ void _initAuth() {
 
     // Usecases
     ..registerFactory(
-      () => UserSignUp(
+      () => AccountSignUp(
         serviceLocator(),
       ),
     )
     ..registerFactory(
-      () => UserLogin(
+      () => AccountLogin(
         serviceLocator(),
       ),
     )
     ..registerFactory(
-      () => CurrentUser(
+      () => CurrentAccountInfo(
         serviceLocator(),
       ),
     )
     // Bloc
     ..registerLazySingleton(
       () => AuthBloc(
-        userSignUp: serviceLocator(),
-        userLogin: serviceLocator(),
-        currentUser: serviceLocator(),
-        appUserCubit: serviceLocator(),
+        accountSignUp: serviceLocator(),
+        accountLogin: serviceLocator(),
+        currentAccountInfo: serviceLocator(),
+        appAccountCubit: serviceLocator(),
       ),
     );
 }

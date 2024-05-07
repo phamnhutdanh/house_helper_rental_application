@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:house_helper_rental_application/core/common/entities/service.dart';
 
 class ServicesList extends StatelessWidget {
-    final List<Service> services;
+  final List<Service> services;
   const ServicesList({super.key, required this.services});
 
   @override
@@ -21,14 +21,14 @@ class ServicesList extends StatelessWidget {
                     shape: BoxShape.circle,
                     image: DecorationImage(
                       image: NetworkImage(
-                        services[index].image,
+                        services[index].imageUri,
                       ),
                     ),
                   ),
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  services[index].title,
+                  services[index].description,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
