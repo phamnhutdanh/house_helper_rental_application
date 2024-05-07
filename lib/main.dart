@@ -55,7 +55,8 @@ class _MyAppState extends State<MyApp> {
           if (isLoggedIn) {
             return MainRouter();
           }
-          return const LoginPage();
+          return MainRouter();
+          //return const LoginPage();
         },
       ),
     );
