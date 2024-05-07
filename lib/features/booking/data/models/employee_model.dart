@@ -32,8 +32,8 @@ class EmployeeModel extends Employee {
       phoneNumber: map['phoneNumber'] as String,
       imageUri: map['imageUri'] as String,
       description: map['description'] as String,
-      age: map['age'] as double,
-      workingHours: map['workingHours'] as double,
+      age: map['age'] as int,
+      workingHours: map['workingHours'] as int,
       accountInfoId: map['accountInfoId'] as String,
     );
   }
@@ -44,8 +44,8 @@ class EmployeeModel extends Employee {
     String? phoneNumber,
     String? imageUri,
     String? description,
-    double? age,
-    double? workingHours,
+    int? age,
+    int? workingHours,
     String? accountInfoId,
   }) {
     return EmployeeModel(
