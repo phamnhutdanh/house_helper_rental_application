@@ -30,9 +30,9 @@ class EmployeesRemoteDataSourceImpl implements EmployeesRemoteDataSource {
       //     )
       //     .toList();
     } on PostgrestException catch (e) {
-      throw ServerException(e.message);
+      throw ServerExceptionError(e.message);
     } catch (e) {
-      throw ServerException(e.toString());
+      throw ServerExceptionError(e.toString());
     }
   }
 
@@ -53,9 +53,9 @@ class EmployeesRemoteDataSourceImpl implements EmployeesRemoteDataSource {
       //     )
       //     .toList();
     } on PostgrestException catch (e) {
-      throw ServerException(e.message);
+      throw ServerExceptionError(e.message);
     } catch (e) {
-      throw ServerException(e.toString());
+      throw ServerExceptionError(e.toString());
     }
   }
 }

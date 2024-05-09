@@ -14,7 +14,10 @@ class HistoryRouter extends BeamLocation<BeamState> {
           key: ValueKey('history'),
           title: 'Tab B',
           type: BeamPageType.noTransition,
-          child: HistoryPage(),
+          child: RootScreen(
+            label: 'label B',
+            detailsPath: "/home",
+          ),
         ),
         if (state.uri.pathSegments.length == 2)
           const BeamPage(

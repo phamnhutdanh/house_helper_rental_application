@@ -14,7 +14,7 @@ class SettingsRouter extends BeamLocation<BeamState> {
           key: ValueKey('settings'),
           title: 'Tab D',
           type: BeamPageType.noTransition,
-          child: SettingsPage(),
+          child: RootScreen(label: 'label D', detailsPath: "/home",),
         ),
         if (state.uri.pathSegments.length == 2)
           const BeamPage(

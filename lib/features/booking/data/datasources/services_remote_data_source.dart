@@ -33,9 +33,9 @@ class ServicesRemoteDataSourceImpl implements ServicesRemoteDataSource {
 
       return [];
     } on PostgrestException catch (e) {
-      throw ServerException(e.message);
+      throw ServerExceptionError(e.message);
     } catch (e) {
-      throw ServerException(e.toString());
+      throw ServerExceptionError(e.toString());
     }
   }
 }

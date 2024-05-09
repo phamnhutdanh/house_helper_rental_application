@@ -15,7 +15,10 @@ class NotificationRouter extends BeamLocation<BeamState> {
           key: ValueKey('notifs'),
           title: 'Tab C',
           type: BeamPageType.noTransition,
-          child: NotificationPage(),
+          child: RootScreen(
+            label: 'label C',
+            detailsPath: "/home",
+          ),
         ),
         if (state.uri.pathSegments.length == 2)
           const BeamPage(

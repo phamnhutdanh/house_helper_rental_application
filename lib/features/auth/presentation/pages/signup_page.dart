@@ -49,6 +49,7 @@ class _SignUpPageState extends State<SignUpPage> {
               //   BlogPage.route(),
               //   (route) => false,
               // );
+              showSnackBar(context, 'Account created success!');
             }
           },
           builder: (context, state) {

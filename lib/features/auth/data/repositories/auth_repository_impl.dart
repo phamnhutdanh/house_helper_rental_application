@@ -1,5 +1,4 @@
 import 'package:house_helper_rental_application/core/common/entities/account_info.dart';
-import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
 import 'package:house_helper_rental_application/core/constants/constants.dart';
 import 'package:house_helper_rental_application/core/error/exceptions.dart';
 import 'package:house_helper_rental_application/core/error/failures.dart';
@@ -31,7 +30,6 @@ class AuthRepositoryImpl implements AuthRepository {
           AccountInfoModel(
             id: session.user.id,
             email: session.user.email ?? '',
-            role: AccountInfoRole.CUSTOMER,
           ),
         );
       }
@@ -41,7 +39,7 @@ class AuthRepositoryImpl implements AuthRepository {
       }
 
       return right(user);
-    } on ServerException catch (e) {
+    } on ServerExceptionError catch (e) {
       return left(Failure(e.message));
     }
   }
@@ -84,7 +82,7 @@ class AuthRepositoryImpl implements AuthRepository {
       final user = await fn();
 
       return right(user);
-    } on ServerException catch (e) {
+    } on ServerExceptionError catch (e) {
       return left(Failure(e.message));
     }
   }

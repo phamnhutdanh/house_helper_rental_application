@@ -7,10 +7,12 @@ import 'package:house_helper_rental_application/core/routers/customer_app/main_r
 import 'package:house_helper_rental_application/init_dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initDependencies();
+
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(
@@ -23,7 +25,9 @@ void main() async {
         create: (_) => serviceLocator<BookingBloc>(),
       ),
     ],
-    child: const MyApp(),
+    child: GraphQLProvider(
+        client: ValueNotifier(serviceLocator()),
+        child: const CacheProvider(child: MyApp())),
   ));
 }
 
@@ -55,8 +59,7 @@ class _MyAppState extends State<MyApp> {
           if (isLoggedIn) {
             return MainRouter();
           }
-          return MainRouter();
-          //return const LoginPage();
+          return const LoginPage();
         },
       ),
     );

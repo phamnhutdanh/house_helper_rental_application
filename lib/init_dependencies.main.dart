@@ -5,21 +5,23 @@ final serviceLocator = GetIt.instance;
 Future<void> initDependencies() async {
   _initAuth();
   _initBookingServices();
+
   final supabase = await Supabase.initialize(
     url: AppSecrets.supabaseUrl,
     anonKey: AppSecrets.supabaseAnonKey,
   );
-
-  //Hive.defaultDirectory = (await getApplicationDocumentsDirectory()).path;
-
   serviceLocator.registerLazySingleton(() => supabase.client);
 
-  // serviceLocator.registerLazySingleton(
-  //   () => Hive.box(name: 'blogs'),
-  // );
+  await initHiveForFlutter();
+  final GraphQLClient graphQLClient = GraphQLClient(
+    link: HttpLink(
+      'https://house-helper-rental-server-8f9b0f15a82e.herokuapp.com',
+    ),
+    cache: GraphQLCache(store: HiveStore()),
+  );
+  serviceLocator.registerLazySingleton(() => graphQLClient);
 
   serviceLocator.registerFactory(() => InternetConnection());
-
   // core
   serviceLocator.registerLazySingleton(
     () => AppAccountCubit(),
@@ -31,11 +33,20 @@ Future<void> initDependencies() async {
   );
 }
 
+// void _initHive() async {
+//   final defaultDirectory = (await getApplicationDocumentsDirectory()).path;
+//   Hive.init(defaultDirectory);
+//   serviceLocator.registerLazySingleton(
+//     () => Hive.box('house_help'),
+//   );
+// }
+
 void _initAuth() {
   // Datasource
   serviceLocator
     ..registerFactory<AuthRemoteDataSource>(
       () => AuthRemoteDataSourceImpl(
+        serviceLocator(),
         serviceLocator(),
       ),
     )

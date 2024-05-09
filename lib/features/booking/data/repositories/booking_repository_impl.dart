@@ -19,7 +19,7 @@ class BookingRepositoryImpl implements BookingRepository {
     try {
       final services = await servicesRemoteDataSource.getAllServices();
       return right(services);
-    } on ServerException catch (e) {
+    } on ServerExceptionError catch (e) {
       return left(Failure(e.message));
     }
   }
@@ -29,7 +29,7 @@ class BookingRepositoryImpl implements BookingRepository {
     try {
       final employees = await employeesRemoteDataSource.getAllEmployees();
       return right(employees);
-    } on ServerException catch (e) {
+    } on ServerExceptionError catch (e) {
       return left(Failure(e.message));
     }
   }
@@ -39,7 +39,7 @@ class BookingRepositoryImpl implements BookingRepository {
     try {
       final employees = await employeesRemoteDataSource.getTopEmployees();
       return right(employees);
-    } on ServerException catch (e) {
+    } on ServerExceptionError catch (e) {
       return left(Failure(e.message));
     }
   }

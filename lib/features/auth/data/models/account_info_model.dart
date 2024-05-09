@@ -5,7 +5,7 @@ class AccountInfoModel extends AccountInfo {
   AccountInfoModel({
     required super.id,
     required super.email,
-    required super.role,
+    super.role,
     super.createdAt,
     super.updatedAt,
     super.status,
