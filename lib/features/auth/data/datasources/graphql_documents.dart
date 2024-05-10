@@ -1,14 +1,16 @@
 class CreateCustomerAccountInput {
   final String email;
   final String name;
+  final String accountId;
 
   CreateCustomerAccountInput({
     required this.email,
     required this.name,
+    required this.accountId,
   });
 
   Map<String, dynamic> toJson() {
-    return {'email': email, 'name': name};
+    return {'email': email, 'name': name, 'accountId': accountId};
   }
 }
 
@@ -17,13 +19,13 @@ class CreateSessionInput {
   final String expires;
   final String accessToken;
 
-  final int? expiresAt;
-  final int? expiresIn;
-  final bool? isExpired;
+  final int expiresAt;
+  final int expiresIn;
+  final bool isExpired;
 
-  final String? providerRefreshToken;
-  final String? providerToken;
-  final String? refreshToken;
+  final String providerRefreshToken;
+  final String providerToken;
+  final String refreshToken;
   final String tokenType;
 
   CreateSessionInput({
@@ -61,11 +63,23 @@ class AuthGraphqlDocuments {
       createCustomerAccount(createCustomerAccountInput: \$createCustomerAccountInput, createSessionInput: \$createSessionInput) {
           id
           email
-          role
+          accountRole
           createdAt
           updatedAt
           status
       }
     }
     """;
+
+  static String getAccountInfoByIdQuery = """
+    query GetAccountInfoById(\$id: String) {
+      getAccountInfoById(id: \$id) {
+        id
+        email
+        accountRole
+        createdAt
+        updatedAt
+        status
+      }
+    }""";
 }

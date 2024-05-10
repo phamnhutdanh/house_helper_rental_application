@@ -14,9 +14,7 @@ Future<void> initDependencies() async {
 
   await initHiveForFlutter();
   final GraphQLClient graphQLClient = GraphQLClient(
-    link: HttpLink(
-      'https://house-helper-rental-server-8f9b0f15a82e.herokuapp.com',
-    ),
+    link: HttpLink(AppSecrets.linkDeploy),
     cache: GraphQLCache(store: HiveStore()),
   );
   serviceLocator.registerLazySingleton(() => graphQLClient);

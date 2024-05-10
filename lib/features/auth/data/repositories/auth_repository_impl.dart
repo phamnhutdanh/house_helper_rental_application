@@ -4,7 +4,6 @@ import 'package:house_helper_rental_application/core/error/exceptions.dart';
 import 'package:house_helper_rental_application/core/error/failures.dart';
 import 'package:house_helper_rental_application/core/network/connection_checker.dart';
 import 'package:house_helper_rental_application/features/auth/data/datasources/auth_remote_data_source.dart';
-import 'package:house_helper_rental_application/features/auth/data/models/account_info_model.dart';
 import 'package:house_helper_rental_application/features/auth/domain/repository/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -20,18 +19,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, AccountInfo>> currentAccountInfo() async {
     try {
       if (!await (connectionChecker.isConnected)) {
-        final session = remoteDataSource.currentUserSession;
-
-        if (session == null) {
-          return left(Failure('User not logged in!'));
-        }
-
-        return right(
-          AccountInfoModel(
-            id: session.user.id,
-            email: session.user.email ?? '',
-          ),
-        );
+        return left(Failure(Constants.noConnectionErrorMessage));
       }
       final user = await remoteDataSource.getCurrentAccountInfoData();
       if (user == null) {
@@ -80,7 +68,6 @@ class AuthRepositoryImpl implements AuthRepository {
         return left(Failure(Constants.noConnectionErrorMessage));
       }
       final user = await fn();
-
       return right(user);
     } on ServerExceptionError catch (e) {
       return left(Failure(e.message));

@@ -3,17 +3,17 @@ import 'package:house_helper_rental_application/core/common/entities/enum_type.d
 class AccountInfo {
   final String id;
   final String email;
-  final AccountInfoRole? role;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  final AccountStatus? status;
+  final AccountInfoRole accountRole;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final AccountStatus status;
 
   AccountInfo({
     required this.id,
     required this.email,
-    this.role,
-    this.createdAt,
-    this.updatedAt,
-    this.status,
+    required this.accountRole,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.status,
   });
 }

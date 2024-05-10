@@ -1,5 +1,10 @@
 import 'package:intl/intl.dart';
 
-String formatDateBydMMMYYYY(DateTime dateTime) {
-  return DateFormat("d MMM, yyyy").format(dateTime);
+String formatDateByDDMMYYYY(DateTime dateTime) {
+  return DateFormat("dd/MM/yyyy").format(dateTime);
+}
+
+DateTime convertDateFromMillisecondsString(String milliseconds) {
+  var dateTime = DateTime.fromMillisecondsSinceEpoch(int.parse(milliseconds));
+  return dateTime;
 }

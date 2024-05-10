@@ -40,7 +40,22 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       if (response.user == null) {
         throw const ServerExceptionError('User is null!');
       }
-      return AccountInfoModel.fromJson(response.user!.toJson());
+
+      final QueryOptions options = QueryOptions(
+          document: gql(AuthGraphqlDocuments.getAccountInfoByIdQuery),
+          variables: {
+            'id': response.user?.id ?? '',
+          });
+
+      final QueryResult result = await graphQLClient.query(options);
+
+      if (result.hasException) {
+        throw const ServerExceptionError(
+            'Query login with email and password is error!');
+      }
+
+      return AccountInfoModel.fromJson(
+          result.data?['getAccountInfoById'] ?? {});
     } on AuthException catch (e) {
       throw ServerExceptionError(e.message);
     } catch (e) {
@@ -67,8 +82,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw const ServerExceptionError('User is null!');
       }
 
-      final customerInput =
-          CreateCustomerAccountInput(email: email, name: name);
+      final customerInput = CreateCustomerAccountInput(
+          email: email, name: name, accountId: response.user?.id ?? '');
       final sessionInput = CreateSessionInput(
           sessionToken: response.session?.accessToken ?? '',
           expires: '2024-05-08T03:13:57.182Z',
@@ -91,9 +106,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final QueryResult result = await graphQLClient.mutate(options);
 
       if (result.hasException) {
-        throw const ServerExceptionError('Mutation is error!');
+        throw const ServerExceptionError(
+            'Mutation sign up with email and password is error!');
       }
-      return AccountInfoModel.fromJson(result.data ?? {});
+      return AccountInfoModel.fromJson(
+          result.data?['createCustomerAccount'] ?? {});
     } on AuthException catch (e) {
       throw ServerExceptionError(e.message);
     } catch (e) {
@@ -105,65 +122,21 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<AccountInfoModel?> getCurrentAccountInfoData() async {
     try {
       if (currentUserSession != null) {
-        // final userData = await supabaseClient.from('profiles').select().eq(
-        //       'id',
-        //       currentUserSession!.user.id,
-        //     );
+        final QueryOptions options = QueryOptions(
+            document: gql(AuthGraphqlDocuments.getAccountInfoByIdQuery),
+            variables: {
+              'id': currentUserSession?.user.id ?? '',
+            });
 
-        String query = """
-          query GetAllAccountInfos {
-            getAllAccountInfos {
-              id
-              email
-              role
-              createdAt
-              updatedAt
-              status
-            }
-          }
-        """;
-
-        // final addStarMutation = useMutation(
-        //   MutationOptions(
-        //     document:
-        //         gql(addStar), // this is the mutation string you just created
-        //     // you can update the cache based on results
-        //     update: (cache,  result) {
-        //       return cache;
-        //     },
-        //     variables: {
-        //       'input': 'dasda'
-        //     },
-        //     // or do something with the result.data on completion
-        //     onCompleted: (dynamic resultData) {
-        //       print(resultData);
-        //     },
-        //   ),
-        // );
-
-        // ...
-        final readResult = useQuery(
-          QueryOptions(
-            document: gql(query),
-            variables: {},
-            pollInterval: const Duration(seconds: 10),
-          ),
-        );
-        final result = readResult.result;
+        final QueryResult result = await graphQLClient.query(options);
 
         if (result.hasException) {
-          throw const ServerExceptionError('Error!');
+          throw const ServerExceptionError(
+              'Query get current info account data is error!');
         }
-
-        if (result.isLoading) {}
-
         return AccountInfoModel.fromJson(
-                result.data?['GetAllAccountInfos']?['getAllAccountInfos'])
-            .copyWith(
-          email: currentUserSession!.user.email,
-        );
+            result.data?['getAccountInfoById'] ?? {});
       }
-
       return null;
     } catch (e) {
       throw ServerExceptionError(e.toString());

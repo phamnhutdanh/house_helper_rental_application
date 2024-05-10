@@ -1,4 +1,5 @@
 import 'package:house_helper_rental_application/core/common/widgets/loader.dart';
+import 'package:house_helper_rental_application/core/routers/customer_app/main_router.dart';
 import 'package:house_helper_rental_application/core/theme/app_pallete.dart';
 import 'package:house_helper_rental_application/core/utils/show_snackbar.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/bloc/auth_bloc.dart';
@@ -41,11 +42,11 @@ class _LoginPageState extends State<LoginPage> {
             if (state is AuthFailure) {
               showSnackBar(context, state.message);
             } else if (state is AuthSuccess) {
-              // Navigator.pushAndRemoveUntil(
-              //   context,
-              //   BlogPage.route(),
-              //   (route) => false,
-              // );
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => MainRouter()),
+                (route) => false,
+              );
             }
           },
           builder: (context, state) {
