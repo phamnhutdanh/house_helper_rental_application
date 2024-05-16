@@ -7,7 +7,7 @@ class Booking {
   final double totalPrice;
   final BookingStatus status;
   final PaymentMethod paymentMethod;
-  final String? note;
+  final String note;
   final DateTime createdAt;
   final DateTime updatedAt;
   final String serviceId;
@@ -21,7 +21,7 @@ class Booking {
       required this.totalPrice,
       required this.status,
       required this.paymentMethod,
-      this.note,
+      required this.note,
       required this.createdAt,
       required this.updatedAt,
       required this.serviceId,

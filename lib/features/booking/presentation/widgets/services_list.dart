@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:house_helper_rental_application/core/common/entities/service.dart';
 
 class ServicesList extends StatelessWidget {
@@ -28,7 +30,9 @@ class ServicesList extends StatelessWidget {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  services[index].description,
+                  services[index].name,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),

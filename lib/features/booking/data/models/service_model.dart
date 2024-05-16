@@ -8,16 +8,6 @@ class ServiceModel extends Service {
     required super.imageUri,
   });
 
-  Map<String, dynamic> toJson() {
-    return <String, dynamic>{
-      'id': id,
-      'name': name,
-      'description': description,
-      'imageUri': imageUri,
-      //'updated_at': updatedAt.toIso8601String(),
-    };
-  }
-
   factory ServiceModel.fromJson(Map<String, dynamic> map) {
     return ServiceModel(
       id: map['id'] as String,
@@ -35,7 +25,6 @@ class ServiceModel extends Service {
   ServiceModel copyWith(
       {String? id, String? name, String? description, String? imageUri
       // List<String>? topics,
-      // DateTime? updatedAt,
       }) {
     return ServiceModel(
       id: id ?? this.id,

@@ -1,6 +1,6 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:house_helper_rental_application/core/error/exceptions.dart';
-import 'package:house_helper_rental_application/features/auth/data/datasources/graphql_documents.dart';
+import 'package:house_helper_rental_application/features/auth/data/datasources/auth_graphql_documents.dart';
 import 'package:house_helper_rental_application/features/auth/data/models/account_info_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

@@ -28,7 +28,7 @@ class HomeSlider extends StatelessWidget {
                   image: const DecorationImage(
                     fit: BoxFit.fill,
                     image: NetworkImage(
-                        "https://ktlpvxvfzxexvghactxx.supabase.co/storage/v1/object/sign/helpu_buckets/slider.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJoZWxwdV9idWNrZXRzL3NsaWRlci5qcGciLCJpYXQiOjE3MTM1NDM2NTksImV4cCI6MTc0NTA3OTY1OX0.uNYntEJE7VPS2pye1Msl8au2pRch3UgaPmuJkDAXdb4&t=2024-04-19T16%3A20%3A59.442Z"),
+                        "https://ktlpvxvfzxexvghactxx.supabase.co/storage/v1/object/sign/helpu_buckets/sale_banner.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJoZWxwdV9idWNrZXRzL3NhbGVfYmFubmVyLmpwZyIsImlhdCI6MTcxNTg3MDg1MSwiZXhwIjoxNzQ3NDA2ODUxfQ.Y6-kTOsmJbg51QP0bo6IMbKxCu6PMrAxJ3A8OfuABAU&t=2024-05-16T14%3A47%3A31.076Z"),
                   ),
                 ),
               );
