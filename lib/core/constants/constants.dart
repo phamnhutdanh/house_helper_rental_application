@@ -33,7 +33,7 @@ class Constants {
 
   static const kTitleTextStyle = TextStyle(
     fontSize: 20.0,
-    color: AppPallete.kPrimaryColor,
+    color: AppPallete.primaryColor,
   );
 
   static const kDarkTextStyle = TextStyle(

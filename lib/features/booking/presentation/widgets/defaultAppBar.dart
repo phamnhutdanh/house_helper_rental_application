@@ -18,12 +18,12 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => Size.fromHeight(56.0);
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(title, style: TextStyle(color: AppPallete.kPrimaryColor)),
+      title: Text(title, style: TextStyle(color: AppPallete.primaryColor)),
       centerTitle: true,
       backgroundColor: AppPallete.kWhiteColor,
       elevation: Constants.kRadius,
       automaticallyImplyLeading: false,
-      iconTheme: IconThemeData(color: AppPallete.kPrimaryColor),
+      iconTheme: IconThemeData(color: AppPallete.primaryColor),
       leading: child,
       actions: action,
     );

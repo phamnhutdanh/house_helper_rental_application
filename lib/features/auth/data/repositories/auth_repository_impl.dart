@@ -46,13 +46,14 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, AccountInfo>> signUpWithEmailPassword({
-    required String name,
-    required String email,
-    required String password,
-  }) async {
+  Future<Either<Failure, AccountInfo>> signUpWithEmailPassword(
+      {required String name,
+      required String email,
+      required String password,
+      required bool isEmployee}) async {
     return _getAccountInfo(
       () async => await remoteDataSource.signUpWithEmailPassword(
+        isEmployee: isEmployee,
         name: name,
         email: email,
         password: password,
@@ -69,6 +70,18 @@ class AuthRepositoryImpl implements AuthRepository {
       }
       final user = await fn();
       return right(user);
+    } on ServerExceptionError catch (e) {
+      return left(Failure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> signOut() async {
+    try {
+      if (!await (connectionChecker.isConnected)) {
+        return left(Failure(Constants.noConnectionErrorMessage));
+      }
+      return right(await remoteDataSource.signOut());
     } on ServerExceptionError catch (e) {
       return left(Failure(e.message));
     }

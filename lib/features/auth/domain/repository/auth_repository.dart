@@ -4,6 +4,7 @@ import 'package:fpdart/fpdart.dart';
 
 abstract interface class AuthRepository {
   Future<Either<Failure, AccountInfo>> signUpWithEmailPassword({
+    required bool isEmployee,
     required String name,
     required String email,
     required String password,
@@ -13,4 +14,7 @@ abstract interface class AuthRepository {
     required String password,
   });
   Future<Either<Failure, AccountInfo>> currentAccountInfo();
+
+  Future<Either<Failure, void>> signOut();
+
 }

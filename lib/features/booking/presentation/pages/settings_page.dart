@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:house_helper_rental_application/core/constants/constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:house_helper_rental_application/core/common/widgets/confirm_bottom_sheet_dialog.dart';
+import 'package:house_helper_rental_application/core/common/widgets/loader.dart';
 import 'package:house_helper_rental_application/core/theme/app_pallete.dart';
 import 'package:house_helper_rental_application/core/utils/show_snackbar.dart';
-import 'package:house_helper_rental_application/features/booking/presentation/widgets/defaultAppBar.dart';
-import 'package:house_helper_rental_application/features/booking/presentation/widgets/defaultBackButton.dart';
+import 'package:house_helper_rental_application/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:house_helper_rental_application/features/auth/presentation/pages/login_page.dart';
+import 'package:iconly/iconly.dart';
 
-final settingLabel = [
-  'Account',
-  'Address',
-  'Telephone',
-  'Email',
-  'Setting',
-  'Order Notifications',
-  'Discount Notifications',
-  'Credit Card',
+final settingLabels = [
+  'Edit information',
+  'Change address',
+  'Favorite employee',
+  'Credit card',
   'Logout',
 ];
 
@@ -30,65 +29,69 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: AppPallete.whiteColor,
-      appBar: DefaultAppBar(
-        title: 'Setting Account',
-        child: DefaultBackButton(),
-      ),
-      body: ListView.separated(
-        padding: EdgeInsets.zero,
-        itemCount: settingLabel.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(
-              settingLabel[index],
-              style: TextStyle(
-                fontSize: 16.0,
-                color: index % 4 == 0
-                    ? AppPallete.kDarkColor
-                    : AppPallete.kDarkColor.withOpacity(0.6),
-              ),
-            ),
-            trailing: Icon(
-              Icons.arrow_forward_ios,
-              size: 20.0,
-              color: index % 4 == 0
-                  ? AppPallete.kDarkColor
-                  : AppPallete.kDarkColor.withOpacity(0.6),
-            ),
-            enabled: settingLabel[index] == 'Account' ||
-                    settingLabel[index] == 'Setting'
-                ? false
-                : true,
-            onTap: () => setState(() {
-              switch (settingLabel[index]) {
-                case 'Address':
-                  return showSnackBar(context, 'Address');
-                case 'Telephone':
-                  return showSnackBar(context, 'Telephone');
-                case 'Email':
-                  return showSnackBar(context, 'Email');
-                case 'Order Notifications':
-                  return showSnackBar(context, 'Order Notifications');
-                case 'Discount Notifications':
-                  return showSnackBar(context, 'Discount Notifications');
-                case 'Credit Card':
-                  return showSnackBar(context, 'Credit Card');
-                case 'Logout':
-                  return signOutDrawer(context);
-              }
-            }),
+        key: scaffoldKey,
+        backgroundColor: AppPallete.whiteColor,
+        appBar: AppBar(
+          title: const Text("Setting",
+              style: TextStyle(color: AppPallete.blackColor)),
+          centerTitle: true,
+          backgroundColor: AppPallete.whiteColor,
+          automaticallyImplyLeading: false,
+        ),
+        body: BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
+          if (state is AuthFailure) {
+            showSnackBar(context, state.message);
+          } else if (state is AuthInitial) {
+            showSnackBar(context, 'Account logout success!');
+
+            // Navigator.pushAndRemoveUntil(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => const LoginPage()),
+            //   (route) => false,
+            // );
+          }
+        }, builder: (context, state) {
+          if (state is AuthLoading) {
+            return const Loader();
+          }
+
+          return ListView.separated(
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            itemCount: settingLabels.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text(
+                  settingLabels[index],
+                  style: const TextStyle(
+                      fontSize: 16.0, color: AppPallete.blackColor),
+                ),
+                trailing: const Icon(
+                  IconlyLight.arrow_right_2,
+                  size: 16.0,
+                  color: AppPallete.blackColor,
+                ),
+                onTap: () => setState(() {
+                  switch (index) {
+                    case 0:
+                      return showSnackBar(context, 'Edit information');
+                    case 1:
+                      return showSnackBar(context, 'Change address');
+                    case 2:
+                      return showSnackBar(context, 'Favorite employee');
+                    case 3:
+                      return showSnackBar(context, 'Credit card');
+                    case 4:
+                      return signOutDrawer(context);
+                  }
+                }),
+              );
+            },
+            separatorBuilder: (context, index) {
+              return const Divider();
+            },
           );
-        },
-        separatorBuilder: (context, index) {
-          return settingLabel[index] == 'Email' ||
-                  settingLabel[index] == 'Credit Card'
-              ? Constants.kSmallDivider
-              : const Divider();
-        },
-      ),
-    );
+        }));
   }
 }
 
@@ -97,61 +100,12 @@ void signOutDrawer(BuildContext context) {
       isDismissible: false,
       context: context,
       builder: (context) {
-        return Container(
-          color: AppPallete.kPrimaryColor,
-          height: 150.0,
-          padding: const EdgeInsets.symmetric(horizontal: 32.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              const Text(
-                'Are you sure you want Logout ?',
-                style: TextStyle(
-                  color: AppPallete.kWhiteColor,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: MaterialButton(
-                      color: AppPallete.kWhiteColor,
-                      child: const Text(
-                        'Logout',
-                        style: TextStyle(
-                          color: AppPallete.kPrimaryColor,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      onPressed: () => Navigator.of(context).pop(),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 20.0,
-                  ),
-                  Expanded(
-                    child: MaterialButton(
-                      color: AppPallete.kPrimaryColor,
-                      //  highlightedBorderColor: AppPallete.kWhiteColor,
-                      //   borderSide: BorderSide(color: AppPallete.kWhiteColor),
-                      child: const Text(
-                        'Cancel',
-                        style: TextStyle(
-                          color: AppPallete.kWhiteColor,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      onPressed: () => Navigator.of(context).pop(),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        );
+        return ConfirmDialog(
+            title: 'Are you sure you want to logout?',
+            confirmText: 'Logout',
+            cancelText: 'Cancel',
+            onPressConfirm: () {
+              context.read<AuthBloc>().add(AuthSignOut());
+            });
       });
 }

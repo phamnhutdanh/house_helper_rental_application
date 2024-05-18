@@ -6,16 +6,17 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract interface class AuthRemoteDataSource {
   Session? get currentUserSession;
-  Future<AccountInfoModel> signUpWithEmailPassword({
-    required String name,
-    required String email,
-    required String password,
-  });
+  Future<AccountInfoModel> signUpWithEmailPassword(
+      {required String name,
+      required String email,
+      required String password,
+      required bool isEmployee});
   Future<AccountInfoModel> loginWithEmailPassword({
     required String email,
     required String password,
   });
   Future<AccountInfoModel?> getCurrentAccountInfoData();
+  Future<void> signOut();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -64,11 +65,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<AccountInfoModel> signUpWithEmailPassword({
-    required String name,
-    required String email,
-    required String password,
-  }) async {
+  Future<AccountInfoModel> signUpWithEmailPassword(
+      {required String name,
+      required String email,
+      required String password,
+      required bool isEmployee}) async {
     try {
       final response = await supabaseClient.auth.signUp(
         password: password,
@@ -82,8 +83,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw const ServerExceptionError('User is null!');
       }
 
-      final customerInput = CreateCustomerAccountInput(
-          email: email, name: name, accountId: response.user?.id ?? '');
       final sessionInput = CreateSessionInput(
           sessionToken: response.session?.accessToken ?? '',
           expires: '2024-05-08T03:13:57.182Z',
@@ -96,10 +95,15 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           refreshToken: response.session?.refreshToken ?? '',
           tokenType: response.session?.tokenType ?? '');
 
+      final accountInput = CreateAccountInput(
+          email: email,
+          name: name,
+          accountId: response.user?.id ?? '',
+          isEmployee: isEmployee);
       final MutationOptions options = MutationOptions(
           document: gql(AuthGraphqlDocuments.createCustomerAccountMutation),
           variables: {
-            'createCustomerAccountInput': customerInput.toJson(),
+            'createAccountInput': accountInput.toJson(),
             'createSessionInput': sessionInput.toJson()
           });
 
@@ -109,8 +113,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw const ServerExceptionError(
             'Mutation sign up with email and password is error!');
       }
-      return AccountInfoModel.fromJson(
-          result.data?['createCustomerAccount'] ?? {});
+      return AccountInfoModel.fromJson(result.data?['createAccount'] ?? {});
     } on AuthException catch (e) {
       throw ServerExceptionError(e.message);
     } catch (e) {
@@ -138,6 +141,15 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
             result.data?['getAccountInfoById'] ?? {});
       }
       return null;
+    } catch (e) {
+      throw ServerExceptionError(e.toString());
+    }
+  }
+
+  @override
+  Future<void> signOut() async {
+    try {
+      return await supabaseClient.auth.signOut();
     } catch (e) {
       throw ServerExceptionError(e.toString());
     }

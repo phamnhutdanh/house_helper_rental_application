@@ -16,7 +16,9 @@ class AppPallete {
   static const Color successColor = Color.fromARGB(255, 101, 180, 104);
   static const Color transparentColor = Colors.transparent;
 
-  static const kPrimaryColor = Color(0xFFFF8084);
+  static const Color primaryColor = Color(0xFF386A20);
+  static const Color secondaryColor = Color(0xFFE5EADC);
+
   static const kAccentColor = Color(0xFFF1F1F1);
   static const kWhiteColor = Color(0xFFFFFFFF);
   static const kLightColor = Color(0xFF808080);

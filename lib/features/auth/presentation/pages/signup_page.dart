@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:house_helper_rental_application/core/common/widgets/loader.dart';
 import 'package:house_helper_rental_application/core/routers/customer_app/main_router.dart';
 import 'package:house_helper_rental_application/core/theme/app_pallete.dart';
@@ -25,6 +26,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final passwordController = TextEditingController();
   final nameController = TextEditingController();
   final formKey = GlobalKey<FormState>();
+  bool isEmployee = false;
 
   @override
   void dispose() {
@@ -93,12 +95,24 @@ class _SignUpPageState extends State<SignUpPage> {
                       isObscureText: true,
                     ),
                     const SizedBox(height: 20),
+                    Container(
+                        child: Row(children: [
+                      Checkbox(
+                          value: isEmployee,
+                          onChanged: (b) => setState(() => isEmployee = b ?? false)),
+                      Text(
+                        "Register as a employee",
+                        style: Theme.of(context).textTheme.titleMedium,
+                      )
+                    ])),
+                    const SizedBox(height: 20),
                     AuthGradientButton(
                       buttonText: 'Sign Up',
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
                           context.read<AuthBloc>().add(
                                 AuthSignUp(
+                                  isEmployee: isEmployee,
                                   email: emailController.text.trim(),
                                   password: passwordController.text.trim(),
                                   name: nameController.text.trim(),

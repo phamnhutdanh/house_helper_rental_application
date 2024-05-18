@@ -23,7 +23,6 @@ class ServicesRemoteDataSourceImpl implements ServicesRemoteDataSource {
         throw const ServerExceptionError(
             'Query get all services is error!');
       }
-      print("SERVICE ALL: " + result.data.toString());
 
       final resultData = result.data?['getAllServices'] as List<dynamic>;
       return resultData.map(

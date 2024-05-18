@@ -35,7 +35,7 @@ class OrderItem extends StatelessWidget {
                     Text(
                       'Processing',
                       style: Theme.of(context).textTheme.bodyLarge!.apply(
-                          color: AppPallete.kPrimaryColor, fontWeightDelta: 1),
+                          color: AppPallete.primaryColor, fontWeightDelta: 1),
                     ),
                     Text(
                       '07 Nov 2024',

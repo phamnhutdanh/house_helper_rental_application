@@ -58,19 +58,16 @@ void _initAuth() {
 
     // Usecases
     ..registerFactory(
-      () => AccountSignUp(
-        serviceLocator(),
-      ),
+      () => AccountSignUp(serviceLocator()),
     )
     ..registerFactory(
-      () => AccountLogin(
-        serviceLocator(),
-      ),
+      () => AccountLogin(serviceLocator()),
     )
     ..registerFactory(
-      () => CurrentAccountInfo(
-        serviceLocator(),
-      ),
+      () => AccountSignOut(serviceLocator()),
+    )
+    ..registerFactory(
+      () => CurrentAccountInfo(serviceLocator()),
     )
     // Bloc
     ..registerLazySingleton(
@@ -79,6 +76,7 @@ void _initAuth() {
         accountLogin: serviceLocator(),
         currentAccountInfo: serviceLocator(),
         appAccountCubit: serviceLocator(),
+        accountSignOut: serviceLocator(),
       ),
     );
 }
@@ -87,14 +85,10 @@ void _initBookingServices() {
   // Datasource
   serviceLocator
     ..registerFactory<ServicesRemoteDataSource>(
-      () => ServicesRemoteDataSourceImpl(
-        serviceLocator(),
-      ),
+      () => ServicesRemoteDataSourceImpl(serviceLocator()),
     )
     ..registerFactory<EmployeesRemoteDataSource>(
-      () => EmployeesRemoteDataSourceImpl(
-        serviceLocator(),
-      ),
+      () => EmployeesRemoteDataSourceImpl(serviceLocator()),
     )
     // Repository
     ..registerFactory<BookingRepository>(
@@ -105,19 +99,13 @@ void _initBookingServices() {
     )
     // Usecases
     ..registerFactory(
-      () => GetAllServices(
-        serviceLocator(),
-      ),
+      () => GetAllServices(serviceLocator()),
     )
     ..registerFactory(
-      () => GetTopEmployees(
-        serviceLocator(),
-      ),
+      () => GetTopEmployees(serviceLocator()),
     )
     ..registerFactory(
-      () => GetAllEmployees(
-        serviceLocator(),
-      ),
+      () => GetAllEmployees(serviceLocator()),
     )
     // Bloc
     ..registerLazySingleton(

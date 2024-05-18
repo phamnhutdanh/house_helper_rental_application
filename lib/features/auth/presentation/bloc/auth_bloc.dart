@@ -1,6 +1,7 @@
 import 'package:house_helper_rental_application/core/common/cubits/app_user/app_account_cubit.dart';
 import 'package:house_helper_rental_application/core/common/entities/account_info.dart';
 import 'package:house_helper_rental_application/core/usecase/usecase.dart';
+import 'package:house_helper_rental_application/features/auth/domain/usecases/account_sign_out.dart';
 import 'package:house_helper_rental_application/features/auth/domain/usecases/current_account_info.dart';
 import 'package:house_helper_rental_application/features/auth/domain/usecases/account_login.dart';
 import 'package:house_helper_rental_application/features/auth/domain/usecases/account_sign_up.dart';
@@ -13,21 +14,25 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AccountSignUp _accountSignUp;
   final AccountLogin _accountLogin;
+  final AccountSignOut _accountSignOut;
   final CurrentAccountInfo _currentAccountInfo;
   final AppAccountCubit _appUserCubit;
   AuthBloc({
     required AccountSignUp accountSignUp,
     required AccountLogin accountLogin,
+    required AccountSignOut accountSignOut,
     required CurrentAccountInfo currentAccountInfo,
     required AppAccountCubit appAccountCubit,
   })  : _accountSignUp = accountSignUp,
         _accountLogin = accountLogin,
+        _accountSignOut = accountSignOut,
         _currentAccountInfo = currentAccountInfo,
         _appUserCubit = appAccountCubit,
         super(AuthInitial()) {
     on<AuthEvent>((_, emit) => emit(AuthLoading()));
     on<AuthSignUp>(_onAuthSignUp);
     on<AuthLogin>(_onAuthLogin);
+    on<AuthSignOut>(_onAuthSignOut);
     on<AuthIsAccountLoggedIn>(_isUserLoggedIn);
   }
 
@@ -35,7 +40,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     AuthIsAccountLoggedIn event,
     Emitter<AuthState> emit,
   ) async {
-    final res = await _currentAccountInfo(NoParams());
+    final res = await _currentAccountInfo.call(NoParams());
 
     res.fold(
       (failure) => emit(AuthFailure(failure.message)),
@@ -43,12 +48,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
+  void _onAuthSignOut(
+    AuthSignOut event,
+    Emitter<AuthState> emit,
+  ) async {
+    final res = await _accountSignOut.call(NoParams());
+
+    res.fold(
+      (failure) => emit(AuthFailure(failure.message)),
+      (success) => emit(AuthInitial()),
+    );
+  }
+
   void _onAuthSignUp(
     AuthSignUp event,
     Emitter<AuthState> emit,
   ) async {
-    final res = await _accountSignUp(
+    final res = await _accountSignUp.call(
       AccountSignUpParams(
+        isEmployee: event.isEmployee,
         email: event.email,
         password: event.password,
         name: event.name,
@@ -65,7 +83,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     AuthLogin event,
     Emitter<AuthState> emit,
   ) async {
-    final res = await _accountLogin(
+    final res = await _accountLogin.call(
       AccountLoginParams(
         email: event.email,
         password: event.password,

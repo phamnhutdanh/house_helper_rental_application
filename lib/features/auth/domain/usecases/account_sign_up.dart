@@ -11,6 +11,7 @@ class AccountSignUp implements UseCase<AccountInfo, AccountSignUpParams> {
   @override
   Future<Either<Failure, AccountInfo>> call(AccountSignUpParams params) async {
     return await authRepository.signUpWithEmailPassword(
+      isEmployee: params.isEmployee,
       name: params.name,
       email: params.email,
       password: params.password,
@@ -22,9 +23,12 @@ class AccountSignUpParams {
   final String email;
   final String password;
   final String name;
+  final bool isEmployee;
   AccountSignUpParams({
     required this.email,
     required this.password,
     required this.name,
+    required this.isEmployee,
+
   });
 }

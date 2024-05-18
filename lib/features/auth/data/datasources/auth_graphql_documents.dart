@@ -1,16 +1,22 @@
-class CreateCustomerAccountInput {
+class CreateAccountInput {
   final String email;
   final String name;
   final String accountId;
+  final bool isEmployee;
 
-  CreateCustomerAccountInput({
-    required this.email,
-    required this.name,
-    required this.accountId,
-  });
+  CreateAccountInput(
+      {required this.email,
+      required this.name,
+      required this.accountId,
+      required this.isEmployee});
 
   Map<String, dynamic> toJson() {
-    return {'email': email, 'name': name, 'accountId': accountId};
+    return {
+      'email': email,
+      'name': name,
+      'accountId': accountId,
+      'isEmployee': isEmployee
+    };
   }
 }
 
@@ -59,14 +65,14 @@ class CreateSessionInput {
 
 class AuthGraphqlDocuments {
   static String createCustomerAccountMutation = """
-    mutation Mutation(\$createCustomerAccountInput: CreateCustomerAccountInput, \$createSessionInput: CreateSessionInput) {
-      createCustomerAccount(createCustomerAccountInput: \$createCustomerAccountInput, createSessionInput: \$createSessionInput) {
-          id
-          email
-          accountRole
-          createdAt
-          updatedAt
-          status
+    mutation CreateAccount(\$createAccountInput: CreateAccountInput, \$createSessionInput: CreateSessionInput) {
+      createAccount(createAccountInput: \$createAccountInput, createSessionInput: \$createSessionInput) {
+        id
+        email
+        createdAt
+        updatedAt
+        status
+        accountRole
       }
     }
     """;
