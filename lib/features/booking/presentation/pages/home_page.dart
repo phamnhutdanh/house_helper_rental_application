@@ -57,6 +57,14 @@ class _HomePageState extends State<HomePage> {
                   currentSlide: currentSlide,
                 ),
                 const SizedBox(height: 20),
+                const Text(
+                  "Các dịch vụ",
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 20),
                 BlocConsumer<BookingBloc, BookingState>(
                   listener: (context, state) {
                     if (state is BookingFailure) {
@@ -78,7 +86,7 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      "Special For You",
+                      "Nhân viên xuất sắc",
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,

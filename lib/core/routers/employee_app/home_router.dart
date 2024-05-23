@@ -11,14 +11,14 @@ class HomeRouter extends BeamLocation<BeamState> {
   @override
   List<BeamPage> buildPages(BuildContext context, BeamState state) => [
         const BeamPage(
-          key: ValueKey('booking_home'),
+          key: ValueKey('task_home'),
           title: 'Tab A',
           type: BeamPageType.noTransition,
           child: HomePage(),
         ),
         if (state.uri.pathSegments.length == 2)
           const BeamPage(
-            key: ValueKey('booking_home/details'),
+            key: ValueKey('task_home/details'),
             title: 'Details A',
             child: EmployeeDetailPage(),
           ),

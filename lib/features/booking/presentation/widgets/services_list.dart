@@ -1,3 +1,4 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -14,30 +15,35 @@ class ServicesList extends StatelessWidget {
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
-            return Column(
-              children: [
-                Container(
-                  height: 60,
-                  width: 60,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: NetworkImage(
-                        services[index].imageUri,
+            return GestureDetector(
+              onTap: () {
+               // Beamer.of(context).beamToNamed(uri);
+              },
+              child: Column(
+                children: [
+                  Container(
+                    height: 60,
+                    width: 60,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: NetworkImage(
+                          services[index].imageUri,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  services[index].name,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
+                  const SizedBox(height: 5),
+                  Text(
+                    services[index].name,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             );
           },
           separatorBuilder: (context, index) => const SizedBox(width: 20),

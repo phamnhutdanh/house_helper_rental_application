@@ -45,7 +45,9 @@ class ConfirmDialog extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  onPressed: () => onPressConfirm(),
+                  onPressed: () {
+                    onPressConfirm();
+                  },
                 ),
               ),
               const SizedBox(

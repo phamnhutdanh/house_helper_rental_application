@@ -1,5 +1,7 @@
+import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
 import 'package:house_helper_rental_application/core/common/widgets/loader.dart';
-import 'package:house_helper_rental_application/core/routers/customer_app/main_router.dart';
+import 'package:house_helper_rental_application/core/routers/customer_app/booking_router.dart';
+import 'package:house_helper_rental_application/core/routers/employee_app/task_router.dart';
 import 'package:house_helper_rental_application/core/theme/app_pallete.dart';
 import 'package:house_helper_rental_application/core/utils/show_snackbar.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/bloc/auth_bloc.dart';
@@ -42,11 +44,20 @@ class _LoginPageState extends State<LoginPage> {
             if (state is AuthFailure) {
               showSnackBar(context, state.message);
             } else if (state is AuthSuccess) {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => MainRouter()),
-                (route) => false,
-              );
+              if (state.accountInfo.accountRole == AccountInfoRole.CUSTOMER) {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => BookingRouter()),
+                  (route) => false,
+                );
+              } else if (state.accountInfo.accountRole ==
+                  AccountInfoRole.EMPLOYEE) {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => TaskRouter()),
+                  (route) => false,
+                );
+              }
             }
           },
           builder: (context, state) {

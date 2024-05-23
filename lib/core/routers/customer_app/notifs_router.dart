@@ -12,7 +12,7 @@ class NotificationRouter extends BeamLocation<BeamState> {
   @override
   List<BeamPage> buildPages(BuildContext context, BeamState state) => [
         const BeamPage(
-          key: ValueKey('notifs'),
+          key: ValueKey('booking_notifs'),
           title: 'Tab C',
           type: BeamPageType.noTransition,
           child: RootScreen(
@@ -22,7 +22,7 @@ class NotificationRouter extends BeamLocation<BeamState> {
         ),
         if (state.uri.pathSegments.length == 2)
           const BeamPage(
-            key: ValueKey('notifs/details'),
+            key: ValueKey('booking_notifs_details'),
             title: 'Details C',
             child: DetailsScreen(label: 'C'),
           ),

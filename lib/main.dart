@@ -1,9 +1,11 @@
 import 'package:house_helper_rental_application/core/common/cubits/app_user/app_account_cubit.dart';
+import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
+import 'package:house_helper_rental_application/core/routers/employee_app/task_router.dart';
 import 'package:house_helper_rental_application/core/theme/theme.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/pages/login_page.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/bloc/booking_bloc.dart';
-import 'package:house_helper_rental_application/core/routers/customer_app/main_router.dart';
+import 'package:house_helper_rental_application/core/routers/customer_app/booking_router.dart';
 import 'package:house_helper_rental_application/init_dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -51,13 +53,23 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'House Helper Rental App',
       theme: AppTheme.lightThemeMode,
-      home: BlocSelector<AppAccountCubit, AppAccountState, bool>(
+
+      home: BlocSelector<AppAccountCubit, AppAccountState, AppAccountState>(
         selector: (state) {
-          return state is AppAccountLoggedIn;
+          return state;
         },
-        builder: (context, isLoggedIn) {
-          if (isLoggedIn) {
-            return MainRouter();
+        builder: (context, state) {
+          if (state is AppAccountLoggedIn) {
+            if (state.accountInfo.accountRole == AccountInfoRole.CUSTOMER) {
+              return BookingRouter();
+            } else if (state.accountInfo.accountRole ==
+                AccountInfoRole.EMPLOYEE) {
+              return TaskRouter();
+            } else if (state.accountInfo.accountRole == AccountInfoRole.ADMIN) {
+              return Text('Admin');
+            } else {
+              return Text('Cannot get role');
+            }
           }
           return const LoginPage();
         },

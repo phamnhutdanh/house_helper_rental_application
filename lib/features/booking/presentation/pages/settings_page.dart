@@ -42,13 +42,8 @@ class _SettingsPageState extends State<SettingsPage> {
           if (state is AuthFailure) {
             showSnackBar(context, state.message);
           } else if (state is AuthInitial) {
-            showSnackBar(context, 'Account logout success!');
-
-            // Navigator.pushAndRemoveUntil(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => const LoginPage()),
-            //   (route) => false,
-            // );
+            Navigator.of(context, rootNavigator: true)
+                .pushAndRemoveUntil(LoginPage.route(), (route) => false);
           }
         }, builder: (context, state) {
           if (state is AuthLoading) {
@@ -100,12 +95,16 @@ void signOutDrawer(BuildContext context) {
       isDismissible: false,
       context: context,
       builder: (context) {
-        return ConfirmDialog(
-            title: 'Are you sure you want to logout?',
-            confirmText: 'Logout',
-            cancelText: 'Cancel',
-            onPressConfirm: () {
-              context.read<AuthBloc>().add(AuthSignOut());
-            });
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return ConfirmDialog(
+                title: 'Are you sure you want to logout?',
+                confirmText: 'Logout',
+                cancelText: 'Cancel',
+                onPressConfirm: () {
+                  context.read<AuthBloc>().add(AuthSignOut());
+                });
+          },
+        );
       });
 }

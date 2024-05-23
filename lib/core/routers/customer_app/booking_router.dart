@@ -6,11 +6,11 @@ import 'package:house_helper_rental_application/core/routers/customer_app/notifs
 import 'package:house_helper_rental_application/core/routers/customer_app/settings_router.dart';
 import 'package:iconly/iconly.dart';
 
-class MainRouter extends StatelessWidget {
-  MainRouter({super.key});
+class BookingRouter extends StatelessWidget {
+  BookingRouter({super.key});
 
   final routerDelegate = BeamerDelegate(
-    initialPath: '/home',
+    initialPath: '/booking_home',
     locationBuilder: RoutesLocationBuilder(
       routes: {
         '*': (context, state, data) => const ScaffoldWithBottomNavBar(),
@@ -25,9 +25,8 @@ class MainRouter extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.indigo),
       routerDelegate: routerDelegate,
       routeInformationParser: BeamerParser(),
-      backButtonDispatcher: BeamerBackButtonDispatcher(
-        delegate: routerDelegate,
-      ),
+      backButtonDispatcher:
+          BeamerBackButtonDispatcher(delegate: routerDelegate),
     );
   }
 }
@@ -45,36 +44,36 @@ class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
 
   final _routerDelegates = [
     BeamerDelegate(
-      initialPath: '/home',
+      initialPath: '/booking_home',
       locationBuilder: (routeInformation, _) {
-        if (routeInformation.uri.toString().contains('/home')) {
+        if (routeInformation.uri.toString().contains('/booking_home')) {
           return HomeRouter(routeInformation);
         }
         return NotFound(path: routeInformation.uri.toString());
       },
     ),
     BeamerDelegate(
-      initialPath: '/history',
+      initialPath: '/booking_history',
       locationBuilder: (routeInformation, _) {
-        if (routeInformation.uri.toString().contains('/history')) {
+        if (routeInformation.uri.toString().contains('/booking_history')) {
           return HistoryRouter(routeInformation);
         }
         return NotFound(path: routeInformation.uri.toString());
       },
     ),
     BeamerDelegate(
-      initialPath: '/notifs',
+      initialPath: '/booking_notifs',
       locationBuilder: (routeInformation, _) {
-        if (routeInformation.uri.toString().contains('/notifs')) {
+        if (routeInformation.uri.toString().contains('/booking_notifs')) {
           return NotificationRouter(routeInformation);
         }
         return NotFound(path: routeInformation.uri.toString());
       },
     ),
     BeamerDelegate(
-      initialPath: '/settings',
+      initialPath: '/booking_settings',
       locationBuilder: (routeInformation, _) {
-        if (routeInformation.uri.toString().contains('/settings')) {
+        if (routeInformation.uri.toString().contains('/booking_settings')) {
           return SettingsRouter(routeInformation);
         }
         return NotFound(path: routeInformation.uri.toString());
@@ -86,7 +85,7 @@ class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     final uriString = Beamer.of(context).configuration.uri.toString();
-    _currentIndex = uriString.contains('/home') ? 0 : 1;
+    _currentIndex = uriString.contains('/booking_home') ? 0 : 1;
   }
 
   @override
@@ -95,18 +94,10 @@ class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
       body: IndexedStack(
         index: _currentIndex,
         children: [
-          Beamer(
-            routerDelegate: _routerDelegates[0],
-          ),
-          Beamer(
-            routerDelegate: _routerDelegates[1],
-          ),
-          Beamer(
-            routerDelegate: _routerDelegates[2],
-          ),
-          Beamer(
-            routerDelegate: _routerDelegates[3],
-          ),
+          Beamer(routerDelegate: _routerDelegates[0]),
+          Beamer(routerDelegate: _routerDelegates[1]),
+          Beamer(routerDelegate: _routerDelegates[2]),
+          Beamer(routerDelegate: _routerDelegates[3]),
         ],
       ),
       bottomNavigationBar: NavigationBar(

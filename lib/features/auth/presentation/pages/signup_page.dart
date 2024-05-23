@@ -1,6 +1,8 @@
 import 'package:flutter/widgets.dart';
+import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
 import 'package:house_helper_rental_application/core/common/widgets/loader.dart';
-import 'package:house_helper_rental_application/core/routers/customer_app/main_router.dart';
+import 'package:house_helper_rental_application/core/routers/customer_app/booking_router.dart';
+import 'package:house_helper_rental_application/core/routers/employee_app/task_router.dart';
 import 'package:house_helper_rental_application/core/theme/app_pallete.dart';
 import 'package:house_helper_rental_application/core/utils/show_snackbar.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/bloc/auth_bloc.dart';
@@ -52,12 +54,20 @@ class _SignUpPageState extends State<SignUpPage> {
               nameController.clear();
 
               showSnackBar(context, 'Account created success!');
-
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => MainRouter()),
-                (route) => false,
-              );
+              if (state.accountInfo.accountRole == AccountInfoRole.CUSTOMER) {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => BookingRouter()),
+                  (route) => false,
+                );
+              } else if (state.accountInfo.accountRole ==
+                  AccountInfoRole.EMPLOYEE) {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => TaskRouter()),
+                  (route) => false,
+                );
+              }
             }
           },
           builder: (context, state) {
@@ -99,7 +109,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         child: Row(children: [
                       Checkbox(
                           value: isEmployee,
-                          onChanged: (b) => setState(() => isEmployee = b ?? false)),
+                          onChanged: (b) =>
+                              setState(() => isEmployee = b ?? false)),
                       Text(
                         "Register as a employee",
                         style: Theme.of(context).textTheme.titleMedium,
