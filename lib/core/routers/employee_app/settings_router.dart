@@ -1,7 +1,7 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:house_helper_rental_application/core/routers/customer_app/TestScreen.dart';
-import 'package:house_helper_rental_application/features/booking/presentation/pages/settings_page.dart';
+import 'package:house_helper_rental_application/features/booking/presentation/pages/settings_booking_page.dart';
 
 
 class SettingsRouter extends BeamLocation<BeamState> {
@@ -15,7 +15,7 @@ class SettingsRouter extends BeamLocation<BeamState> {
           key: ValueKey('task_settings'),
           title: 'Tab C',
           type: BeamPageType.noTransition,
-          child: SettingsPage()
+          child: SettingsBookingPage()
         ),
         if (state.uri.pathSegments.length == 2)
           const BeamPage(

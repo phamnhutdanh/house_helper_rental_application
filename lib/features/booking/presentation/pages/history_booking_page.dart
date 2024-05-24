@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/widgets/tab_item.dart';
 
-class HistoryPage extends StatefulWidget {
-  const HistoryPage({super.key});
+class HistoryBookingPage extends StatefulWidget {
+  const HistoryBookingPage({super.key});
 
   @override
-  State<HistoryPage> createState() => _HistoryPageState();
+  State<HistoryBookingPage> createState() => _HistoryBookingPageState();
 }
 
-class _HistoryPageState extends State<HistoryPage> {
+class _HistoryBookingPageState extends State<HistoryBookingPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

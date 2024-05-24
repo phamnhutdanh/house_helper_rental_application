@@ -20,16 +20,14 @@ class ServicesRemoteDataSourceImpl implements ServicesRemoteDataSource {
       final QueryResult result = await graphQLClient.query(options);
 
       if (result.hasException) {
-        throw const ServerExceptionError(
-            'Query get all services is error!');
+        throw const ServerExceptionError('Query get all services is error!');
       }
 
       final resultData = result.data?['getAllServices'] as List<dynamic>;
-      return resultData.map(
-        (service) => ServiceModel.fromJson(service)
-      ).toList();
-    }
-     catch (e) {
+      return resultData
+          .map((service) => ServiceModel.fromJson(service))
+          .toList();
+    } catch (e) {
       throw ServerExceptionError(e.toString());
     }
   }

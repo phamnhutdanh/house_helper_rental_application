@@ -2,7 +2,7 @@ import 'package:house_helper_rental_application/core/common/entities/enum_type.d
 import 'package:house_helper_rental_application/core/common/widgets/loader.dart';
 import 'package:house_helper_rental_application/core/routers/customer_app/booking_router.dart';
 import 'package:house_helper_rental_application/core/routers/employee_app/task_router.dart';
-import 'package:house_helper_rental_application/core/theme/app_pallete.dart';
+import 'package:house_helper_rental_application/core/theme/app_palette.dart';
 import 'package:house_helper_rental_application/core/utils/show_snackbar.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/pages/signup_page.dart';
@@ -118,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                                 .textTheme
                                 .titleMedium
                                 ?.copyWith(
-                                  color: AppPallete.gradient2,
+                                  color: AppPalette.gradient2,
                                   fontWeight: FontWeight.bold,
                                 ),
                           ),

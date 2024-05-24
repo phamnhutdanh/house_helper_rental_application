@@ -12,7 +12,9 @@ class BookingRepositoryImpl implements BookingRepository {
   final EmployeesRemoteDataSource employeesRemoteDataSource;
 
   BookingRepositoryImpl(
-      this.servicesRemoteDataSource, this.employeesRemoteDataSource);
+    this.servicesRemoteDataSource,
+    this.employeesRemoteDataSource,
+  );
 
   @override
   Future<Either<Failure, List<Service>>> getAllServices() async {
@@ -34,7 +36,7 @@ class BookingRepositoryImpl implements BookingRepository {
     }
   }
 
-    @override
+  @override
   Future<Either<Failure, List<Employee>>> getTopEmployees() async {
     try {
       final employees = await employeesRemoteDataSource.getTopEmployees();
@@ -43,43 +45,4 @@ class BookingRepositoryImpl implements BookingRepository {
       return left(Failure(e.message));
     }
   }
-
-
-  //   @override
-  // Future<Either<Failure, Blog>> uploadBlog({
-  //   required File image,
-  //   required String title,
-  //   required String content,
-  //   required String posterId,
-  //   required List<String> topics,
-  // }) async {
-  //   try {
-  //     if (!await (connectionChecker.isConnected)) {
-  //       return left(Failure(Constants.noConnectionErrorMessage));
-  //     }
-  //     BlogModel blogModel = BlogModel(
-  //       id: const Uuid().v1(),
-  //       posterId: posterId,
-  //       title: title,
-  //       content: content,
-  //       imageUrl: '',
-  //       topics: topics,
-  //       updatedAt: DateTime.now(),
-  //     );
-
-  //     final imageUrl = await blogRemoteDataSource.uploadBlogImage(
-  //       image: image,
-  //       blog: blogModel,
-  //     );
-
-  //     blogModel = blogModel.copyWith(
-  //       imageUrl: imageUrl,
-  //     );
-
-  //     final uploadedBlog = await blogRemoteDataSource.uploadBlog(blogModel);
-  //     return right(uploadedBlog);
-  //   } on ServerException catch (e) {
-  //     return left(Failure(e.message));
-  //   }
-  // }
 }

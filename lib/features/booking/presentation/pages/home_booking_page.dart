@@ -9,14 +9,14 @@ import 'package:house_helper_rental_application/features/booking/presentation/wi
 import 'package:house_helper_rental_application/features/booking/presentation/widgets/search_fields.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/widgets/top_employees_grid.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class HomeBookingPage extends StatefulWidget {
+  const HomeBookingPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomeBookingPage> createState() => _HomeBookingPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeBookingPageState extends State<HomeBookingPage> {
   int currentSlide = 0;
 
   @override
@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const SizedBox(height: 20),
                 const Text(
-                  "Các dịch vụ",
+                  "Services",
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -86,7 +86,7 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      "Nhân viên xuất sắc",
+                      "Top employees",
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,

@@ -12,27 +12,10 @@ final class BookingFailure extends BookingState {
   BookingFailure(this.error);
 }
 
-final class ServicesDisplaySuccess extends BookingState {
-  final List<Service> services;
-  ServicesDisplaySuccess(this.services);
-}
-
-final class TopEmployeesDisplaySuccess extends BookingState {
-  final List<Employee> topEmployees;
-  TopEmployeesDisplaySuccess(this.topEmployees);
-}
-
-final class AllEmployeesDisplaySuccess extends BookingState {
-  final List<Employee> employees;
-  AllEmployeesDisplaySuccess(this.employees);
-}
-
 class HomeInfoDisplaySuccess extends BookingState {
   final List<Employee> topEmployees;
   final List<Service> services;
+  final AccountInfo accountInfo;
 
-  HomeInfoDisplaySuccess(
-    this.topEmployees,
-    this.services,
-  );
+  HomeInfoDisplaySuccess(this.topEmployees, this.services, this.accountInfo);
 }

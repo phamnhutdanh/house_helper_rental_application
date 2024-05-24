@@ -1,5 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:house_helper_rental_application/core/theme/app_pallete.dart';
+import 'package:house_helper_rental_application/core/theme/app_palette.dart';
+
+import 'package:flutter/widgets.dart';
+
+class SizeConfig {
+  static MediaQueryData? _mediaQueryData;
+  static double? screenWidth;
+  static double? screenHeight;
+
+  void init(BuildContext context) {
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData!.size.width;
+
+    /// 683
+    screenHeight = _mediaQueryData!.size.height;
+
+    /// 411
+  }
+}
 
 class Constants {
   static const List<String> topics = [
@@ -28,26 +46,26 @@ class Constants {
 
   static const kSubTextStyle = TextStyle(
     fontSize: 18.0,
-    color: AppPallete.kLightColor,
+    color: AppPalette.kLightColor,
   );
 
   static const kTitleTextStyle = TextStyle(
     fontSize: 20.0,
-    color: AppPallete.primaryColor,
+    color: AppPalette.primaryColor,
   );
 
   static const kDarkTextStyle = TextStyle(
     fontSize: 20.0,
-    color: AppPallete.kDarkColor,
+    color: AppPalette.kDarkColor,
   );
 
   static const kDivider = Divider(
-    color: AppPallete.kAccentColor,
+    color: AppPalette.kAccentColor,
     thickness: kLessPadding,
   );
 
   static const kSmallDivider = Divider(
-    color: AppPallete.kAccentColor,
+    color: AppPalette.kAccentColor,
     thickness: 5.0,
   );
 }

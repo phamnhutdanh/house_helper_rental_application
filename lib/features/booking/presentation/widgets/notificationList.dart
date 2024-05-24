@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:house_helper_rental_application/core/theme/app_pallete.dart';
-import 'package:house_helper_rental_application/features/booking/presentation/pages/notification_page.dart';
-import 'package:house_helper_rental_application/features/booking/presentation/widgets/defaultAppBar.dart';
-import 'package:house_helper_rental_application/features/booking/presentation/widgets/defaultBackButton.dart';
+import 'package:house_helper_rental_application/core/theme/app_palette.dart';
+import 'package:house_helper_rental_application/features/booking/presentation/pages/notification_booking_page.dart';
+import 'package:house_helper_rental_application/core/common/widgets/default_app_bar.dart';
+import 'package:house_helper_rental_application/core/common/widgets/default_back_button.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/widgets/notificationTiles.dart';
 
 class NotificationList extends StatefulWidget {
@@ -16,10 +16,10 @@ class _NotificationListState extends State<NotificationList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppPallete.kWhiteColor,
+      backgroundColor: AppPalette.kWhiteColor,
       appBar: DefaultAppBar(
-        title: 'Notifications',
-        child: DefaultBackButton(),
+        title: 'Checkout',
+        isVisibleBackButton: true,
       ),
       body: ListView.separated(
           physics: ClampingScrollPhysics(),
@@ -31,7 +31,7 @@ class _NotificationListState extends State<NotificationList> {
               subtitle: 'Thanks for download E-Commerce app.',
               enable: true,
               onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => NotificationPage())),
+                  MaterialPageRoute(builder: (context) => NotificationBookingPage())),
             );
           },
           separatorBuilder: (context, index) {

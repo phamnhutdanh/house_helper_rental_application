@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:house_helper_rental_application/core/common/widgets/confirm_bottom_sheet_dialog.dart';
 import 'package:house_helper_rental_application/core/common/widgets/loader.dart';
-import 'package:house_helper_rental_application/core/theme/app_pallete.dart';
+import 'package:house_helper_rental_application/core/theme/app_palette.dart';
 import 'package:house_helper_rental_application/core/utils/show_snackbar.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/pages/login_page.dart';
@@ -16,26 +16,26 @@ final settingLabels = [
   'Logout',
 ];
 
-class SettingsPage extends StatefulWidget {
-  const SettingsPage({super.key});
+class SettingsBookingPage extends StatefulWidget {
+  const SettingsBookingPage({super.key});
 
   @override
-  State<SettingsPage> createState() => _SettingsPageState();
+  State<SettingsBookingPage> createState() => _SettingsBookingPageState();
 }
 
-class _SettingsPageState extends State<SettingsPage> {
+class _SettingsBookingPageState extends State<SettingsBookingPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         key: scaffoldKey,
-        backgroundColor: AppPallete.whiteColor,
+        backgroundColor: AppPalette.whiteColor,
         appBar: AppBar(
           title: const Text("Setting",
-              style: TextStyle(color: AppPallete.blackColor)),
+              style: TextStyle(color: AppPalette.blackColor)),
           centerTitle: true,
-          backgroundColor: AppPallete.whiteColor,
+          backgroundColor: AppPalette.whiteColor,
           automaticallyImplyLeading: false,
         ),
         body: BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
@@ -59,12 +59,12 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: Text(
                   settingLabels[index],
                   style: const TextStyle(
-                      fontSize: 16.0, color: AppPallete.blackColor),
+                      fontSize: 16.0, color: AppPalette.blackColor),
                 ),
                 trailing: const Icon(
                   IconlyLight.arrow_right_2,
                   size: 16.0,
-                  color: AppPallete.blackColor,
+                  color: AppPalette.blackColor,
                 ),
                 onTap: () => setState(() {
                   switch (index) {

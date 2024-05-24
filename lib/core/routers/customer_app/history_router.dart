@@ -1,7 +1,7 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:house_helper_rental_application/core/routers/customer_app/TestScreen.dart';
-import 'package:house_helper_rental_application/features/booking/presentation/pages/history_page.dart';
+import 'package:house_helper_rental_application/features/booking/presentation/pages/history_booking_page.dart';
 
 class HistoryRouter extends BeamLocation<BeamState> {
   HistoryRouter(super.routeInformation);

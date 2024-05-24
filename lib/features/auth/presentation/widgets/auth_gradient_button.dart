@@ -1,4 +1,4 @@
-import 'package:house_helper_rental_application/core/theme/app_pallete.dart';
+import 'package:house_helper_rental_application/core/theme/app_palette.dart';
 import 'package:flutter/material.dart';
 
 class AuthGradientButton extends StatelessWidget {
@@ -16,8 +16,8 @@ class AuthGradientButton extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           colors: [
-            AppPallete.gradient1,
-            AppPallete.gradient2,
+            AppPalette.gradient1,
+            AppPalette.gradient2,
             // AppPallete.gradient3,
           ],
           begin: Alignment.bottomLeft,
@@ -29,8 +29,8 @@ class AuthGradientButton extends StatelessWidget {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           fixedSize: const Size(395, 55),
-          backgroundColor: AppPallete.transparentColor,
-          shadowColor: AppPallete.transparentColor,
+          backgroundColor: AppPalette.transparentColor,
+          shadowColor: AppPalette.transparentColor,
         ),
         child: Text(
           buttonText,

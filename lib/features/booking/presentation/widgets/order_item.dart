@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:house_helper_rental_application/core/theme/app_pallete.dart';
+import 'package:house_helper_rental_application/core/theme/app_palette.dart';
 import 'package:iconly/iconly.dart';
 
 class OrderItem extends StatelessWidget {
@@ -11,11 +11,11 @@ class OrderItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(8),
-      color: AppPallete.greyColor,
+      color: AppPalette.greyColor,
       decoration: BoxDecoration(
         color: Colors.white, // Container color
         border: Border.all(
-          color: AppPallete.borderColor, // Border color
+          color: AppPalette.borderColor, // Border color
           width: 2.0, // Border width
         ),
         borderRadius: BorderRadius.circular(8.0), // Border radius
@@ -35,7 +35,7 @@ class OrderItem extends StatelessWidget {
                     Text(
                       'Processing',
                       style: Theme.of(context).textTheme.bodyLarge!.apply(
-                          color: AppPallete.primaryColor, fontWeightDelta: 1),
+                          color: AppPalette.primaryColor, fontWeightDelta: 1),
                     ),
                     Text(
                       '07 Nov 2024',

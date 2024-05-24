@@ -1,8 +1,8 @@
-import 'package:house_helper_rental_application/core/theme/app_pallete.dart';
+import 'package:house_helper_rental_application/core/theme/app_palette.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  static _border([Color color = AppPallete.borderColor]) => OutlineInputBorder(
+  static _border([Color color = AppPalette.borderColor]) => OutlineInputBorder(
         borderSide: BorderSide(
           color: color,
           width: 3,
@@ -10,13 +10,13 @@ class AppTheme {
         borderRadius: BorderRadius.circular(10),
       );
   static final darkThemeMode = ThemeData.dark().copyWith(
-    scaffoldBackgroundColor: AppPallete.backgroundColor,
+    scaffoldBackgroundColor: AppPalette.backgroundColor,
     appBarTheme: const AppBarTheme(
-      backgroundColor: AppPallete.backgroundColor,
+      backgroundColor: AppPalette.backgroundColor,
     ),
     chipTheme: const ChipThemeData(
       color: MaterialStatePropertyAll(
-        AppPallete.backgroundColor,
+        AppPalette.backgroundColor,
       ),
       side: BorderSide.none,
     ),
@@ -24,19 +24,19 @@ class AppTheme {
       contentPadding: const EdgeInsets.all(27),
       border: _border(),
       enabledBorder: _border(),
-      focusedBorder: _border(AppPallete.gradient2),
-      errorBorder: _border(AppPallete.errorColor),
+      focusedBorder: _border(AppPalette.gradient2),
+      errorBorder: _border(AppPalette.errorColor),
     ),
   );
 
   static final lightThemeMode = ThemeData.light().copyWith(
-    scaffoldBackgroundColor: AppPallete.backgroundColorWhite,
+    scaffoldBackgroundColor: AppPalette.backgroundColorWhite,
     appBarTheme: const AppBarTheme(
-      backgroundColor: AppPallete.backgroundColorWhite,
+      backgroundColor: AppPalette.backgroundColorWhite,
     ),
     chipTheme: const ChipThemeData(
       color: MaterialStatePropertyAll(
-        AppPallete.backgroundColorWhite,
+        AppPalette.backgroundColorWhite,
       ),
       side: BorderSide.none,
     ),
@@ -44,8 +44,8 @@ class AppTheme {
       contentPadding: const EdgeInsets.all(27),
       border: _border(),
       enabledBorder: _border(),
-      focusedBorder: _border(AppPallete.gradient2),
-      errorBorder: _border(AppPallete.errorColor),
+      focusedBorder: _border(AppPalette.gradient2),
+      errorBorder: _border(AppPalette.errorColor),
     ),
   );
 }

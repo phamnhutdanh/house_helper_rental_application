@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:house_helper_rental_application/core/theme/app_pallete.dart';
+import 'package:house_helper_rental_application/core/theme/app_palette.dart';
 
 class ConfirmDialog extends StatelessWidget {
   final onPressConfirm;
@@ -17,7 +17,7 @@ class ConfirmDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppPallete.secondaryColor,
+      color: AppPalette.secondaryColor,
       height: 150.0,
       padding: const EdgeInsets.symmetric(horizontal: 32.0),
       child: Column(
@@ -27,7 +27,7 @@ class ConfirmDialog extends StatelessWidget {
           const Text(
             'Are you sure you want Logout?',
             style: TextStyle(
-              color: AppPallete.blackColor,
+              color: AppPalette.blackColor,
               fontSize: 18.0,
               fontWeight: FontWeight.w600,
             ),
@@ -36,11 +36,11 @@ class ConfirmDialog extends StatelessWidget {
             children: [
               Expanded(
                 child: MaterialButton(
-                  color: AppPallete.primaryColor,
+                  color: AppPalette.primaryColor,
                   child: const Text(
                     'Logout',
                     style: TextStyle(
-                      color: AppPallete.secondaryColor,
+                      color: AppPalette.secondaryColor,
                       fontSize: 16.0,
                       fontWeight: FontWeight.w600,
                     ),
@@ -55,13 +55,13 @@ class ConfirmDialog extends StatelessWidget {
               ),
               Expanded(
                 child: MaterialButton(
-                  color: AppPallete.greyColor,
+                  color: AppPalette.greyColor,
                   //  highlightedBorderColor: AppPallete.kWhiteColor,
                   //   borderSide: BorderSide(color: AppPallete.kWhiteColor),
                   child: const Text(
                     'Cancel',
                     style: TextStyle(
-                      color: AppPallete.blackColor,
+                      color: AppPalette.blackColor,
                       fontSize: 16.0,
                       fontWeight: FontWeight.w600,
                     ),

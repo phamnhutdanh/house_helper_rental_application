@@ -1,29 +1,16 @@
 import 'package:house_helper_rental_application/core/common/entities/employee.dart';
 
 class EmployeeModel extends Employee {
-  EmployeeModel({
-    required super.id,
-    required super.name,
-    required super.phoneNumber,
-    required super.imageUri,
-    required super.description,
-    required super.age,
-    required super.workingHours,
-    required super.accountInfoId,
-  });
-
-  Map<String, dynamic> toJson() {
-    return <String, dynamic>{
-      'id': id,
-      'name': name,
-      'phoneNumber': phoneNumber,
-      'imageUri': imageUri,
-      'description': description,
-      'age': age,
-      'workingHours': workingHours,
-      'accountInfoId': accountInfoId,
-    };
-  }
+  EmployeeModel(
+      {required super.id,
+      required super.name,
+      required super.phoneNumber,
+      required super.imageUri,
+      required super.description,
+      required super.age,
+      required super.workingHours,
+      required super.accountInfoId,
+      required super.averageRating});
 
   factory EmployeeModel.fromJson(Map<String, dynamic> map) {
     return EmployeeModel(
@@ -35,6 +22,7 @@ class EmployeeModel extends Employee {
       age: map['age'] as int,
       workingHours: map['workingHours'] as int,
       accountInfoId: map['accountInfoId'] as String,
+      averageRating: map['averageRating'].toDouble() as double,
     );
   }
 
@@ -47,6 +35,7 @@ class EmployeeModel extends Employee {
     int? age,
     int? workingHours,
     String? accountInfoId,
+    double? averageRating,
   }) {
     return EmployeeModel(
       id: id ?? this.id,
@@ -57,6 +46,7 @@ class EmployeeModel extends Employee {
       age: age ?? this.age,
       workingHours: workingHours ?? this.workingHours,
       accountInfoId: id ?? this.accountInfoId,
+      averageRating: averageRating ?? this.averageRating,
     );
   }
 }

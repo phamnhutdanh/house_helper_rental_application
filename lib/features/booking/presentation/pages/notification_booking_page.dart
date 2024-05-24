@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:house_helper_rental_application/core/constants/constants.dart';
-import 'package:house_helper_rental_application/core/theme/app_pallete.dart';
-import 'package:house_helper_rental_application/features/booking/presentation/widgets/defaultAppBar.dart';
-import 'package:house_helper_rental_application/features/booking/presentation/widgets/defaultBackButton.dart';
+import 'package:house_helper_rental_application/core/theme/app_palette.dart';
+import 'package:house_helper_rental_application/core/common/widgets/default_app_bar.dart';
+import 'package:house_helper_rental_application/core/common/widgets/default_back_button.dart';
 
-class NotificationPage extends StatefulWidget {
-  const NotificationPage({super.key});
+class NotificationBookingPage extends StatefulWidget {
+  const NotificationBookingPage({super.key});
 
   @override
-  State<NotificationPage> createState() => _NotificationPageState();
+  State<NotificationBookingPage> createState() => _NotificationBookingPageState();
 }
 
-class _NotificationPageState extends State<NotificationPage> {
+class _NotificationBookingPageState extends State<NotificationBookingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppPallete.kWhiteColor,
+      backgroundColor: AppPalette.kWhiteColor,
       appBar: DefaultAppBar(
-        title: 'Notification',
-        child: DefaultBackButton(),
+        title: 'Checkout',
+        isVisibleBackButton: true,
       ),
       body: FittedBox(
         child: Container(
@@ -27,11 +27,11 @@ class _NotificationPageState extends State<NotificationPage> {
           margin: const EdgeInsets.all(Constants.kFixPadding),
           padding: const EdgeInsets.all(Constants.kFixPadding),
           decoration: BoxDecoration(
-              color: AppPallete.kWhiteColor,
+              color: AppPalette.kWhiteColor,
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.circular(8.0),
               boxShadow: const [
-                BoxShadow(color: AppPallete.kLightColor, blurRadius: 2.0)
+                BoxShadow(color: AppPalette.kLightColor, blurRadius: 2.0)
               ]),
           child: Column(
             children: [
@@ -50,12 +50,12 @@ class _NotificationPageState extends State<NotificationPage> {
               const SizedBox(height: 16.0),
               const Text(
                   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
-                  style: TextStyle(color: AppPallete.kLightColor)),
+                  style: TextStyle(color: AppPalette.kLightColor)),
               const SizedBox(height: 16.0),
               const Align(
                 alignment: Alignment.centerRight,
                 child: Text('11/Feb/2021 04:42 PM',
-                    style: TextStyle(color: AppPallete.kLightColor)),
+                    style: TextStyle(color: AppPalette.kLightColor)),
               )
             ],
           ),

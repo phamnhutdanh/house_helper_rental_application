@@ -17,7 +17,7 @@ class ServicesList extends StatelessWidget {
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
-               // Beamer.of(context).beamToNamed(uri);
+               Beamer.of(context).beamToNamed('/booking_home/check_out');
               },
               child: Column(
                 children: [

@@ -6,6 +6,7 @@ class Employee {
   final String description;
   final int age;
   final int workingHours;
+  final double averageRating;
   final String accountInfoId;
 
   Employee({
@@ -17,5 +18,6 @@ class Employee {
     required this.age,
     required this.workingHours,
     required this.accountInfoId,
+    required this.averageRating,
   });
 }

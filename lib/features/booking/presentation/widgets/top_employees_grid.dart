@@ -1,3 +1,4 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:house_helper_rental_application/core/common/entities/employee.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/widgets/employee_card.dart';
@@ -21,8 +22,14 @@ class TopEmployeesGrid extends StatelessWidget {
       itemBuilder: (context, index) {
         return Container(
             margin: const EdgeInsets.all(8),
-            child: EmployeeCard(
-              employee: topEmployees[index],
+            child: GestureDetector(
+              onTap: () {
+                Beamer.of(context)
+                    .beamToNamed('/booking_home/employee_details');
+              },
+              child: EmployeeCard(
+                employee: topEmployees[index],
+              ),
             ));
       },
     );

@@ -110,8 +110,10 @@ void _initBookingServices() {
     // Bloc
     ..registerLazySingleton(
       () => BookingBloc(
-          getAllServices: serviceLocator(),
-          getTopEmployees: serviceLocator(),
-          getAllEmployees: serviceLocator()),
+        getAllServices: serviceLocator(),
+        getTopEmployees: serviceLocator(),
+        getAllEmployees: serviceLocator(),
+        currentAccountInfo: serviceLocator(),
+      ),
     );
 }
