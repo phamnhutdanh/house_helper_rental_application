@@ -18,6 +18,7 @@ import 'package:house_helper_rental_application/features/booking/data/repositori
 import 'package:house_helper_rental_application/features/booking/domain/repository/booking_repository.dart';
 import 'package:house_helper_rental_application/features/booking/domain/usecases/get_all_employees.dart';
 import 'package:house_helper_rental_application/features/booking/domain/usecases/get_all_services.dart';
+import 'package:house_helper_rental_application/features/booking/domain/usecases/get_service_by_id.dart';
 import 'package:house_helper_rental_application/features/booking/domain/usecases/get_top_employees.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/bloc/booking_bloc.dart';
 // import 'package:hive/hive.dart';

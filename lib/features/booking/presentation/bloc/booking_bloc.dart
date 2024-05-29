@@ -7,6 +7,7 @@ import 'package:house_helper_rental_application/core/usecase/usecase.dart';
 import 'package:house_helper_rental_application/features/auth/domain/usecases/current_account_info.dart';
 import 'package:house_helper_rental_application/features/booking/domain/usecases/get_all_employees.dart';
 import 'package:house_helper_rental_application/features/booking/domain/usecases/get_all_services.dart';
+import 'package:house_helper_rental_application/features/booking/domain/usecases/get_service_by_id.dart';
 import 'package:house_helper_rental_application/features/booking/domain/usecases/get_top_employees.dart';
 import 'package:meta/meta.dart';
 
@@ -17,18 +18,39 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
   final GetAllServices _getAllServices;
   final GetTopEmployees _getTopEmployees;
   final CurrentAccountInfo _currentAccountInfo;
+  final GetServiceById _getServiceById;
 
-  BookingBloc(
-      {required GetAllServices getAllServices,
-      required GetTopEmployees getTopEmployees,
-      required GetAllEmployees getAllEmployees,
-      required CurrentAccountInfo currentAccountInfo})
-      : _getAllServices = getAllServices,
+  BookingBloc({
+    required GetAllServices getAllServices,
+    required GetTopEmployees getTopEmployees,
+    required GetAllEmployees getAllEmployees,
+    required CurrentAccountInfo currentAccountInfo,
+    required GetServiceById getServiceById,
+  })  : _getAllServices = getAllServices,
         _getTopEmployees = getTopEmployees,
         _currentAccountInfo = currentAccountInfo,
+        _getServiceById = getServiceById,
         super(BookingInitial()) {
     on<BookingEvent>((event, emit) => emit(BookingLoading()));
     on<BookingFetchAllHomeData>(_onFetchHomeData);
+    on<BookingFetchAllCheckoutData>(_onFetchAllCheckoutData);
+  }
+
+  void _onFetchAllCheckoutData(
+    BookingFetchAllCheckoutData event,
+    Emitter<BookingState> emit,
+  ) async {
+    final service = await _getServiceById.call(GetServiceByIdParams(
+      id: event.serviceId,
+    ));
+
+    if (service.isRight()) {
+      emit(CheckoutInfoDisplaySuccess(
+        service.getRight().getOrElse(() => throw UnimplementedError()),
+      ));
+    } else {
+      emit(BookingFailure("Error"));
+    }
   }
 
   void _onFetchHomeData(

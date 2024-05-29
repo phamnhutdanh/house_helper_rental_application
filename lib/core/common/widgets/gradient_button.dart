@@ -1,10 +1,11 @@
 import 'package:house_helper_rental_application/core/theme/app_palette.dart';
 import 'package:flutter/material.dart';
 
-class AuthGradientButton extends StatelessWidget {
+class GradientButton extends StatelessWidget {
   final String buttonText;
   final VoidCallback onPressed;
-  const AuthGradientButton({
+
+  const GradientButton({
     super.key,
     required this.buttonText,
     required this.onPressed,
@@ -13,31 +14,27 @@ class AuthGradientButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.infinity,
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [
-            AppPalette.gradient1,
-            AppPalette.gradient2,
-            // AppPallete.gradient3,
-          ],
+          colors: [AppPalette.gradient3, AppPalette.thirdColor],
           begin: Alignment.bottomLeft,
           end: Alignment.topRight,
         ),
-        borderRadius: BorderRadius.circular(7),
+        borderRadius: BorderRadius.circular(8.0),
       ),
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          fixedSize: const Size(395, 55),
           backgroundColor: AppPalette.transparentColor,
           shadowColor: AppPalette.transparentColor,
         ),
         child: Text(
           buttonText,
           style: const TextStyle(
-            fontSize: 17,
-            fontWeight: FontWeight.w600,
-          ),
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: AppPalette.whiteColor),
         ),
       ),
     );

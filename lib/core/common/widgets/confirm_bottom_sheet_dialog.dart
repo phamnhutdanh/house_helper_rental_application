@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:house_helper_rental_application/core/theme/app_palette.dart';
 
 class ConfirmDialog extends StatelessWidget {
-  final onPressConfirm;
+  final void Function() onPressConfirm;
   final String title;
   final String confirmText;
   final String cancelText;
 
-  const ConfirmDialog(
-      {super.key,
-      required this.onPressConfirm,
-      required this.title,
-      required this.confirmText,
-      required this.cancelText});
+  const ConfirmDialog({
+    super.key,
+    required this.onPressConfirm,
+    required this.title,
+    required this.confirmText,
+    required this.cancelText,
+  });
 
   @override
   Widget build(BuildContext context) {

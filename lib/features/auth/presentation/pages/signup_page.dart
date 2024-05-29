@@ -7,8 +7,8 @@ import 'package:house_helper_rental_application/core/theme/app_palette.dart';
 import 'package:house_helper_rental_application/core/utils/show_snackbar.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/pages/login_page.dart';
-import 'package:house_helper_rental_application/features/auth/presentation/widgets/auth_field.dart';
-import 'package:house_helper_rental_application/features/auth/presentation/widgets/auth_gradient_button.dart';
+import 'package:house_helper_rental_application/core/common/widgets/input_field.dart';
+import 'package:house_helper_rental_application/core/common/widgets/gradient_button.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -89,35 +89,39 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                     const SizedBox(height: 30),
-                    AuthField(
+                    InputField(
                       hintText: 'Name',
                       controller: nameController,
                     ),
                     const SizedBox(height: 15),
-                    AuthField(
+                    InputField(
                       hintText: 'Email',
                       controller: emailController,
                     ),
                     const SizedBox(height: 15),
-                    AuthField(
+                    InputField(
                       hintText: 'Password',
                       controller: passwordController,
                       isObscureText: true,
                     ),
                     const SizedBox(height: 20),
-                    Container(
-                        child: Row(children: [
-                      Checkbox(
+                    Row(
+                      children: [
+                        Checkbox(
+                          checkColor: AppPalette.whiteColor,
+                          activeColor: AppPalette.thirdColor,
                           value: isEmployee,
                           onChanged: (b) =>
-                              setState(() => isEmployee = b ?? false)),
-                      Text(
-                        "Register as a employee",
-                        style: Theme.of(context).textTheme.titleMedium,
-                      )
-                    ])),
+                              setState(() => isEmployee = b ?? false),
+                        ),
+                        Text(
+                          "Register as a employee",
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      ],
+                    ),
                     const SizedBox(height: 20),
-                    AuthGradientButton(
+                    GradientButton(
                       buttonText: 'Sign Up',
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
@@ -148,7 +152,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   .textTheme
                                   .titleMedium
                                   ?.copyWith(
-                                    color: AppPalette.gradient2,
+                                    color: AppPalette.thirdColor,
                                     fontWeight: FontWeight.bold,
                                   ),
                             ),

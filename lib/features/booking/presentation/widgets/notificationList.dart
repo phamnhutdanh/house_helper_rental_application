@@ -20,6 +20,7 @@ class _NotificationListState extends State<NotificationList> {
       appBar: DefaultAppBar(
         title: 'Checkout',
         isVisibleBackButton: true,
+        onPressBack: () {},
       ),
       body: ListView.separated(
           physics: ClampingScrollPhysics(),
@@ -30,8 +31,8 @@ class _NotificationListState extends State<NotificationList> {
               title: 'E-Commerce',
               subtitle: 'Thanks for download E-Commerce app.',
               enable: true,
-              onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => NotificationBookingPage())),
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => NotificationBookingPage())),
             );
           },
           separatorBuilder: (context, index) {

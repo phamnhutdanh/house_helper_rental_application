@@ -1,23 +1,35 @@
 class Employee {
-  final String id;
-  final String name;
-  final String phoneNumber;
-  final String imageUri;
-  final String description;
-  final int age;
-  final int workingHours;
-  final double averageRating;
-  final String accountInfoId;
+  final String? id;
+  final String? name;
+  final String? phoneNumber;
+  final String? imageUri;
+  final String? description;
+  final int? age;
+  final int? workingHours;
+  final double? averageRating;
+  final String? accountInfoId;
 
   Employee({
-    required this.id,
-    required this.name,
-    required this.phoneNumber,
-    required this.imageUri,
-    required this.description,
-    required this.age,
-    required this.workingHours,
-    required this.accountInfoId,
-    required this.averageRating,
+    this.id,
+    this.name,
+    this.phoneNumber,
+    this.imageUri,
+    this.description,
+    this.age,
+    this.workingHours,
+    this.averageRating,
+    this.accountInfoId,
+  });
+}
+
+class FavoriteEmployee {
+  final String? id;
+  final String? customerId;
+  final String? employeeId;
+
+  FavoriteEmployee({
+     this.id,
+     this.customerId,
+     this.employeeId,
   });
 }

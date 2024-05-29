@@ -1,19 +1,41 @@
 import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
 
 class AccountInfo {
-  final String id;
-  final String email;
-  final AccountInfoRole accountRole;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-  final AccountStatus status;
+  final String? id;
+  final String? email;
+  final AccountInfoRole? accountRole;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final AccountStatus? status;
 
   AccountInfo({
-    required this.id,
-    required this.email,
-    required this.accountRole,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.status,
+    this.id,
+    this.email,
+    this.accountRole,
+    this.createdAt,
+    this.updatedAt,
+    this.status,
+  });
+}
+
+class EmployeeAccountRequest {
+  final String? id;
+  final String? name;
+  final String? email;
+  final String? hashPassword;
+  final String? keyPassword;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final EmployeeAccountStatus? status;
+
+  EmployeeAccountRequest({
+    this.id,
+    this.name,
+    this.email,
+    this.hashPassword,
+    this.keyPassword,
+    this.createdAt,
+    this.status,
+    this.updatedAt,
   });
 }

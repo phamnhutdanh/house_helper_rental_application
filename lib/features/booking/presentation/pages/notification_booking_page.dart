@@ -8,7 +8,8 @@ class NotificationBookingPage extends StatefulWidget {
   const NotificationBookingPage({super.key});
 
   @override
-  State<NotificationBookingPage> createState() => _NotificationBookingPageState();
+  State<NotificationBookingPage> createState() =>
+      _NotificationBookingPageState();
 }
 
 class _NotificationBookingPageState extends State<NotificationBookingPage> {
@@ -19,6 +20,7 @@ class _NotificationBookingPageState extends State<NotificationBookingPage> {
       appBar: DefaultAppBar(
         title: 'Checkout',
         isVisibleBackButton: true,
+        onPressBack: () {},
       ),
       body: FittedBox(
         child: Container(

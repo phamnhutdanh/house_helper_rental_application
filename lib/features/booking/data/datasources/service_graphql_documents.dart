@@ -1,4 +1,3 @@
-
 class ServiceGraphqlDocuments {
   static String getAllServicesQuery = """
     query GetAllServices {
@@ -6,17 +5,21 @@ class ServiceGraphqlDocuments {
         id
         name
         imageUri
-        description
+        serviceCode
       }
     }""";
 
   static String getServiceByIdQuery = """
-    query GetServiceById(\$id: String) {
+   query GetServiceById(\$id: String) {
       getServiceById(id: \$id) {
         id
         name
-        imageUri
-        description
+        serviceDetails {
+          id
+          name
+          imageUri
+          fee
+        }
       }
     }""";
 }

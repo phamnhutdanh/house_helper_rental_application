@@ -1,18 +1,18 @@
-import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:house_helper_rental_application/core/theme/app_palette.dart';
+import 'package:iconly/iconly.dart';
 
 class DefaultBackButton extends StatelessWidget {
-  const DefaultBackButton({
-    super.key,
-  });
+  final VoidCallback onPressBack;
+  const DefaultBackButton({super.key, required this.onPressBack});
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.arrow_back_ios, color: AppPalette.primaryColor),
-      onPressed: () => Beamer.of(context).beamBack(),
-      // onPressed: () => Navigator.of(context).pop(),
+      icon: const Icon(IconlyLight.arrow_left, color: AppPalette.blackColor),
+      onPressed: () {
+        onPressBack();
+      },
     );
   }
 }

@@ -19,3 +19,9 @@ class HomeInfoDisplaySuccess extends BookingState {
 
   HomeInfoDisplaySuccess(this.topEmployees, this.services, this.accountInfo);
 }
+
+class CheckoutInfoDisplaySuccess extends BookingState {
+  final Service service;
+
+  CheckoutInfoDisplaySuccess(this.service);
+}

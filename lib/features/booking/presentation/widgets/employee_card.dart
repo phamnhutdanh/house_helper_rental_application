@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:house_helper_rental_application/core/common/entities/employee.dart';
+import 'package:house_helper_rental_application/core/theme/app_palette.dart';
 import 'package:iconly/iconly.dart';
 
 class EmployeeCard extends StatelessWidget {
@@ -22,12 +23,12 @@ class EmployeeCard extends StatelessWidget {
           child: Column(
             children: [
               Image.network(
-                employee.imageUri,
+                employee.imageUri ?? '',
                 width: 120,
                 height: 120,
               ),
               Text(
-                employee.name,
+                employee.name ?? '',
                 style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
@@ -69,7 +70,7 @@ class EmployeeCard extends StatelessWidget {
               width: 30,
               height: 30,
               decoration: const BoxDecoration(
-                color: Color(0xffff660e),
+                color: AppPalette.fourthColor,
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(20),
                   bottomLeft: Radius.circular(10),
@@ -77,8 +78,8 @@ class EmployeeCard extends StatelessWidget {
               ),
               child: const Icon(
                 IconlyLight.heart,
-                color: Colors.white,
-                size: 18,
+                color: AppPalette.whiteColor,
+                size: 20,
               ),
             ),
           ),

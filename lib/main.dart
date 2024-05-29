@@ -44,6 +44,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+
     context.read<AuthBloc>().add(AuthIsAccountLoggedIn());
   }
 
@@ -53,7 +54,6 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'House Helper Rental App',
       theme: AppTheme.lightThemeMode,
-
       home: BlocSelector<AppAccountCubit, AppAccountState, AppAccountState>(
         selector: (state) {
           return state;

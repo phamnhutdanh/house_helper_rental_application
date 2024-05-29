@@ -107,6 +107,9 @@ void _initBookingServices() {
     ..registerFactory(
       () => GetAllEmployees(serviceLocator()),
     )
+    ..registerFactory(
+      () => GetServiceById(serviceLocator()),
+    )
     // Bloc
     ..registerLazySingleton(
       () => BookingBloc(
@@ -114,6 +117,7 @@ void _initBookingServices() {
         getTopEmployees: serviceLocator(),
         getAllEmployees: serviceLocator(),
         currentAccountInfo: serviceLocator(),
+        getServiceById: serviceLocator(),
       ),
     );
 }

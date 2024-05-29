@@ -45,4 +45,16 @@ class BookingRepositoryImpl implements BookingRepository {
       return left(Failure(e.message));
     }
   }
+
+  @override
+  Future<Either<Failure, Service>> getServiceById({
+    required String id,
+  }) async {
+    try {
+      final service = await servicesRemoteDataSource.getServiceById(id: id);
+      return right(service);
+    } on ServerExceptionError catch (e) {
+      return left(Failure(e.message));
+    }
+  }
 }

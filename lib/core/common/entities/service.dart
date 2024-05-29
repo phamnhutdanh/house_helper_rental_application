@@ -1,13 +1,37 @@
 class Service {
-  final String id;
-  final String name;
-  final String description;
-  final String imageUri;
+  final String? id;
+  final String? name;
+  final String? description;
+  final String? imageUri;
+  final String? serviceCode;
+  final List<ServiceDetails>? serviceDetails;
 
   Service({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.imageUri,
+    this.id,
+    this.name,
+    this.description,
+    this.imageUri,
+    this.serviceCode,
+    this.serviceDetails,
+  });
+}
+
+class ServiceDetails {
+  final String? id;
+  final String? name;
+  final String? description;
+  final String? imageUri;
+  final String? serviceDetailCode;
+  final int? fee;
+  final String? serviceId;
+
+  ServiceDetails({
+    this.id,
+    this.name,
+    this.description,
+    this.imageUri,
+    this.serviceDetailCode,
+    this.fee,
+    this.serviceId,
   });
 }

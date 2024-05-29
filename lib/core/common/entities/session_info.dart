@@ -1,7 +1,7 @@
 class SessionInfo {
-  final String id;
-  final String sessionToken;
-  final String expires;
+  final String? id;
+  final String? sessionToken;
+  final String? expires;
   final String? accessToken;
   final int? expiresAt;
   final int? expiresIn;
@@ -10,12 +10,12 @@ class SessionInfo {
   final String? providerToken;
   final String? refreshToken;
   final String? tokenType;
-  final String accountInfoId;
+  final String? accountInfoId;
 
   SessionInfo({
-    required this.id,
-    required this.sessionToken,
-    required this.expires,
+    this.id,
+    this.sessionToken,
+    this.expires,
     this.accessToken,
     this.expiresAt,
     this.expiresIn,
@@ -24,6 +24,6 @@ class SessionInfo {
     this.providerToken,
     this.refreshToken,
     this.tokenType,
-    required this.accountInfoId,
+    this.accountInfoId,
   });
 }

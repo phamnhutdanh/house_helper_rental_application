@@ -18,9 +18,12 @@ class AppPalette {
 
   static const Color primaryColor = Color(0xFF386A20);
   static const Color secondaryColor = Color(0xFFE5EADC);
+  static const Color thirdColor = Color(0xFFFF9505);
+  static const Color fourthColor =   Color(0xffff660e);
+
 
   static const kAccentColor = Color(0xFFF1F1F1);
   static const kWhiteColor = Color(0xFFFFFFFF);
   static const kLightColor = Color(0xFF808080);
-  static const kDarkColor = Color(0xFF303030);
+  static const darkGrey = Color(0xFF303030);
 }

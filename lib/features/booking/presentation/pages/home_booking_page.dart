@@ -1,3 +1,4 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:house_helper_rental_application/core/common/widgets/loader.dart';
@@ -27,7 +28,6 @@ class _HomeBookingPageState extends State<HomeBookingPage> {
   @override
   void initState() {
     super.initState();
-
     context.read<BookingBloc>().add(BookingFetchAllHomeData());
   }
 
@@ -76,7 +76,13 @@ class _HomeBookingPageState extends State<HomeBookingPage> {
                       return const Loader();
                     }
                     if (state is HomeInfoDisplaySuccess) {
-                      return ServicesList(services: state.services);
+                      return ServicesList(
+                        services: state.services,
+                        onTapItem: (serviceId) {
+                          Beamer.of(context).beamToNamed(
+                              '/booking_home/check_out/$serviceId');
+                        },
+                      );
                     }
                     return const SizedBox();
                   },

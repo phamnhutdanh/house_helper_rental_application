@@ -3,29 +3,10 @@ import 'package:house_helper_rental_application/core/theme/app_palette.dart';
 
 import 'package:flutter/widgets.dart';
 
-class SizeConfig {
-  static MediaQueryData? _mediaQueryData;
-  static double? screenWidth;
-  static double? screenHeight;
-
-  void init(BuildContext context) {
-    _mediaQueryData = MediaQuery.of(context);
-    screenWidth = _mediaQueryData!.size.width;
-
-    /// 683
-    screenHeight = _mediaQueryData!.size.height;
-
-    /// 411
-  }
-}
-
 class Constants {
-  static const List<String> topics = [
-    'Technology',
-    'Business',
-    'Programming',
-    'Entertainment',
-  ];
+  static final kToday = DateTime.now();
+  static final kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);
+  static final kLastDay = DateTime(kToday.year, kToday.month + 3, kToday.day);
 
   static const noConnectionErrorMessage = 'Not connected to a network!';
 
@@ -56,7 +37,7 @@ class Constants {
 
   static const kDarkTextStyle = TextStyle(
     fontSize: 20.0,
-    color: AppPalette.kDarkColor,
+    color: AppPalette.darkGrey,
   );
 
   static const kDivider = Divider(

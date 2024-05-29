@@ -25,7 +25,7 @@ class NotificationTiles extends StatelessWidget {
                   image: NetworkImage(
                       "https://ktlpvxvfzxexvghactxx.supabase.co/storage/v1/object/sign/helpu_buckets/wireless.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJoZWxwdV9idWNrZXRzL3dpcmVsZXNzLnBuZyIsImlhdCI6MTcxMzU0NDM4NywiZXhwIjoxNzQ1MDgwMzg3fQ.eou_TXvFgMjOtazTe_m6rf4gkIilO-vZ9yQN2zhJ_5k&t=2024-04-19T16%3A33%3A07.167Z"),
                   fit: BoxFit.cover))),
-      title: Text(title, style: const TextStyle(color: AppPalette.kDarkColor)),
+      title: Text(title, style: const TextStyle(color: AppPalette.darkGrey)),
       subtitle:
           Text(subtitle, style: const TextStyle(color: AppPalette.kLightColor)),
       onTap: () => onTap(),

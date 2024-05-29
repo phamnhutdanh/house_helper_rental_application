@@ -4,11 +4,12 @@ class CreateAccountInput {
   final String accountId;
   final bool isEmployee;
 
-  CreateAccountInput(
-      {required this.email,
-      required this.name,
-      required this.accountId,
-      required this.isEmployee});
+  CreateAccountInput({
+    required this.email,
+    required this.name,
+    required this.accountId,
+    required this.isEmployee,
+  });
 
   Map<String, dynamic> toJson() {
     return {

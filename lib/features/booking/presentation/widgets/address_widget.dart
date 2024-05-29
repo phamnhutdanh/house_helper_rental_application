@@ -1,62 +1,103 @@
 import 'package:flutter/material.dart';
-import 'package:house_helper_rental_application/features/booking/presentation/widgets/checkbox_save.dart';
-import 'package:house_helper_rental_application/features/booking/presentation/widgets/checkout_textfield.dart';
+import 'package:house_helper_rental_application/core/common/widgets/input_field.dart';
+import 'package:house_helper_rental_application/core/theme/app_palette.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/widgets/page_name.dart';
 
-class AddressWidget extends StatefulWidget {
-  const AddressWidget({super.key});
+class AddressWidget extends StatelessWidget {
+  final TextEditingController fullNameController;
+  final TextEditingController phoneController;
+  final TextEditingController addressController;
+  final bool isSavingAddress;
+  final Function(bool) onChangedCheckbox;
+  final GlobalKey<FormState> formKey;
+  const AddressWidget({
+    super.key,
+    required this.fullNameController,
+    required this.phoneController,
+    required this.addressController,
+    required this.formKey,
+    required this.isSavingAddress,
+    required this.onChangedCheckbox,
+  });
 
-  @override
-  State<AddressWidget> createState() => _AddressWidgetState();
-}
-
-class _AddressWidgetState extends State<AddressWidget> {
   @override
   Widget build(BuildContext context) {
-    return const SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          PageName(textName: "Full Name"),
-          CheckoutTextField(
-            enterText: "Enter your full name",
-            sizeWidth: 1.18,
-          ), //350
-          PageName(textName: "Email"),
-          CheckoutTextField(
-            enterText: "Enter your e-mail",
-            sizeWidth: 1.18,
-          ),
-          PageName(textName: "Phone"),
-          CheckoutTextField(
-            enterText: "Enter your phone number",
-            sizeWidth: 1.18,
-          ),
-          PageName(textName: "Address"),
-          CheckoutTextField(
-            enterText: "Type your home address",
-            sizeWidth: 1.18,
-          ),
-          Row(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  PageName(textName: "City"),
-                  CheckoutTextField(enterText: "Enter here", sizeWidth: 3.0)
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  PageName(textName: "Country"),
-                  CheckoutTextField(enterText: "Your country", sizeWidth: 3.0)
-                ],
-              )
-            ],
-          ),
-          CheckboxSave(saveText: "Save shipping address")
-        ],
+    return Form(
+      key: formKey,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const PageName(textName: "Full Name"),
+            InputField(
+              hintText: "Enter your full name",
+              controller: fullNameController,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const PageName(textName: "Phone"),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text("See all"),
+                ),
+              ],
+            ),
+            InputField(
+              hintText: "Enter your phone number",
+              controller: phoneController,
+            ),
+            const PageName(textName: "Address"),
+            InputField(
+              hintText: "Type your home address",
+              controller: addressController,
+            ),
+            Row(
+              children: [
+                Checkbox(
+                  checkColor: AppPalette.whiteColor,
+                  activeColor: AppPalette.thirdColor,
+                  value: isSavingAddress,
+                  onChanged: (b) {
+                    onChangedCheckbox(b ?? false);
+                  },
+                ),
+                Text(
+                  "Save shipping address",
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              ],
+            ),
+            // PageName(textName: "Full Name"),
+            // CheckoutTextField(
+            //   enterText: "Enter your full name",
+            //   sizeWidth: 1.18,
+            //   controller: fullNameController,
+            // ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     const PageName(textName: "Phone"),
+            //     TextButton(
+            //       onPressed: () {},
+            //       child: const Text("See all"),
+            //     ),
+            //   ],
+            // ),
+            // CheckoutTextField(
+            //   enterText: "Enter your phone number",
+            //   sizeWidth: 1.18,
+            //   controller: phoneController,
+            // ),
+            // PageName(textName: "Address"),
+            // CheckoutTextField(
+            //   enterText: "Type your home address",
+            //   sizeWidth: 1.18,
+            //   controller: addressController,
+            // ),
+            // CheckboxSave(saveText: "Save shipping address"),
+          ],
+        ),
       ),
     );
   }
