@@ -75,7 +75,7 @@ class _HomeBookingPageState extends State<HomeBookingPage> {
                     if (state is BookingLoading) {
                       return const Loader();
                     }
-                    if (state is HomeInfoDisplaySuccess) {
+                    if (state is BookingHomeInfoDisplaySuccess) {
                       return ServicesList(
                         services: state.services,
                         onTapItem: (serviceId) {
@@ -115,7 +115,7 @@ class _HomeBookingPageState extends State<HomeBookingPage> {
                     if (state is BookingLoading) {
                       return const Loader();
                     }
-                    if (state is HomeInfoDisplaySuccess) {
+                    if (state is BookingHomeInfoDisplaySuccess) {
                       return TopEmployeesGrid(
                         topEmployees: state.topEmployees,
                       );

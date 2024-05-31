@@ -29,29 +29,41 @@ class AddressWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const PageName(textName: "Full Name"),
+            const SizedBox(height: 10),
             InputField(
               hintText: "Enter your full name",
               controller: fullNameController,
             ),
+
+            const SizedBox(height: 20),
+
+            const PageName(textName: "Phone"),
+            const SizedBox(height: 10),
+            InputField(
+              hintText: "Enter your phone number",
+              controller: phoneController,
+            ),
+
+            const SizedBox(height: 20),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const PageName(textName: "Phone"),
+                const PageName(textName: "Address"),
                 TextButton(
                   onPressed: () {},
                   child: const Text("See all"),
                 ),
               ],
             ),
-            InputField(
-              hintText: "Enter your phone number",
-              controller: phoneController,
-            ),
-            const PageName(textName: "Address"),
+            const SizedBox(height: 10),
             InputField(
               hintText: "Type your home address",
               controller: addressController,
             ),
+
+            const SizedBox(height: 20),
+
             Row(
               children: [
                 Checkbox(

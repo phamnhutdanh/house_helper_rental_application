@@ -4,11 +4,15 @@ import 'package:flutter/material.dart';
 class GradientButton extends StatelessWidget {
   final String buttonText;
   final VoidCallback onPressed;
+  final List<Color>? colors;
+  final Color? textColor;
 
   const GradientButton({
     super.key,
     required this.buttonText,
     required this.onPressed,
+    this.colors,
+    this.textColor,
   });
 
   @override
@@ -16,8 +20,8 @@ class GradientButton extends StatelessWidget {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [AppPalette.gradient3, AppPalette.thirdColor],
+        gradient: LinearGradient(
+          colors: colors ?? [AppPalette.gradient3, AppPalette.thirdColor],
           begin: Alignment.bottomLeft,
           end: Alignment.topRight,
         ),
@@ -31,10 +35,11 @@ class GradientButton extends StatelessWidget {
         ),
         child: Text(
           buttonText,
-          style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              color: AppPalette.whiteColor),
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            color: textColor ?? AppPalette.whiteColor,
+          ),
         ),
       ),
     );

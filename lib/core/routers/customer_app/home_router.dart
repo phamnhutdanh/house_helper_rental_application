@@ -1,6 +1,6 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
-import 'package:house_helper_rental_application/core/utils/objects/checkout_data_object.dart';
+import 'package:house_helper_rental_application/core/objects/checkout_data_object.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/pages/checkout_page.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/pages/confirm_checkout_page.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/pages/employee_detail_booking_page.dart';
@@ -58,7 +58,9 @@ class HomeRouter extends BeamLocation<BeamState> {
           BeamPage(
             key: const ValueKey('booking_home/confirm_page'),
             title: 'Confirm page',
-            child: ConfirmCheckoutPage(checkoutDataObject: checkoutDataObject),
+            child: ConfirmCheckoutPage(
+              checkoutDataObject: checkoutDataObject,
+            ),
           ),
         );
       }

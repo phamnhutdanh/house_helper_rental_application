@@ -1,16 +1,22 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:house_helper_rental_application/core/common/entities/service.dart';
 import 'package:house_helper_rental_application/core/common/widgets/default_app_bar.dart';
+import 'package:house_helper_rental_application/core/common/widgets/input_field.dart';
 import 'package:house_helper_rental_application/core/common/widgets/loader.dart';
 import 'package:house_helper_rental_application/core/constants/constants.dart';
+import 'package:house_helper_rental_application/core/objects/checkout_data_object.dart';
 import 'package:house_helper_rental_application/core/theme/app_palette.dart';
-import 'package:house_helper_rental_application/core/utils/objects/checkout_data_object.dart';
 import 'package:house_helper_rental_application/core/utils/show_snackbar.dart';
+import 'package:house_helper_rental_application/features/booking/domain/usecases/create_booking.dart';
+import 'package:house_helper_rental_application/features/booking/domain/usecases/create_customer_address.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/bloc/booking_bloc.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/pages/confirm_checkout_page.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/widgets/address_widget.dart';
+import 'package:house_helper_rental_application/features/booking/presentation/widgets/page_name.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/widgets/payment_widget.dart';
+import 'package:house_helper_rental_application/features/booking/presentation/widgets/service_details_list.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
@@ -28,19 +34,20 @@ class CheckoutPage extends StatefulWidget {
 class _CheckoutPageState extends State<CheckoutPage> {
   final formKey = GlobalKey<FormState>();
 
-  final _scrollController = ItemScrollController();
+  final scrollController = ItemScrollController();
   final fullNameController = TextEditingController();
   final phoneController = TextEditingController();
   final addressController = TextEditingController();
+  final noteController = TextEditingController();
 
-  int _selectedRepeat = 0;
-  bool _isSavingAddress = false;
+  int selectedRepeat = 0;
+  bool isSavingAddress = false;
 
-  String _selectedHour = '06:30';
+  String selectedHour = '06:30';
   String paymentRadioValue = 'COD';
 
-  final List<String> _selectedServices = [];
-  final List<String> _hours = <String>[
+  final List<ServiceDetails> selectedServices = [];
+  final List<String> hours = <String>[
     '06:00',
     '06:30',
     '07:00',
@@ -72,20 +79,22 @@ class _CheckoutPageState extends State<CheckoutPage> {
     '20:00',
   ];
 
-  final List<String> _repeat = [
+  final List<String> repeats = [
     'No repeat',
     'Every day',
     'Every week',
     'Every month'
   ];
 
-  int _currentStep = 0;
-  bool _isCompleted = false;
+  int currentStep = 0;
+  bool isCompleted = false;
 
-  CalendarFormat _calendarFormat = CalendarFormat.month;
-  DateTime _focusedDay = DateTime.now();
-  DateTime? _selectedDay;
+  CalendarFormat calendarFormat = CalendarFormat.month;
+  DateTime focusedDate = DateTime.now();
+  DateTime? selectedDate;
+
   late CheckoutDataObject checkoutDataObject;
+
   @override
   void initState() {
     super.initState();
@@ -94,7 +103,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
         .add(BookingFetchAllCheckoutData(serviceId: widget.serviceId));
 
     Future.delayed(const Duration(milliseconds: 500), () {
-      _scrollController.scrollTo(
+      scrollController.scrollTo(
         index: 2,
         duration: const Duration(seconds: 3),
         curve: Curves.easeInOut,
@@ -112,8 +121,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
   List<Step> getSteps() => [
         Step(
-          state: _currentStep > 0 ? StepState.complete : StepState.indexed,
-          isActive: _currentStep >= 0,
+          state: currentStep > 0 ? StepState.complete : StepState.indexed,
+          isActive: currentStep >= 0,
           title: const Text(
             "Choose time",
             style: TextStyle(
@@ -125,36 +134,36 @@ class _CheckoutPageState extends State<CheckoutPage> {
               TableCalendar(
                 firstDay: Constants.kFirstDay,
                 lastDay: Constants.kLastDay,
-                focusedDay: _focusedDay,
-                calendarFormat: _calendarFormat,
+                focusedDay: focusedDate,
+                calendarFormat: calendarFormat,
                 selectedDayPredicate: (day) {
                   // Use `selectedDayPredicate` to determine which day is currently selected.
                   // If this returns true, then `day` will be marked as selected.
 
                   // Using `isSameDay` is recommended to disregard
                   // the time-part of compared DateTime objects.
-                  return isSameDay(_selectedDay, day);
+                  return isSameDay(selectedDate, day);
                 },
                 onDaySelected: (selectedDay, focusedDay) {
-                  if (!isSameDay(_selectedDay, selectedDay)) {
+                  if (!isSameDay(selectedDate, selectedDay)) {
                     // Call `setState()` when updating the selected day
                     setState(() {
-                      _selectedDay = selectedDay;
-                      _focusedDay = focusedDay;
+                      selectedDate = selectedDay;
+                      focusedDate = focusedDay;
                     });
                   }
                 },
                 onFormatChanged: (format) {
-                  if (_calendarFormat != format) {
+                  if (calendarFormat != format) {
                     // Call `setState()` when updating calendar format
                     setState(() {
-                      _calendarFormat = format;
+                      calendarFormat = format;
                     });
                   }
                 },
                 onPageChanged: (focusedDay) {
                   // No need to call `setState()` here
-                  _focusedDay = focusedDay;
+                  focusedDate = focusedDay;
                 },
               ),
               Container(
@@ -165,14 +174,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   border: Border.all(width: 1.5, color: Colors.grey.shade200),
                 ),
                 child: ScrollablePositionedList.builder(
-                    itemScrollController: _scrollController,
+                    itemScrollController: scrollController,
                     scrollDirection: Axis.horizontal,
-                    itemCount: _hours.length,
+                    itemCount: hours.length,
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(
                         onTap: () {
                           setState(() {
-                            _selectedHour = _hours[index];
+                            selectedHour = hours[index];
                           });
                         },
                         child: AnimatedContainer(
@@ -180,11 +189,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           width: 100,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
-                            color: _selectedHour == _hours[index]
+                            color: selectedHour == hours[index]
                                 ? Colors.orange.shade100.withOpacity(0.5)
                                 : Colors.orange.withOpacity(0),
                             border: Border.all(
-                              color: _selectedHour == _hours[index]
+                              color: selectedHour == hours[index]
                                   ? Colors.orange
                                   : Colors.white.withOpacity(0),
                               width: 1.5,
@@ -194,7 +203,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                _hours[index],
+                                hours[index],
                                 style: const TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.w500),
                               ),
@@ -222,29 +231,29 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   ),
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: _repeat.length,
+                    itemCount: repeats.length,
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
                           setState(() {
-                            _selectedRepeat = index;
+                            selectedRepeat = index;
                           });
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
-                            color: _selectedRepeat == index
+                            color: selectedRepeat == index
                                 ? AppPalette.thirdColor
                                 : Colors.grey.shade100,
                           ),
                           margin: const EdgeInsets.only(right: 20),
                           child: Center(
                               child: Text(
-                            _repeat[index],
+                            repeats[index],
                             style: TextStyle(
                               fontSize: 18,
-                              color: _selectedRepeat == index
+                              color: selectedRepeat == index
                                   ? AppPalette.whiteColor
                                   : Colors.grey.shade800,
                             ),
@@ -268,12 +277,45 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   }
                   if (state is CheckoutInfoDisplaySuccess) {
                     final title = state.service.name ?? '';
-                    return Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                      ),
+                    final serviceDetails = state.service.serviceDetails ?? [];
+
+                    return Column(
+                      children: [
+                        Text(
+                          title,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          height: 120,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppPalette.transparentColor,
+                          ),
+                          child: ServiceDetailsList(
+                            serviceDetails: serviceDetails,
+                            onTapItem: (index) {
+                              final serviceDetailId = serviceDetails[index].id;
+                              setState(() {
+                                if (selectedServices
+                                    .map((item) => item.id)
+                                    .contains(serviceDetailId)) {
+                                  selectedServices.removeWhere(
+                                      (item) => item.id == serviceDetailId);
+                                } else {
+                                  selectedServices.add(serviceDetails[index]);
+                                }
+                              });
+                            },
+                            selectedServices: selectedServices,
+                          ),
+                        )
+                      ],
                     );
                   }
                   return const SizedBox();
@@ -282,104 +324,17 @@ class _CheckoutPageState extends State<CheckoutPage> {
               const SizedBox(
                 height: 10,
               ),
-              BlocConsumer<BookingBloc, BookingState>(
-                listener: (BuildContext context, BookingState state) {
-                  if (state is BookingFailure) {
-                    showSnackBar(context, state.error);
-                  }
-                },
-                builder: (BuildContext context, BookingState state) {
-                  if (state is BookingLoading) {
-                    return const Loader();
-                  }
-                  if (state is CheckoutInfoDisplaySuccess) {
-                    final serviceDetails = state.service.serviceDetails ?? [];
-                    return Container(
-                      height: 120,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: AppPalette.transparentColor,
-                      ),
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: serviceDetails.length,
-                        itemBuilder: (context, index) {
-                          String serviceDetailId =
-                              serviceDetails[index].id ?? '';
-                          return GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  if (_selectedServices
-                                      .contains(serviceDetailId)) {
-                                    _selectedServices.remove(serviceDetailId);
-                                  } else {
-                                    _selectedServices.add(serviceDetailId);
-                                  }
-                                });
-                              },
-                              child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: _selectedServices
-                                            .contains(serviceDetailId)
-                                        ? AppPalette.thirdColor
-                                        : AppPalette.transparentColor,
-                                  ),
-                                  margin: const EdgeInsets.only(right: 20),
-                                  child: SingleChildScrollView(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(4.0),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Image.network(
-                                            serviceDetails[index].imageUri ??
-                                                '',
-                                            height: 40,
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          Text(
-                                            serviceDetails[index].name ?? '',
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w500,
-                                              color: _selectedServices
-                                                      .contains(index)
-                                                  ? AppPalette.whiteColor
-                                                  : Colors.grey.shade800,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          Text(
-                                            "${serviceDetails[index].fee ?? 0.0}VND",
-                                            style: const TextStyle(
-                                              color: AppPalette.blackColor,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  )));
-                        },
-                      ),
-                    );
-                  }
-                  return const SizedBox();
-                },
+              const PageName(textName: "Note"),
+              InputField(
+                hintText: "Note...",
+                controller: noteController,
               ),
             ],
           ),
         ),
         Step(
-          state: _currentStep > 1 ? StepState.complete : StepState.indexed,
-          isActive: _currentStep >= 0,
+          state: currentStep > 1 ? StepState.complete : StepState.indexed,
+          isActive: currentStep >= 0,
           title: const Text(
             "Choose address",
             style: TextStyle(
@@ -391,17 +346,17 @@ class _CheckoutPageState extends State<CheckoutPage> {
             fullNameController: fullNameController,
             addressController: addressController,
             phoneController: phoneController,
-            isSavingAddress: _isSavingAddress,
+            isSavingAddress: isSavingAddress,
             onChangedCheckbox: (b) {
               setState(() {
-                _isSavingAddress = b;
+                isSavingAddress = b;
               });
             },
           ),
         ),
         Step(
-          state: _currentStep > 2 ? StepState.complete : StepState.indexed,
-          isActive: _currentStep >= 1,
+          state: currentStep > 2 ? StepState.complete : StepState.indexed,
+          isActive: currentStep >= 1,
           title: const Text(
             "Payment",
             style: TextStyle(
@@ -432,10 +387,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
       ),
       resizeToAvoidBottomInset: true,
       backgroundColor: AppPalette.whiteColor,
-      body: _isCompleted
-          ? ConfirmCheckoutPage(
-              checkoutDataObject: checkoutDataObject,
-            )
+      body: isCompleted
+          ? const SizedBox()
           : Theme(
               data: Theme.of(context).copyWith(
                   colorScheme:
@@ -443,46 +396,53 @@ class _CheckoutPageState extends State<CheckoutPage> {
               child: Stepper(
                 type: StepperType.vertical,
                 steps: getSteps(),
-                currentStep: _currentStep,
+                currentStep: currentStep,
                 onStepContinue: () {
-                  final isLastStep = _currentStep == getSteps().length - 1;
+                  final isLastStep = currentStep == getSteps().length - 1;
 
                   if (isLastStep) {
-                    setState(() => _isCompleted = true);
-                    print("CHECKOUT_PAGE Completed");
-                    print(
-                        "CHECKOUT_PAGE Selected day" + _selectedDay.toString());
-                    print("CHECKOUT_PAGE Selected hours" + _selectedHour);
-                    print("CHECKOUT_PAGE Selected repeat" +
-                        _selectedRepeat.toString());
-                    print("CHECKOUT_PAGE Selected cleaning" +
-                        _selectedServices.toString());
-                    print("CHECKOUT_PAGE Address: " +
-                        addressController.text.trim());
-                    print(
-                        "CHECKOUT_PAGE Phone: " + phoneController.text.trim());
-                    print("CHECKOUT_PAGE Name: " +
-                        fullNameController.text.trim());
+                    setState(() => isCompleted = true);
 
-                    var hours = _selectedHour.split(":");
-                    print('CHECKOUT_PAGE Radio: ' + paymentRadioValue);
+                    var hours = selectedHour.split(":");
+                    selectedDate = selectedDate!.toLocal();
+                    selectedDate = DateTime(
+                      selectedDate!.year,
+                      selectedDate!.month,
+                      selectedDate!.day,
+                      int.parse(hours[0]),
+                      int.parse(hours[1]),
+                      //  selectedDate.second,
+                      //  selectedDate.millisecond,
+                      //  selectedDate.microsecond,
+                    );
+
+                    int totalPrice = 0;
+                    for (var element in selectedServices) {
+                      totalPrice += element.fee ?? 0;
+                    }
+
                     checkoutDataObject = CheckoutDataObject(
-                      selectedDay: _selectedDay ?? DateTime.now(),
-                      selectedHour: int.parse(hours[0]),
-                      selectedMinute: int.parse(hours[1]),
-                      selectedServices: _selectedServices,
-                      repeat: _selectedRepeat == 0
+                      bookingTime: selectedDate!.toIso8601String(),
+                      repeatStatus: selectedRepeat == 0
                           ? "NO_REPEAT"
-                          : _selectedRepeat == 1
+                          : selectedRepeat == 1
                               ? "EVERY_DAY"
-                              : _selectedRepeat == 2
+                              : selectedRepeat == 2
                                   ? "EVERY_WEEK"
                                   : "EVERY_MONTH",
-                      addressText: addressController.text.trim(),
-                      phoneText: phoneController.text.trim(),
-                      fullNameText: fullNameController.text.trim(),
+                      note: noteController.text.trim(),
                       paymentMethod: paymentRadioValue,
+                      serviceId: widget.serviceId,
+                      serviceDetails: selectedServices,
+                      totalPrice: totalPrice,
+                      address: addressController.text.trim(),
+                      fullName: fullNameController.text.trim(),
+                      phone: phoneController.text.trim(),
+                      customerAddressId: '',
+                      customerId: '',
+                      isDefault: false,
                     );
+
                     Beamer.of(context).beamToNamed('/booking_home/confirm_page',
                         data: checkoutDataObject);
 
@@ -490,24 +450,24 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   } else {
                     /// code
                   }
-                  setState(() => _currentStep += 1);
+                  setState(() => currentStep += 1);
                 },
-                onStepTapped: (step) => setState(() => _currentStep = step),
-                onStepCancel: _currentStep == 0
+                onStepTapped: (step) => setState(() => currentStep = step),
+                onStepCancel: currentStep == 0
                     ? null
                     : () {
-                        setState(() => _currentStep -= 1);
+                        setState(() => currentStep -= 1);
                       },
                 controlsBuilder:
                     (BuildContext context, ControlsDetails controls) {
-                  final isLastStep = _currentStep == getSteps().length - 1;
+                  final isLastStep = currentStep == getSteps().length - 1;
                   return Container(
                     margin:
                         // EdgeInsets.only(top: SizeConfig.screenHeight! / 68.3),
                         const EdgeInsets.only(top: 16.0),
                     child: Row(
                       children: [
-                        if (_currentStep != 0)
+                        if (currentStep != 0)
                           Expanded(
                             child: InkWell(
                               onTap: controls.onStepCancel,
@@ -529,9 +489,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               ),
                             ),
                           ),
-                        const SizedBox(
-                          width: 20.0,
-                        ),
+                        if (currentStep != 0)
+                          const SizedBox(
+                            width: 20.0,
+                          ),
                         Expanded(
                           child: InkWell(
                             onTap: controls.onStepContinue,

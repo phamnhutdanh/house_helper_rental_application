@@ -12,10 +12,14 @@ import 'package:house_helper_rental_application/features/auth/domain/usecases/ac
 import 'package:house_helper_rental_application/features/auth/presentation/bloc/auth_bloc.dart';
 
 import 'package:get_it/get_it.dart';
+import 'package:house_helper_rental_application/features/booking/data/datasources/address_remote_data_source.dart';
+import 'package:house_helper_rental_application/features/booking/data/datasources/booking_remote_data_source.dart';
 import 'package:house_helper_rental_application/features/booking/data/datasources/employee_remote_data_source.dart';
 import 'package:house_helper_rental_application/features/booking/data/datasources/service_remote_data_source.dart';
 import 'package:house_helper_rental_application/features/booking/data/repositories/booking_repository_impl.dart';
 import 'package:house_helper_rental_application/features/booking/domain/repository/booking_repository.dart';
+import 'package:house_helper_rental_application/features/booking/domain/usecases/create_booking.dart';
+import 'package:house_helper_rental_application/features/booking/domain/usecases/create_customer_address.dart';
 import 'package:house_helper_rental_application/features/booking/domain/usecases/get_all_employees.dart';
 import 'package:house_helper_rental_application/features/booking/domain/usecases/get_all_services.dart';
 import 'package:house_helper_rental_application/features/booking/domain/usecases/get_service_by_id.dart';

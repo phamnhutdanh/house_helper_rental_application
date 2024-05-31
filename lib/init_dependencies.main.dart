@@ -90,9 +90,17 @@ void _initBookingServices() {
     ..registerFactory<EmployeesRemoteDataSource>(
       () => EmployeesRemoteDataSourceImpl(serviceLocator()),
     )
+    ..registerFactory<BookingRemoteDataSource>(
+      () => BookingRemoteDataSourceImpl(serviceLocator()),
+    )
+    ..registerFactory<AddressRemoteDataSource>(
+      () => AddressRemoteDataSourceImpl(serviceLocator()),
+    )
     // Repository
     ..registerFactory<BookingRepository>(
       () => BookingRepositoryImpl(
+        serviceLocator(),
+        serviceLocator(),
         serviceLocator(),
         serviceLocator(),
       ),
@@ -110,6 +118,12 @@ void _initBookingServices() {
     ..registerFactory(
       () => GetServiceById(serviceLocator()),
     )
+    ..registerFactory(
+      () => CreateBooking(serviceLocator()),
+    )
+    ..registerFactory(
+      () => CreateCustomerAddress(serviceLocator()),
+    )
     // Bloc
     ..registerLazySingleton(
       () => BookingBloc(
@@ -118,6 +132,8 @@ void _initBookingServices() {
         getAllEmployees: serviceLocator(),
         currentAccountInfo: serviceLocator(),
         getServiceById: serviceLocator(),
+        createBooking: serviceLocator(),
+        createCustomerAddress: serviceLocator(),
       ),
     );
 }

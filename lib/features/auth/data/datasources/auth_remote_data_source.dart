@@ -6,11 +6,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract interface class AuthRemoteDataSource {
   Session? get currentUserSession;
-  Future<AccountInfoModel> signUpWithEmailPassword(
-      {required String name,
-      required String email,
-      required String password,
-      required bool isEmployee});
+  Future<AccountInfoModel> signUpWithEmailPassword({
+    required String name,
+    required String email,
+    required String password,
+    required bool isEmployee,
+  });
   Future<AccountInfoModel> loginWithEmailPassword({
     required String email,
     required String password,
@@ -65,11 +66,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<AccountInfoModel> signUpWithEmailPassword(
-      {required String name,
-      required String email,
-      required String password,
-      required bool isEmployee}) async {
+  Future<AccountInfoModel> signUpWithEmailPassword({
+    required String name,
+    required String email,
+    required String password,
+    required bool isEmployee,
+  }) async {
     try {
       final response = await supabaseClient.auth.signUp(
         password: password,

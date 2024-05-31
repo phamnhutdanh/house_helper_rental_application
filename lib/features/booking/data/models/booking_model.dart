@@ -64,17 +64,18 @@ class BookingModel extends Booking {
     String? customerAddressId,
   }) {
     return BookingModel(
-        id: id ?? this.id,
-        repeatStatus: repeatStatus ?? this.repeatStatus,
-        bookingTime: bookingTime ?? this.bookingTime,
-        totalPrice: totalPrice ?? this.totalPrice,
-        status: status ?? this.status,
-        paymentMethod: paymentMethod ?? this.paymentMethod,
-        note: note ?? this.note,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-        serviceId: serviceId ?? this.serviceId,
-        customerId: customerId ?? this.customerId,
-        customerAddressId: customerAddressId ?? this.customerAddressId);
+      id: id ?? this.id,
+      repeatStatus: repeatStatus ?? this.repeatStatus,
+      bookingTime: bookingTime ?? this.bookingTime,
+      totalPrice: totalPrice ?? this.totalPrice,
+      status: status ?? this.status,
+      paymentMethod: paymentMethod ?? this.paymentMethod,
+      note: note ?? this.note,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      serviceId: serviceId ?? this.serviceId,
+      customerId: customerId ?? this.customerId,
+      customerAddressId: customerAddressId ?? this.customerAddressId,
+    );
   }
 }

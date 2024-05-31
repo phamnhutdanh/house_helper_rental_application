@@ -7,20 +7,12 @@ class PageName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        0.0,
-        8.0,
-        8.0,
-        0.0,
-      ),
-      child: Text(
-        textName,
-        style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w500,
-          color: AppPalette.blackColor,
-        ),
+    return Text(
+      textName,
+      style: const TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.w500,
+        color: AppPalette.blackColor,
       ),
     );
   }
