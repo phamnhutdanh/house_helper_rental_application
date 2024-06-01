@@ -1,16 +1,15 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
-import 'package:house_helper_rental_application/core/routers/customer_app/history_router.dart';
-import 'package:house_helper_rental_application/core/routers/customer_app/home_router.dart';
-import 'package:house_helper_rental_application/core/routers/customer_app/notifs_router.dart';
-import 'package:house_helper_rental_application/core/routers/customer_app/settings_router.dart';
+import 'package:house_helper_rental_application/core/routers/admin_app/accounts_router.dart';
+import 'package:house_helper_rental_application/core/routers/admin_app/notifs_router.dart';
+import 'package:house_helper_rental_application/core/routers/admin_app/settings_router.dart';
 import 'package:iconly/iconly.dart';
 
 class AdminRouter extends StatelessWidget {
   AdminRouter({super.key});
 
   final routerDelegate = BeamerDelegate(
-    initialPath: '/home',
+    initialPath: '/accounts_router',
     locationBuilder: RoutesLocationBuilder(
       routes: {
         '*': (context, state, data) => const ScaffoldWithBottomNavBar(),
@@ -44,36 +43,27 @@ class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
 
   final _routerDelegates = [
     BeamerDelegate(
-      initialPath: '/home',
+      initialPath: '/accounts_router',
       locationBuilder: (routeInformation, _) {
-        if (routeInformation.uri.toString().contains('/home')) {
-          return HomeRouter(routeInformation);
+        if (routeInformation.uri.toString().contains('/accounts_router')) {
+          return AccountsRouter(routeInformation);
         }
         return NotFound(path: routeInformation.uri.toString());
       },
     ),
     BeamerDelegate(
-      initialPath: '/history',
+      initialPath: '/admin_notifs',
       locationBuilder: (routeInformation, _) {
-        if (routeInformation.uri.toString().contains('/history')) {
-          return HistoryRouter(routeInformation);
-        }
-        return NotFound(path: routeInformation.uri.toString());
-      },
-    ),
-    BeamerDelegate(
-      initialPath: '/notifs',
-      locationBuilder: (routeInformation, _) {
-        if (routeInformation.uri.toString().contains('/notifs')) {
+        if (routeInformation.uri.toString().contains('/admin_notifs')) {
           return NotificationRouter(routeInformation);
         }
         return NotFound(path: routeInformation.uri.toString());
       },
     ),
     BeamerDelegate(
-      initialPath: '/settings',
+      initialPath: '/admin_settings',
       locationBuilder: (routeInformation, _) {
-        if (routeInformation.uri.toString().contains('/settings')) {
+        if (routeInformation.uri.toString().contains('/admin_settings')) {
           return SettingsRouter(routeInformation);
         }
         return NotFound(path: routeInformation.uri.toString());
@@ -85,7 +75,7 @@ class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     final uriString = Beamer.of(context).configuration.uri.toString();
-    _currentIndex = uriString.contains('/home') ? 0 : 1;
+    _currentIndex = uriString.contains('/accounts_router') ? 0 : 1;
   }
 
   @override
@@ -97,14 +87,13 @@ class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
           Beamer(routerDelegate: _routerDelegates[0]),
           Beamer(routerDelegate: _routerDelegates[1]),
           Beamer(routerDelegate: _routerDelegates[2]),
-          Beamer(routerDelegate: _routerDelegates[3]),
         ],
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _currentIndex,
         destinations: const [
-          NavigationDestination(label: 'Home', icon: Icon(IconlyBold.home)),
-          NavigationDestination(label: 'History', icon: Icon(IconlyBold.paper)),
+          NavigationDestination(
+              label: 'All accounts', icon: Icon(IconlyBold.profile)),
           NavigationDestination(
               label: 'Notifs', icon: Icon(IconlyBold.notification)),
           NavigationDestination(

@@ -7,6 +7,8 @@ class AccountInfo {
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final AccountStatus? status;
+  final String? name;
+  final String? imageUri;
 
   AccountInfo({
     this.id,
@@ -15,6 +17,8 @@ class AccountInfo {
     this.createdAt,
     this.updatedAt,
     this.status,
+    this.name,
+    this.imageUri,
   });
 }
 

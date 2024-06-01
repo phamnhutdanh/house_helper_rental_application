@@ -1,7 +1,9 @@
 import 'package:house_helper_rental_application/core/common/cubits/app_user/app_account_cubit.dart';
 import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
+import 'package:house_helper_rental_application/core/routers/admin_app/admin_router.dart';
 import 'package:house_helper_rental_application/core/routers/employee_app/task_router.dart';
 import 'package:house_helper_rental_application/core/theme/theme.dart';
+import 'package:house_helper_rental_application/features/admin/presentation/bloc/admin_bloc.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/pages/login_page.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/bloc/booking_bloc.dart';
@@ -25,6 +27,9 @@ void main() async {
       ),
       BlocProvider(
         create: (_) => serviceLocator<BookingBloc>(),
+      ),
+      BlocProvider(
+        create: (_) => serviceLocator<AdminBloc>(),
       ),
     ],
     child: GraphQLProvider(
@@ -66,7 +71,7 @@ class _MyAppState extends State<MyApp> {
                 AccountInfoRole.EMPLOYEE) {
               return TaskRouter();
             } else if (state.accountInfo.accountRole == AccountInfoRole.ADMIN) {
-              return Text('Admin');
+              return AdminRouter();
             } else {
               return const Text('Cannot get role');
             }

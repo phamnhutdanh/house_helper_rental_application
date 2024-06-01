@@ -28,7 +28,7 @@ class NotificationBookingTab extends StatelessWidget {
           },
           child: NotificationItem(
             title: customerNotifications[index].title ?? '',
-            subtitle: customerNotifications[index].title ?? '',
+            subtitle: customerNotifications[index].description ?? '',
           ),
         ),
         separatorBuilder: (_, __) => const Divider(),

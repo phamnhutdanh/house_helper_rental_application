@@ -5,6 +5,7 @@ final serviceLocator = GetIt.instance;
 Future<void> initDependencies() async {
   _initAuth();
   _initBookingServices();
+  _initAdmin();
 
   final supabase = await Supabase.initialize(
     url: AppSecrets.supabaseUrl,
@@ -38,6 +39,32 @@ Future<void> initDependencies() async {
 //     () => Hive.box('house_help'),
 //   );
 // }
+
+void _initAdmin() {
+  // Datasource
+  serviceLocator
+    ..registerFactory<AccountRemoteDataSource>(
+      () => AccountRemoteDataSourceImpl(
+        serviceLocator(),
+      ),
+    )
+    // Repository
+    ..registerFactory<AccountRepository>(
+      () => AccountRepositoryImpl(
+        serviceLocator(),
+      ),
+    )
+    // Usecases
+    ..registerFactory(
+      () => GetAllAccounts(serviceLocator()),
+    )
+    // Bloc
+    ..registerLazySingleton(
+      () => AdminBloc(
+        getAllAccounts: serviceLocator(),
+      ),
+    );
+}
 
 void _initAuth() {
   // Datasource
