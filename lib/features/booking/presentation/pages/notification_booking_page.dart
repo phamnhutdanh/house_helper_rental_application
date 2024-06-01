@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:house_helper_rental_application/core/constants/constants.dart';
-import 'package:house_helper_rental_application/core/theme/app_palette.dart';
-import 'package:house_helper_rental_application/core/common/widgets/default_app_bar.dart';
-import 'package:house_helper_rental_application/core/common/widgets/default_back_button.dart';
+import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
+import 'package:house_helper_rental_application/core/common/entities/notification.dart';
+import 'package:house_helper_rental_application/features/booking/presentation/pages/generic_tab_page.dart';
+import 'package:house_helper_rental_application/features/booking/presentation/widgets/notification_booking_tab.dart';
+import 'package:house_helper_rental_application/features/booking/presentation/widgets/tab_item.dart';
 
 class NotificationBookingPage extends StatefulWidget {
   const NotificationBookingPage({super.key});
@@ -13,56 +14,95 @@ class NotificationBookingPage extends StatefulWidget {
 }
 
 class _NotificationBookingPageState extends State<NotificationBookingPage> {
+  final List<NotificationCustomer> notifs = [
+    NotificationCustomer(
+      id: '1',
+      title: 'Notif 1',
+      description:
+          'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
+      status: NotificationStatus.UNREAD,
+    ),
+    NotificationCustomer(
+      id: '2',
+      title: 'Notif 2',
+      description:
+          'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
+      status: NotificationStatus.READ,
+    ),
+    NotificationCustomer(
+      id: '3',
+      title: 'Notif 3',
+      description:
+          'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
+      status: NotificationStatus.READ,
+    ),
+    NotificationCustomer(
+      id: '4',
+      title: 'Notif 4',
+      description:
+          'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
+      status: NotificationStatus.UNREAD,
+    ),
+    NotificationCustomer(
+      id: '5',
+      title: 'Notif 5',
+      description:
+          'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
+      status: NotificationStatus.UNREAD,
+    ),
+    NotificationCustomer(
+      id: '6',
+      title: 'Notif 6',
+      description:
+          'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
+      status: NotificationStatus.UNREAD,
+    ),
+    NotificationCustomer(
+      id: '7',
+      title: 'Notif 7',
+      description:
+          'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
+      status: NotificationStatus.READ,
+    ),
+  ];
+
+  late List<NotificationCustomer> readNotifs = notifs
+      .where((element) => element.status == NotificationStatus.READ)
+      .toList();
+
+  late List<NotificationCustomer> unreadNotifs = notifs
+      .where((element) => element.status == NotificationStatus.UNREAD)
+      .toList();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppPalette.kWhiteColor,
-      appBar: DefaultAppBar(
-        title: 'Checkout',
-        isVisibleBackButton: true,
-        onPressBack: () {},
-      ),
-      body: FittedBox(
-        child: Container(
-          // height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          margin: const EdgeInsets.all(Constants.kFixPadding),
-          padding: const EdgeInsets.all(Constants.kFixPadding),
-          decoration: BoxDecoration(
-              color: AppPalette.kWhiteColor,
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.circular(8.0),
-              boxShadow: const [
-                BoxShadow(color: AppPalette.kLightColor, blurRadius: 2.0)
-              ]),
-          child: Column(
-            children: [
-              const Text(
-                  'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                  style: Constants.kDarkTextStyle),
-              const SizedBox(height: 16.0),
-              Container(
-                  height: 50.0,
-                  width: 50.0,
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: NetworkImage(
-                              "https://ktlpvxvfzxexvghactxx.supabase.co/storage/v1/object/sign/helpu_buckets/wireless.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJoZWxwdV9idWNrZXRzL3dpcmVsZXNzLnBuZyIsImlhdCI6MTcxMzU0NDM4NywiZXhwIjoxNzQ1MDgwMzg3fQ.eou_TXvFgMjOtazTe_m6rf4gkIilO-vZ9yQN2zhJ_5k&t=2024-04-19T16%3A33%3A07.167Z"),
-                          fit: BoxFit.cover))),
-              const SizedBox(height: 16.0),
-              const Text(
-                  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
-                  style: TextStyle(color: AppPalette.kLightColor)),
-              const SizedBox(height: 16.0),
-              const Align(
-                alignment: Alignment.centerRight,
-                child: Text('11/Feb/2021 04:42 PM',
-                    style: TextStyle(color: AppPalette.kLightColor)),
-              )
-            ],
-          ),
+    return GenericTabPage(
+      title: 'Notification',
+      isScrollableTab: false,
+      tabs: [
+        TabItem(title: 'ALL', count: notifs.length),
+        TabItem(title: 'READ', count: readNotifs.length),
+        TabItem(title: 'UNREAD', count: unreadNotifs.length),
+      ],
+      children: [
+        NotificationBookingTab(
+          customerNotifications: notifs,
+          onTapItem: (notificationId) {},
         ),
-      ),
+        NotificationBookingTab(
+          customerNotifications: readNotifs,
+          onTapItem: (notificationId) {},
+        ),
+        NotificationBookingTab(
+          customerNotifications: unreadNotifs,
+          onTapItem: (notificationId) {},
+        ),
+      ],
     );
   }
 }

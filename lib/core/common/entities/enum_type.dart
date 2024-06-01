@@ -61,3 +61,8 @@ enum RepeatBookingStatus {
   EVERY_WEEK,
   EVERY_MONTH,
 }
+
+enum NotificationStatus {
+  READ,
+  UNREAD,
+}

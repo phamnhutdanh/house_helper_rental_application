@@ -12,6 +12,7 @@ class AppPalette {
   static const Color blackColor = Colors.black;
   static const Color whiteColor = Colors.white;
   static const Color greyColor = Colors.grey;
+
   static const Color errorColor = Colors.redAccent;
   static const Color successColor = Color.fromARGB(255, 101, 180, 104);
   static const Color transparentColor = Colors.transparent;
@@ -19,8 +20,7 @@ class AppPalette {
   static const Color primaryColor = Color(0xFF386A20);
   static const Color secondaryColor = Color(0xFFE5EADC);
   static const Color thirdColor = Color(0xFFFF9505);
-  static const Color fourthColor =   Color(0xffff660e);
-
+  static const Color fourthColor = Color(0xffff660e);
 
   static const kAccentColor = Color(0xFFF1F1F1);
   static const kWhiteColor = Color(0xFFFFFFFF);

@@ -1,19 +1,29 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
 import 'package:house_helper_rental_application/core/theme/app_palette.dart';
+import 'package:house_helper_rental_application/core/utils/format_date.dart';
 import 'package:iconly/iconly.dart';
 
-class OrderItem extends StatelessWidget {
-  const OrderItem({super.key});
+class BookingItem extends StatelessWidget {
+  final String serviceName;
+  final BookingStatus bookingStatus;
+  final int totalPrice;
+  final DateTime bookingTime;
+
+  const BookingItem({
+    super.key,
+    required this.serviceName,
+    required this.bookingStatus,
+    required this.totalPrice,
+    required this.bookingTime,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(8),
-      color: AppPalette.greyColor,
       decoration: BoxDecoration(
-        color: Colors.white, // Container color
+        color: AppPalette.whiteColor, // Container color
         border: Border.all(
           color: AppPalette.borderColor, // Border color
           width: 2.0, // Border width
@@ -23,32 +33,44 @@ class OrderItem extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          SizedBox(width: 12),
           Row(
             children: [
-              Icon(IconlyBold.work),
-              SizedBox(width: 12),
               Expanded(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Processing',
-                      style: Theme.of(context).textTheme.bodyLarge!.apply(
-                          color: AppPalette.primaryColor, fontWeightDelta: 1),
+                      bookingStatus == BookingStatus.PENDING
+                          ? "Pending"
+                          : bookingStatus == BookingStatus.ACCEPTED
+                              ? "Accepted"
+                              : bookingStatus == BookingStatus.CANCELED
+                                  ? "Canceled"
+                                  : "Completed",
+                      style: TextStyle(
+                          color: bookingStatus == BookingStatus.PENDING
+                              ? AppPalette.thirdColor
+                              : bookingStatus == BookingStatus.ACCEPTED
+                                  ? AppPalette.primaryColor
+                                  : bookingStatus == BookingStatus.CANCELED
+                                      ? AppPalette.errorColor
+                                      : AppPalette.successColor,
+                          fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      '07 Nov 2024',
+                      serviceName,
                       style: Theme.of(context).textTheme.headlineSmall,
                     )
                   ],
                 ),
               ),
               IconButton(
-                  onPressed: () {}, icon: Icon(IconlyBold.arrow_right_2)),
+                  onPressed: () {}, icon: const Icon(IconlyBold.arrow_right_2)),
             ],
           ),
-          const SizedBox(
+          SizedBox(
             height: 12,
           ),
           Row(
@@ -56,17 +78,17 @@ class OrderItem extends StatelessWidget {
               Expanded(
                 child: Row(
                   children: [
-                    Icon(IconlyBold.work),
+                    Icon(IconlyBold.ticket),
                     SizedBox(width: 12),
                     Expanded(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Order',
+                          Text('Total',
                               style: Theme.of(context).textTheme.labelMedium),
                           Text(
-                            '[#0123]',
+                            '$totalPrice VND',
                             style: Theme.of(context).textTheme.titleMedium,
                           )
                         ],
@@ -78,17 +100,17 @@ class OrderItem extends StatelessWidget {
               Expanded(
                 child: Row(
                   children: [
-                    Icon(IconlyBold.work),
+                    Icon(IconlyBold.calendar),
                     SizedBox(width: 12),
                     Expanded(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Shipping Date',
+                          Text('Booking date',
                               style: Theme.of(context).textTheme.labelMedium),
                           Text(
-                            '07 Nov 2024',
+                            formatDateByDDMMYYYY(bookingTime),
                             style: Theme.of(context).textTheme.titleMedium,
                           )
                         ],

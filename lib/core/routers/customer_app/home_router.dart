@@ -34,7 +34,7 @@ class HomeRouter extends BeamLocation<BeamState> {
         pages.add(const BeamPage(
             key: ValueKey('booking_home/employee_details'),
             title: 'Employee details',
-            child: EmployeeDetailBookingPage()));
+            child: Text("Employee details")));
       }
     }
 

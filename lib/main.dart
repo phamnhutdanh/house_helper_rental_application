@@ -68,7 +68,7 @@ class _MyAppState extends State<MyApp> {
             } else if (state.accountInfo.accountRole == AccountInfoRole.ADMIN) {
               return Text('Admin');
             } else {
-              return Text('Cannot get role');
+              return const Text('Cannot get role');
             }
           }
           return const LoginPage();

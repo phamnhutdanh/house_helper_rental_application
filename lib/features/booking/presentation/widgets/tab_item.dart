@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:house_helper_rental_application/core/theme/app_palette.dart';
 
 class TabItem extends StatelessWidget {
   final String title;
@@ -32,7 +33,7 @@ class TabItem extends StatelessWidget {
                     child: Text(
                       count > 9 ? "9+" : count.toString(),
                       style: const TextStyle(
-                        color: Colors.black54,
+                        color: AppPalette.blackColor,
                         fontSize: 10,
                       ),
                     ),

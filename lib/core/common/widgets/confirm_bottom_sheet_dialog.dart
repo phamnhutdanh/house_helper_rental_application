@@ -18,16 +18,16 @@ class ConfirmDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppPalette.secondaryColor,
+      color: AppPalette.whiteColor,
       height: 150.0,
       padding: const EdgeInsets.symmetric(horizontal: 32.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         mainAxisSize: MainAxisSize.max,
         children: [
-          const Text(
-            'Are you sure you want Logout?',
-            style: TextStyle(
+          Text(
+            title,
+            style: const TextStyle(
               color: AppPalette.blackColor,
               fontSize: 18.0,
               fontWeight: FontWeight.w600,
@@ -37,10 +37,29 @@ class ConfirmDialog extends StatelessWidget {
             children: [
               Expanded(
                 child: MaterialButton(
-                  color: AppPalette.primaryColor,
-                  child: const Text(
-                    'Logout',
-                    style: TextStyle(
+                  color: AppPalette.greyColor.withOpacity(0.1),
+                  //  highlightedBorderColor: AppPallete.kWhiteColor,
+                  //   borderSide: BorderSide(color: AppPallete.kWhiteColor),
+                  child: Text(
+                    cancelText,
+                    style: const TextStyle(
+                      color: AppPalette.blackColor,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ),
+              const SizedBox(
+                width: 20.0,
+              ),
+              Expanded(
+                child: MaterialButton(
+                  color: AppPalette.thirdColor,
+                  child: Text(
+                    confirmText,
+                    style: const TextStyle(
                       color: AppPalette.secondaryColor,
                       fontSize: 16.0,
                       fontWeight: FontWeight.w600,
@@ -49,25 +68,6 @@ class ConfirmDialog extends StatelessWidget {
                   onPressed: () {
                     onPressConfirm();
                   },
-                ),
-              ),
-              const SizedBox(
-                width: 20.0,
-              ),
-              Expanded(
-                child: MaterialButton(
-                  color: AppPalette.greyColor,
-                  //  highlightedBorderColor: AppPallete.kWhiteColor,
-                  //   borderSide: BorderSide(color: AppPallete.kWhiteColor),
-                  child: const Text(
-                    'Cancel',
-                    style: TextStyle(
-                      color: AppPalette.blackColor,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  onPressed: () => Navigator.of(context).pop(),
                 ),
               ),
             ],

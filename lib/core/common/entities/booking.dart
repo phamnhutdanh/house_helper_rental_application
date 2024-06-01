@@ -1,4 +1,6 @@
+import 'package:house_helper_rental_application/core/common/entities/address.dart';
 import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
+import 'package:house_helper_rental_application/core/common/entities/service.dart';
 
 class Booking {
   final String? id;
@@ -13,8 +15,10 @@ class Booking {
   final DateTime? updatedAt;
 
   final String? serviceId;
+  final Service? service;
   final String? customerId;
   final String? customerAddressId;
+  final CustomerAddress? customerAddress;
 
   Booking({
     this.id,
@@ -27,8 +31,10 @@ class Booking {
     this.createdAt,
     this.updatedAt,
     this.serviceId,
+    this.service,
     this.customerId,
     this.customerAddressId,
+    this.customerAddress,
   });
 }
 

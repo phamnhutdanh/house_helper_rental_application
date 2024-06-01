@@ -19,12 +19,14 @@ class CustomerAddress {
   final AddressType? addressType;
   final String? customerId;
   final String? addressId;
+  final Address? address;
 
   CustomerAddress({
     this.id,
     this.addressType,
     this.customerId,
     this.addressId,
+    this.address,
   });
 }
 
