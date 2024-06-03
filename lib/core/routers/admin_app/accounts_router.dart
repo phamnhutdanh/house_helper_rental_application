@@ -1,6 +1,6 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
-import 'package:house_helper_rental_application/features/admin/presentation/pages/accounts_page.dart';
+import 'package:house_helper_rental_application/features/accounts/presentation/pages/accounts_page.dart';
 
 class AccountsRouter extends BeamLocation<BeamState> {
   AccountsRouter(super.routeInformation);

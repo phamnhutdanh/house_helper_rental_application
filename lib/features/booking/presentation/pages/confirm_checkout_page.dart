@@ -6,10 +6,8 @@ import 'package:house_helper_rental_application/core/common/widgets/default_app_
 import 'package:house_helper_rental_application/core/common/widgets/gradient_button.dart';
 import 'package:house_helper_rental_application/core/objects/checkout_data_object.dart';
 import 'package:house_helper_rental_application/core/theme/app_palette.dart';
-import 'package:house_helper_rental_application/features/booking/presentation/widgets/page_name.dart';
-import 'package:house_helper_rental_application/features/booking/presentation/widgets/service_details_list.dart';
-import 'package:house_helper_rental_application/features/booking/presentation/widgets/service_details_view.dart';
-import 'package:intl/intl.dart';
+import 'package:house_helper_rental_application/core/common/widgets/page_name.dart';
+import 'package:house_helper_rental_application/features/services/presentation/widgets/service_details_view.dart';
 
 class ConfirmCheckoutPage extends StatefulWidget {
   final CheckoutDataObject checkoutDataObject;

@@ -1,6 +1,6 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
-import 'package:house_helper_rental_application/features/booking/presentation/pages/notification_booking_page.dart';
+import 'package:house_helper_rental_application/features/notification/presentation/pages/notification_booking_page.dart';
 
 class NotificationRouter extends BeamLocation<BeamState> {
   NotificationRouter(super.routeInformation);

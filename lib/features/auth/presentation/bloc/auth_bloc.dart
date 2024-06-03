@@ -1,4 +1,4 @@
-import 'package:house_helper_rental_application/core/common/cubits/app_user/app_account_cubit.dart';
+import 'package:house_helper_rental_application/features/cubits/app_user/app_account_cubit.dart';
 import 'package:house_helper_rental_application/core/common/entities/account_info.dart';
 import 'package:house_helper_rental_application/core/usecase/usecase.dart';
 import 'package:house_helper_rental_application/features/auth/domain/usecases/account_sign_out.dart';

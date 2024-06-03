@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:house_helper_rental_application/core/common/entities/booking.dart';
 import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
 import 'package:house_helper_rental_application/core/common/entities/service.dart';
-import 'package:house_helper_rental_application/features/booking/presentation/pages/generic_tab_page.dart';
+import 'package:house_helper_rental_application/core/common/pages/generic_tab_page.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/widgets/history_booking_tab.dart';
-import 'package:house_helper_rental_application/features/booking/presentation/widgets/tab_item.dart';
+import 'package:house_helper_rental_application/core/common/widgets/tab_item.dart';
 
 class HistoryBookingPage extends StatefulWidget {
   const HistoryBookingPage({super.key});

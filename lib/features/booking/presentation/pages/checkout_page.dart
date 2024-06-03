@@ -9,14 +9,13 @@ import 'package:house_helper_rental_application/core/constants/constants.dart';
 import 'package:house_helper_rental_application/core/objects/checkout_data_object.dart';
 import 'package:house_helper_rental_application/core/theme/app_palette.dart';
 import 'package:house_helper_rental_application/core/utils/show_snackbar.dart';
-import 'package:house_helper_rental_application/features/booking/domain/usecases/create_booking.dart';
-import 'package:house_helper_rental_application/features/booking/domain/usecases/create_customer_address.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/bloc/booking_bloc.dart';
-import 'package:house_helper_rental_application/features/booking/presentation/pages/confirm_checkout_page.dart';
-import 'package:house_helper_rental_application/features/booking/presentation/widgets/address_widget.dart';
-import 'package:house_helper_rental_application/features/booking/presentation/widgets/page_name.dart';
+import 'package:house_helper_rental_application/features/address/presentation/widgets/address_widget.dart';
+import 'package:house_helper_rental_application/core/common/widgets/page_name.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/widgets/payment_widget.dart';
-import 'package:house_helper_rental_application/features/booking/presentation/widgets/service_details_list.dart';
+import 'package:house_helper_rental_application/features/employees/presentation/bloc/employee_bloc.dart';
+import 'package:house_helper_rental_application/features/services/presentation/bloc/service_bloc.dart';
+import 'package:house_helper_rental_application/features/services/presentation/widgets/service_details_list.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
@@ -99,8 +98,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
   void initState() {
     super.initState();
     context
-        .read<BookingBloc>()
-        .add(BookingFetchAllCheckoutData(serviceId: widget.serviceId));
+        .read<ServiceBloc>()
+        .add(GetServiceByIdEvent(serviceId: widget.serviceId));
 
     Future.delayed(const Duration(milliseconds: 500), () {
       scrollController.scrollTo(
@@ -117,6 +116,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
     phoneController.dispose();
     addressController.dispose();
     super.dispose();
+  }
+
+  void onRefreshPreviousScreen() {
+    context.read<ServiceBloc>().add(FetchAllServicesEvent());
+    context.read<EmployeeBloc>().add(FetchTopEmployeesEvent());
   }
 
   List<Step> getSteps() => [
@@ -265,17 +269,17 @@ class _CheckoutPageState extends State<CheckoutPage> {
               const SizedBox(
                 height: 40,
               ),
-              BlocConsumer<BookingBloc, BookingState>(
-                listener: (BuildContext context, BookingState state) {
-                  if (state is BookingFailure) {
+              BlocConsumer<ServiceBloc, ServiceState>(
+                listener: (context, state) {
+                  if (state is ServiceFailure) {
                     showSnackBar(context, state.error);
                   }
                 },
-                builder: (BuildContext context, BookingState state) {
+                builder: (context, state) {
                   if (state is BookingLoading) {
                     return const Loader();
                   }
-                  if (state is CheckoutInfoDisplaySuccess) {
+                  if (state is ServiceDetailDisplaySuccess) {
                     final title = state.service.name ?? '';
                     final serviceDetails = state.service.serviceDetails ?? [];
 
@@ -376,110 +380,141 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: DefaultAppBar(
-        title: 'Checkout',
-        isVisibleBackButton: true,
-        onPressBack: () {
-          context.read<BookingBloc>().add(BookingFetchAllHomeData());
-          Beamer.of(context).beamBack();
-        },
-      ),
-      resizeToAvoidBottomInset: true,
-      backgroundColor: AppPalette.whiteColor,
-      body: isCompleted
-          ? const SizedBox()
-          : Theme(
-              data: Theme.of(context).copyWith(
-                  colorScheme:
-                      const ColorScheme.light(primary: AppPalette.thirdColor)),
-              child: Stepper(
-                type: StepperType.vertical,
-                steps: getSteps(),
-                currentStep: currentStep,
-                onStepContinue: () {
-                  final isLastStep = currentStep == getSteps().length - 1;
+    return PopScope(
+      onPopInvokedWithResult: (didPop, result) {
+        onRefreshPreviousScreen();
+      },
+      child: Scaffold(
+        appBar: DefaultAppBar(
+          title: 'Checkout',
+          isVisibleBackButton: true,
+          onPressBack: () {
+            onRefreshPreviousScreen();
+            Beamer.of(context).beamBack();
+          },
+        ),
+        resizeToAvoidBottomInset: true,
+        backgroundColor: AppPalette.whiteColor,
+        body: isCompleted
+            ? const SizedBox()
+            : Theme(
+                data: Theme.of(context).copyWith(
+                    colorScheme: const ColorScheme.light(
+                        primary: AppPalette.thirdColor)),
+                child: Stepper(
+                  type: StepperType.vertical,
+                  steps: getSteps(),
+                  currentStep: currentStep,
+                  onStepContinue: () {
+                    final isLastStep = currentStep == getSteps().length - 1;
 
-                  if (isLastStep) {
-                    setState(() => isCompleted = true);
+                    if (isLastStep) {
+                      setState(() => isCompleted = true);
 
-                    var hours = selectedHour.split(":");
-                    selectedDate = selectedDate!.toLocal();
-                    selectedDate = DateTime(
-                      selectedDate!.year,
-                      selectedDate!.month,
-                      selectedDate!.day,
-                      int.parse(hours[0]),
-                      int.parse(hours[1]),
-                      //  selectedDate.second,
-                      //  selectedDate.millisecond,
-                      //  selectedDate.microsecond,
-                    );
+                      var hours = selectedHour.split(":");
+                      selectedDate = selectedDate!.toLocal();
+                      selectedDate = DateTime(
+                        selectedDate!.year,
+                        selectedDate!.month,
+                        selectedDate!.day,
+                        int.parse(hours[0]),
+                        int.parse(hours[1]),
+                        //  selectedDate.second,
+                        //  selectedDate.millisecond,
+                        //  selectedDate.microsecond,
+                      );
 
-                    int totalPrice = 0;
-                    for (var element in selectedServices) {
-                      totalPrice += element.fee ?? 0;
+                      int totalPrice = 0;
+                      for (var element in selectedServices) {
+                        totalPrice += element.fee ?? 0;
+                      }
+
+                      checkoutDataObject = CheckoutDataObject(
+                        bookingTime: selectedDate!.toIso8601String(),
+                        repeatStatus: selectedRepeat == 0
+                            ? "NO_REPEAT"
+                            : selectedRepeat == 1
+                                ? "EVERY_DAY"
+                                : selectedRepeat == 2
+                                    ? "EVERY_WEEK"
+                                    : "EVERY_MONTH",
+                        note: noteController.text.trim(),
+                        paymentMethod: paymentRadioValue,
+                        serviceId: widget.serviceId,
+                        serviceDetails: selectedServices,
+                        totalPrice: totalPrice,
+                        address: addressController.text.trim(),
+                        fullName: fullNameController.text.trim(),
+                        phone: phoneController.text.trim(),
+                        customerAddressId: '',
+                        customerId: '',
+                        isDefault: false,
+                      );
+
+                      Beamer.of(context).beamToNamed(
+                          '/booking_home/confirm_page',
+                          data: checkoutDataObject);
+
+                      /// send data to server
+                    } else {
+                      /// code
                     }
-
-                    checkoutDataObject = CheckoutDataObject(
-                      bookingTime: selectedDate!.toIso8601String(),
-                      repeatStatus: selectedRepeat == 0
-                          ? "NO_REPEAT"
-                          : selectedRepeat == 1
-                              ? "EVERY_DAY"
-                              : selectedRepeat == 2
-                                  ? "EVERY_WEEK"
-                                  : "EVERY_MONTH",
-                      note: noteController.text.trim(),
-                      paymentMethod: paymentRadioValue,
-                      serviceId: widget.serviceId,
-                      serviceDetails: selectedServices,
-                      totalPrice: totalPrice,
-                      address: addressController.text.trim(),
-                      fullName: fullNameController.text.trim(),
-                      phone: phoneController.text.trim(),
-                      customerAddressId: '',
-                      customerId: '',
-                      isDefault: false,
-                    );
-
-                    Beamer.of(context).beamToNamed('/booking_home/confirm_page',
-                        data: checkoutDataObject);
-
-                    /// send data to server
-                  } else {
-                    /// code
-                  }
-                  setState(() => currentStep += 1);
-                },
-                onStepTapped: (step) => setState(() => currentStep = step),
-                onStepCancel: currentStep == 0
-                    ? null
-                    : () {
-                        setState(() => currentStep -= 1);
-                      },
-                controlsBuilder:
-                    (BuildContext context, ControlsDetails controls) {
-                  final isLastStep = currentStep == getSteps().length - 1;
-                  return Container(
-                    margin:
-                        // EdgeInsets.only(top: SizeConfig.screenHeight! / 68.3),
-                        const EdgeInsets.only(top: 16.0),
-                    child: Row(
-                      children: [
-                        if (currentStep != 0)
+                    setState(() => currentStep += 1);
+                  },
+                  onStepTapped: (step) => setState(() => currentStep = step),
+                  onStepCancel: currentStep == 0
+                      ? null
+                      : () {
+                          setState(() => currentStep -= 1);
+                        },
+                  controlsBuilder:
+                      (BuildContext context, ControlsDetails controls) {
+                    final isLastStep = currentStep == getSteps().length - 1;
+                    return Container(
+                      margin:
+                          // EdgeInsets.only(top: SizeConfig.screenHeight! / 68.3),
+                          const EdgeInsets.only(top: 16.0),
+                      child: Row(
+                        children: [
+                          if (currentStep != 0)
+                            Expanded(
+                              child: InkWell(
+                                onTap: controls.onStepCancel,
+                                child: Container(
+                                  height: 40.0,
+                                  decoration: BoxDecoration(
+                                      color: AppPalette.greyColor,
+                                      borderRadius:
+                                          BorderRadius.circular(12.0)),
+                                  child: const Center(
+                                    child: Text(
+                                      "Back",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          if (currentStep != 0)
+                            const SizedBox(
+                              width: 20.0,
+                            ),
                           Expanded(
                             child: InkWell(
-                              onTap: controls.onStepCancel,
+                              onTap: controls.onStepContinue,
                               child: Container(
                                 height: 40.0,
                                 decoration: BoxDecoration(
-                                    color: AppPalette.greyColor,
+                                    color: AppPalette.thirdColor,
                                     borderRadius: BorderRadius.circular(12.0)),
-                                child: const Center(
+                                child: Center(
                                   child: Text(
-                                    "Back",
-                                    style: TextStyle(
+                                    isLastStep ? "Confirm" : "Next",
+                                    style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 16.0,
                                       fontWeight: FontWeight.bold,
@@ -489,36 +524,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               ),
                             ),
                           ),
-                        if (currentStep != 0)
-                          const SizedBox(
-                            width: 20.0,
-                          ),
-                        Expanded(
-                          child: InkWell(
-                            onTap: controls.onStepContinue,
-                            child: Container(
-                              height: 40.0,
-                              decoration: BoxDecoration(
-                                  color: AppPalette.thirdColor,
-                                  borderRadius: BorderRadius.circular(12.0)),
-                              child: Center(
-                                child: Text(
-                                  isLastStep ? "Confirm" : "Next",
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              )),
+                        ],
+                      ),
+                    );
+                  },
+                )),
+      ),
     );
   }
 }

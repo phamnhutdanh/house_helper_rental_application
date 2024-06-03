@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:house_helper_rental_application/core/common/widgets/default_app_bar.dart';
 import 'package:house_helper_rental_application/core/common/widgets/gradient_button.dart';
 import 'package:house_helper_rental_application/core/theme/app_palette.dart';
-import 'package:house_helper_rental_application/features/booking/presentation/widgets/page_name.dart';
+import 'package:house_helper_rental_application/core/common/widgets/page_name.dart';
 
 class BookingDetailsPage extends StatefulWidget {
   final String bookingId;

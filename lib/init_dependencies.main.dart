@@ -4,8 +4,11 @@ final serviceLocator = GetIt.instance;
 
 Future<void> initDependencies() async {
   _initAuth();
-  _initBookingServices();
-  _initAdmin();
+  _initBooking();
+  _initAccounts();
+  _initAddress();
+  _initEmployees();
+  _initServices();
 
   final supabase = await Supabase.initialize(
     url: AppSecrets.supabaseUrl,
@@ -40,17 +43,17 @@ Future<void> initDependencies() async {
 //   );
 // }
 
-void _initAdmin() {
+void _initAccounts() {
   // Datasource
   serviceLocator
-    ..registerFactory<AccountRemoteDataSource>(
+    ..registerFactory<AccountsRemoteDataSource>(
       () => AccountRemoteDataSourceImpl(
         serviceLocator(),
       ),
     )
     // Repository
-    ..registerFactory<AccountRepository>(
-      () => AccountRepositoryImpl(
+    ..registerFactory<AccountsRepository>(
+      () => AccountsRepositoryImpl(
         serviceLocator(),
       ),
     )
@@ -60,7 +63,7 @@ void _initAdmin() {
     )
     // Bloc
     ..registerLazySingleton(
-      () => AdminBloc(
+      () => AccountsBloc(
         getAllAccounts: serviceLocator(),
       ),
     );
@@ -108,27 +111,63 @@ void _initAuth() {
     );
 }
 
-void _initBookingServices() {
+void _initAddress() {
+  // Datasource
+  serviceLocator
+    ..registerFactory<AddressRemoteDataSource>(
+      () => AddressRemoteDataSourceImpl(serviceLocator()),
+    )
+    // Repository
+    ..registerFactory<AddressRepository>(
+      () => AddressRepositoryImpl(
+        serviceLocator(),
+      ),
+    )
+    // Usecases
+    ..registerFactory(
+      () => CreateCustomerAddress(serviceLocator()),
+    )
+    // Bloc
+    ..registerLazySingleton(
+      () => AddressBloc(
+        createCustomerAddress: serviceLocator(),
+      ),
+    );
+}
+
+void _initEmployees() {
+  // Datasource
+  serviceLocator
+    ..registerFactory<EmployeesRemoteDataSource>(
+      () => EmployeesRemoteDataSourceImpl(serviceLocator()),
+    )
+    // Repository
+    ..registerFactory<EmployeeRepository>(
+      () => EmployeeRepositoryImpl(
+        serviceLocator(),
+      ),
+    )
+    // Usecases
+    ..registerFactory(
+      () => GetTopEmployees(serviceLocator()),
+    )
+    // Bloc
+    ..registerLazySingleton(
+      () => EmployeeBloc(
+        getTopEmployees: serviceLocator(),
+      ),
+    );
+}
+
+void _initServices() {
   // Datasource
   serviceLocator
     ..registerFactory<ServicesRemoteDataSource>(
       () => ServicesRemoteDataSourceImpl(serviceLocator()),
     )
-    ..registerFactory<EmployeesRemoteDataSource>(
-      () => EmployeesRemoteDataSourceImpl(serviceLocator()),
-    )
-    ..registerFactory<BookingRemoteDataSource>(
-      () => BookingRemoteDataSourceImpl(serviceLocator()),
-    )
-    ..registerFactory<AddressRemoteDataSource>(
-      () => AddressRemoteDataSourceImpl(serviceLocator()),
-    )
     // Repository
-    ..registerFactory<BookingRepository>(
-      () => BookingRepositoryImpl(
-        serviceLocator(),
-        serviceLocator(),
-        serviceLocator(),
+    ..registerFactory<ServiceRepository>(
+      () => ServiceRepositoryImpl(
         serviceLocator(),
       ),
     )
@@ -137,30 +176,37 @@ void _initBookingServices() {
       () => GetAllServices(serviceLocator()),
     )
     ..registerFactory(
-      () => GetTopEmployees(serviceLocator()),
-    )
-    ..registerFactory(
-      () => GetAllEmployees(serviceLocator()),
-    )
-    ..registerFactory(
       () => GetServiceById(serviceLocator()),
     )
+    // Bloc
+    ..registerLazySingleton(
+      () => ServiceBloc(
+        getAllServices: serviceLocator(),
+        getServiceById: serviceLocator(),
+      ),
+    );
+}
+
+void _initBooking() {
+  // Datasource
+  serviceLocator
+    ..registerFactory<BookingRemoteDataSource>(
+      () => BookingRemoteDataSourceImpl(serviceLocator()),
+    )
+    // Repository
+    ..registerFactory<BookingRepository>(
+      () => BookingRepositoryImpl(
+        serviceLocator(),
+      ),
+    )
+    // Usecases
     ..registerFactory(
       () => CreateBooking(serviceLocator()),
-    )
-    ..registerFactory(
-      () => CreateCustomerAddress(serviceLocator()),
     )
     // Bloc
     ..registerLazySingleton(
       () => BookingBloc(
-        getAllServices: serviceLocator(),
-        getTopEmployees: serviceLocator(),
-        getAllEmployees: serviceLocator(),
-        currentAccountInfo: serviceLocator(),
-        getServiceById: serviceLocator(),
         createBooking: serviceLocator(),
-        createCustomerAddress: serviceLocator(),
       ),
     );
 }

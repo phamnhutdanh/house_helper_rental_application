@@ -2,13 +2,15 @@ import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:house_helper_rental_application/core/common/widgets/loader.dart';
+import 'package:house_helper_rental_application/core/theme/app_palette.dart';
 import 'package:house_helper_rental_application/core/utils/show_snackbar.dart';
-import 'package:house_helper_rental_application/features/booking/presentation/bloc/booking_bloc.dart';
-import 'package:house_helper_rental_application/features/booking/presentation/widgets/services_list.dart';
+import 'package:house_helper_rental_application/features/employees/presentation/bloc/employee_bloc.dart';
+import 'package:house_helper_rental_application/features/services/presentation/bloc/service_bloc.dart';
+import 'package:house_helper_rental_application/features/services/presentation/widgets/services_list.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/widgets/home_appbar.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/widgets/home_slider.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/widgets/search_fields.dart';
-import 'package:house_helper_rental_application/features/booking/presentation/widgets/top_employees_grid.dart';
+import 'package:house_helper_rental_application/features/employees/presentation/widgets/top_employees_grid.dart';
 
 class HomeBookingPage extends StatefulWidget {
   const HomeBookingPage({super.key});
@@ -28,13 +30,14 @@ class _HomeBookingPageState extends State<HomeBookingPage> {
   @override
   void initState() {
     super.initState();
-    context.read<BookingBloc>().add(BookingFetchAllHomeData());
+    context.read<ServiceBloc>().add(FetchAllServicesEvent());
+    context.read<EmployeeBloc>().add(FetchTopEmployeesEvent());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffffffff),
+      backgroundColor: AppPalette.whiteColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -43,7 +46,7 @@ class _HomeBookingPageState extends State<HomeBookingPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const HomeAppBar(
-                  username: "Danh",
+                  username: "",
                 ),
                 const SizedBox(height: 20),
                 const SearchField(),
@@ -65,17 +68,17 @@ class _HomeBookingPageState extends State<HomeBookingPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                BlocConsumer<BookingBloc, BookingState>(
+                BlocConsumer<ServiceBloc, ServiceState>(
                   listener: (context, state) {
-                    if (state is BookingFailure) {
+                    if (state is ServiceFailure) {
                       showSnackBar(context, state.error);
                     }
                   },
                   builder: (context, state) {
-                    if (state is BookingLoading) {
+                    if (state is ServiceLoading) {
                       return const Loader();
                     }
-                    if (state is BookingHomeInfoDisplaySuccess) {
+                    if (state is ServicesListDisplaySuccess) {
                       return ServicesList(
                         services: state.services,
                         onTapItem: (serviceId) {
@@ -105,17 +108,17 @@ class _HomeBookingPageState extends State<HomeBookingPage> {
                   ],
                 ),
                 const SizedBox(height: 10),
-                BlocConsumer<BookingBloc, BookingState>(
+                BlocConsumer<EmployeeBloc, EmployeeState>(
                   listener: (context, state) {
-                    if (state is BookingFailure) {
+                    if (state is EmployeeFailure) {
                       showSnackBar(context, state.error);
                     }
                   },
                   builder: (context, state) {
-                    if (state is BookingLoading) {
+                    if (state is EmployeeLoading) {
                       return const Loader();
                     }
-                    if (state is BookingHomeInfoDisplaySuccess) {
+                    if (state is TopEmployeesDisplaySuccess) {
                       return TopEmployeesGrid(
                         topEmployees: state.topEmployees,
                       );
