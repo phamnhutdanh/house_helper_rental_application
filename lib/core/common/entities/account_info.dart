@@ -1,3 +1,5 @@
+import 'package:house_helper_rental_application/core/common/entities/customer.dart';
+import 'package:house_helper_rental_application/core/common/entities/employee.dart';
 import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
 
 class AccountInfo {
@@ -7,8 +9,8 @@ class AccountInfo {
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final AccountStatus? status;
-  final String? name;
-  final String? imageUri;
+  final Customer? customer;
+  final Employee? employee;
 
   AccountInfo({
     this.id,
@@ -17,8 +19,8 @@ class AccountInfo {
     this.createdAt,
     this.updatedAt,
     this.status,
-    this.name,
-    this.imageUri,
+    this.customer,
+    this.employee,
   });
 }
 

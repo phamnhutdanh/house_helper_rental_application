@@ -92,7 +92,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
   DateTime focusedDate = DateTime.now();
   DateTime? selectedDate;
 
-  late CheckoutDataObject checkoutDataObject;
+  late BookingDetailsObject bookingDetailsObject;
 
   @override
   void initState() {
@@ -429,7 +429,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         totalPrice += element.fee ?? 0;
                       }
 
-                      checkoutDataObject = CheckoutDataObject(
+                      bookingDetailsObject = BookingDetailsObject(
                         bookingTime: selectedDate!.toIso8601String(),
                         repeatStatus: selectedRepeat == 0
                             ? "NO_REPEAT"
@@ -447,13 +447,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         fullName: fullNameController.text.trim(),
                         phone: phoneController.text.trim(),
                         customerAddressId: '',
-                        customerId: '',
-                        isDefault: false,
                       );
 
                       Beamer.of(context).beamToNamed(
                           '/booking_home/confirm_page',
-                          data: checkoutDataObject);
+                          data: bookingDetailsObject);
 
                       /// send data to server
                     } else {

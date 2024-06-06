@@ -1,8 +1,10 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:house_helper_rental_application/features/address/data/repositories/address_repository_impl.dart';
 import 'package:house_helper_rental_application/features/address/domain/repository/address_repository.dart';
+import 'package:house_helper_rental_application/features/address/domain/usecases/get_all_address_of_customer.dart';
+import 'package:house_helper_rental_application/features/address/domain/usecases/get_customer_address_by_id.dart';
 import 'package:house_helper_rental_application/features/address/presentation/bloc/address_bloc.dart';
-import 'package:house_helper_rental_application/features/cubits/app_user/app_account_cubit.dart';
+import 'package:house_helper_rental_application/features/app_user/presentation/cubits/app_user/app_account_cubit.dart';
 import 'package:house_helper_rental_application/core/network/connection_checker.dart';
 import 'package:house_helper_rental_application/core/secrets/app_secrets.dart';
 import 'package:house_helper_rental_application/features/accounts/data/datasources/accounts_remote_datasource.dart';

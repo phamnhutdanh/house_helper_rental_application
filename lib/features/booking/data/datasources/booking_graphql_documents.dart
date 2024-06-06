@@ -5,7 +5,7 @@ class CreateBookingInput {
   final String note;
   final String paymentMethod;
   final String serviceId;
-  final String customerId;
+  final String accountId;
   final String customerAddressId;
 
   CreateBookingInput({
@@ -15,7 +15,7 @@ class CreateBookingInput {
     required this.note,
     required this.paymentMethod,
     required this.serviceId,
-    required this.customerId,
+    required this.accountId,
     required this.customerAddressId,
   });
 
@@ -27,7 +27,7 @@ class CreateBookingInput {
       'note': note,
       'paymentMethod': paymentMethod,
       'serviceId': serviceId,
-      'customerId': customerId,
+      'accountId': accountId,
       'customerAddressId': customerAddressId,
     };
   }

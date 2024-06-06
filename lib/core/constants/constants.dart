@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 
 class Constants {
   static final kToday = DateTime.now();
-  static final kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);
+  static final kFirstDay = DateTime(kToday.year, kToday.month, kToday.day);
   static final kLastDay = DateTime(kToday.year, kToday.month + 3, kToday.day);
 
   static const noConnectionErrorMessage = 'Not connected to a network!';

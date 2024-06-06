@@ -14,7 +14,7 @@ class CreateBooking implements UseCase<Booking, CreateBookingParams> {
     return await bookingRepository.createBooking(
       bookingTime: params.bookingTime,
       customerAddressId: params.customerAddressId,
-      customerId: params.customerId,
+      accountId: params.accountId,
       note: params.note,
       paymentMethod: params.paymentMethod,
       repeatStatus: params.repeatStatus,
@@ -32,7 +32,7 @@ class CreateBookingParams {
   final String note;
   final String paymentMethod;
   final String serviceId;
-  final String customerId;
+  final String accountId;
   final String customerAddressId;
   final List<ServiceDetails> serviceDetails;
 
@@ -43,7 +43,7 @@ class CreateBookingParams {
     required this.note,
     required this.paymentMethod,
     required this.serviceId,
-    required this.customerId,
+    required this.accountId,
     required this.customerAddressId,
     required this.serviceDetails,
   });

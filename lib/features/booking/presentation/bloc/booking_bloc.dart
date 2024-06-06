@@ -26,7 +26,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     final booking = await _createBooking.call(CreateBookingParams(
       bookingTime: event.bookingTime,
       customerAddressId: event.customerAddressId,
-      customerId: event.customerId,
+      accountId: event.accountId,
       note: event.note,
       paymentMethod: event.paymentMethod,
       repeatStatus: event.repeatStatus,

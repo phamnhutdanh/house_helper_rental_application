@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:house_helper_rental_application/core/common/entities/account_info.dart';
+import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
 import 'package:house_helper_rental_application/features/accounts/presentation/widgets/account_item.dart';
 
 class AccountTab extends StatelessWidget {
@@ -27,11 +28,17 @@ class AccountTab extends StatelessWidget {
             //     '/booking_history/booking_details/$notificationId');
             onTapItem(accountId);
           },
-          child: AccountItem(
-            name: accounts[index].name ?? '',
-            email: accounts[index].email ?? '',
-            imageUri: accounts[index].imageUri ?? '',
-          ),
+          child: accounts[index].accountRole == AccountInfoRole.CUSTOMER
+              ? AccountItem(
+                  name: accounts[index].customer!.name ?? '',
+                  email: accounts[index].email ?? '',
+                  imageUri: accounts[index].customer!.imageUri ?? '',
+                )
+              : AccountItem(
+                  name: accounts[index].employee!.name ?? '',
+                  email: accounts[index].email ?? '',
+                  imageUri: accounts[index].employee!.imageUri ?? '',
+                ),
         ),
         separatorBuilder: (_, __) => const Divider(),
       ),

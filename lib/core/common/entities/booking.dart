@@ -17,6 +17,8 @@ class Booking {
   final String? serviceId;
   final Service? service;
   final String? customerId;
+  final String? employeeId;
+
   final String? customerAddressId;
   final CustomerAddress? customerAddress;
 
@@ -33,20 +35,9 @@ class Booking {
     this.serviceId,
     this.service,
     this.customerId,
+    this.employeeId,
     this.customerAddressId,
     this.customerAddress,
-  });
-}
-
-class BookingEmployee {
-  final String? id;
-  final String? employeeId;
-  final String? bookingId;
-
-  BookingEmployee({
-    this.id,
-    this.employeeId,
-    this.bookingId,
   });
 }
 

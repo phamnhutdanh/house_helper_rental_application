@@ -18,3 +18,19 @@ final class CreateCustomerAddressEvent extends AddressEvent {
     required this.isDefault,
   });
 }
+
+final class GetAllAddressOfCustomerEvent extends AddressEvent {
+  final String customerId;
+
+  GetAllAddressOfCustomerEvent({
+    required this.customerId,
+  });
+}
+
+final class GetCustomerAddressByIdEvent extends AddressEvent {
+  final String id;
+
+  GetCustomerAddressByIdEvent({
+    required this.id,
+  });
+}

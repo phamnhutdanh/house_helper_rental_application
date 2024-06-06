@@ -1,20 +1,24 @@
 import 'package:house_helper_rental_application/core/common/entities/account_info.dart';
+import 'package:house_helper_rental_application/core/common/entities/customer.dart';
+import 'package:house_helper_rental_application/core/common/entities/employee.dart';
 import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
 
 class AccountItemModel extends AccountInfo {
   AccountItemModel({
-    required super.id,
-    required super.email,
-    required super.accountRole,
-    required super.status,
-    required super.name,
-    required super.imageUri,
+    super.id,
+    super.email,
+    super.accountRole,
+    super.status,
+    super.createdAt,
+    super.updatedAt,
+    super.customer,
+    super.employee,
   });
 
   factory AccountItemModel.fromJson(Map<String, dynamic> map) {
     return AccountItemModel(
-      id: map['id'] as String,
-      email: map['email'] as String,
+      id: map['id'] as String? ?? '',
+      email: map['email'] as String? ?? '',
       accountRole: map['accountRole'] == 'ADMIN'
           ? AccountInfoRole.ADMIN
           : map['accountRole'] == 'CUSTOMER'
@@ -25,12 +29,22 @@ class AccountItemModel extends AccountInfo {
           : map['status'] == 'WARNING'
               ? AccountStatus.WARNING
               : AccountStatus.BANNED,
-      imageUri: map['accountRole'] == 'EMPLOYEE'
-          ? map['employee']['imageUri']
-          : map['customer']['imageUri'],
-      name: map['accountRole'] == 'EMPLOYEE'
-          ? map['employee']['name']
-          : map['customer']['name'],
+      customer: map['accountRole'] == 'CUSTOMER'
+          ? Customer(
+              id: map['customer']['id'] as String,
+              name: map['customer']['name'] as String,
+              imageUri: map['customer']['imageUri'] as String,
+              phoneNumber: map['customer']['phoneNumber'] as String? ?? '',
+            )
+          : null,
+      employee: map['accountRole'] == 'EMPLOYEE'
+          ? Employee(
+              id: map['employee']['id'] as String,
+              name: map['employee']['name'] as String,
+              imageUri: map['employee']['imageUri'] as String,
+              phoneNumber: map['employee']['phoneNumber'] as String?  ?? '',
+            )
+          : null,
     );
   }
 
@@ -39,16 +53,16 @@ class AccountItemModel extends AccountInfo {
     String? email,
     AccountInfoRole? accountRole,
     AccountStatus? status,
-    String? name,
-    String? imageUri,
+    Customer? customer,
+    Employee? employee,
   }) {
     return AccountItemModel(
       id: id ?? this.id,
       email: email ?? this.email,
       accountRole: accountRole ?? this.accountRole,
       status: status ?? this.status,
-      name: name ?? this.name,
-      imageUri: imageUri ?? this.imageUri,
+      customer: customer ?? this.customer,
+      employee: employee ?? this.employee,
     );
   }
 }

@@ -34,4 +34,32 @@ class AddressRepositoryImpl implements AddressRepository {
       return left(Failure(e.message));
     }
   }
+
+  @override
+  Future<Either<Failure, List<CustomerAddress>>> getAllAddressOfCustomer(
+      {required String customerId}) async {
+    try {
+      final customerAddresses =
+          await addressRemoteDataSource.getAllAddressOfCustomer(
+        customerId: customerId,
+      );
+      return right(customerAddresses);
+    } on ServerExceptionError catch (e) {
+      return left(Failure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, CustomerAddress>> getCustomerAddressById(
+      {required String id}) async {
+    try {
+      final customerAddress =
+          await addressRemoteDataSource.getCustomerAddressById(
+        id: id,
+      );
+      return right(customerAddress);
+    } on ServerExceptionError catch (e) {
+      return left(Failure(e.message));
+    }
+  }
 }

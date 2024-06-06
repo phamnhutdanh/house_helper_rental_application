@@ -1,3 +1,4 @@
+import 'package:house_helper_rental_application/core/common/entities/customer.dart';
 import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
 
 class Address {
@@ -18,6 +19,7 @@ class CustomerAddress {
   final String? id;
   final AddressType? addressType;
   final String? customerId;
+  final Customer? customer;
   final String? addressId;
   final Address? address;
 
@@ -27,6 +29,7 @@ class CustomerAddress {
     this.customerId,
     this.addressId,
     this.address,
+    this.customer,
   });
 }
 

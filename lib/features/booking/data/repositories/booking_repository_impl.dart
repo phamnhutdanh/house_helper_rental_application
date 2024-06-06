@@ -21,7 +21,7 @@ class BookingRepositoryImpl implements BookingRepository {
     required String note,
     required String paymentMethod,
     required String serviceId,
-    required String customerId,
+    required String accountId,
     required String customerAddressId,
     required List<ServiceDetails> serviceDetails,
   }) async {
@@ -29,7 +29,7 @@ class BookingRepositoryImpl implements BookingRepository {
       final booking = await bookingRemoteDataSource.createBooking(
         bookingTime: bookingTime,
         customerAddressId: customerAddressId,
-        customerId: customerId,
+        customerId: accountId,
         note: note,
         paymentMethod: paymentMethod,
         repeatStatus: repeatStatus,

@@ -39,11 +39,63 @@ class AddressGraphqlDocuments {
   static String createCustomerAddress = """
       mutation CreateCustomerAddress(\$createAddressInput: CreateAddressInput, \$createCustomerAddressInput: CreateCustomerAddressInput) {
       createCustomerAddress(createAddressInput: \$createAddressInput, createCustomerAddressInput: \$createCustomerAddressInput) {
-        id
-        addressType
-        customerId
-        addressId
+          id
+          addressType
+          address {
+            id
+            phone
+            fullName
+            address
+          }
+          customer {
+            id
+            imageUri
+            name
+            phoneNumber
+          }
       }
     }
+""";
+
+  static String getAllAddressOfCustomer = """
+      query GetAllAddressOfCustomer(\$customerId: String) {
+        getAllAddressOfCustomer(customerId: \$customerId) {
+          id
+          addressType
+          address {
+            id
+            phone
+            fullName
+            address
+          }
+          customer {
+            id
+            imageUri
+            name
+            phoneNumber
+          }
+        }
+      }
+""";
+
+  static String getCustomerAddressById = """
+      query GetCustomerAddressById(\$id: String) {
+        getCustomerAddressById(id: \$id) {
+          id
+          addressType
+          address {
+            id
+            phone
+            fullName
+            address
+          }
+          customer {
+            id
+            imageUri
+            name
+            phoneNumber
+          }
+        }
+      }
 """;
 }

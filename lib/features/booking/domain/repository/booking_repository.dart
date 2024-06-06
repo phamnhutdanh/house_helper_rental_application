@@ -11,7 +11,7 @@ abstract interface class BookingRepository {
     required String note,
     required String paymentMethod,
     required String serviceId,
-    required String customerId,
+    required String accountId,
     required String customerAddressId,
     required List<ServiceDetails> serviceDetails,
   });

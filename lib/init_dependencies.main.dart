@@ -127,10 +127,18 @@ void _initAddress() {
     ..registerFactory(
       () => CreateCustomerAddress(serviceLocator()),
     )
+    ..registerFactory(
+      () => GetAllAddressOfCustomer(serviceLocator()),
+    )
+    ..registerFactory(
+      () => GetCustomerAddressById(serviceLocator()),
+    )
     // Bloc
     ..registerLazySingleton(
       () => AddressBloc(
         createCustomerAddress: serviceLocator(),
+        getAllAddressOfCustomer: serviceLocator(),
+        getCustomerAddressById: serviceLocator(),
       ),
     );
 }

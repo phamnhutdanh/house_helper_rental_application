@@ -10,4 +10,12 @@ abstract interface class AddressRepository {
     required String customerId,
     required bool isDefault,
   });
+
+  Future<Either<Failure, List<CustomerAddress>>> getAllAddressOfCustomer({
+    required String customerId,
+  });
+
+  Future<Either<Failure, CustomerAddress>> getCustomerAddressById({
+    required String id,
+  });
 }

@@ -10,7 +10,7 @@ final class BookingCreateDataEvent extends BookingEvent {
   final String note;
   final String paymentMethod;
   final String serviceId;
-  final String customerId;
+  final String accountId;
   final String customerAddressId;
   final List<ServiceDetails> serviceDetails;
 
@@ -21,7 +21,7 @@ final class BookingCreateDataEvent extends BookingEvent {
     required this.note,
     required this.paymentMethod,
     required this.serviceId,
-    required this.customerId,
+    required this.accountId,
     required this.customerAddressId,
     required this.serviceDetails,
   });

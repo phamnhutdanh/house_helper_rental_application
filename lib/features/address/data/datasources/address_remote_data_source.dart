@@ -11,6 +11,14 @@ abstract interface class AddressRemoteDataSource {
     required String customerId,
     required bool isDefault,
   });
+
+  Future<List<CustomerAddressModel>> getAllAddressOfCustomer({
+    required String customerId,
+  });
+
+  Future<CustomerAddressModel> getCustomerAddressById({
+    required String id,
+  });
 }
 
 class AddressRemoteDataSourceImpl implements AddressRemoteDataSource {
@@ -53,6 +61,56 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDataSource {
       }
       return CustomerAddressModel.fromJson(
           result.data?['createCustomerAddress'] ?? {});
+    } catch (e) {
+      throw ServerExceptionError(e.toString());
+    }
+  }
+
+  @override
+  Future<List<CustomerAddressModel>> getAllAddressOfCustomer(
+      {required String customerId}) async {
+    try {
+      final QueryOptions options = QueryOptions(
+          document: gql(AddressGraphqlDocuments.getAllAddressOfCustomer),
+          variables: {
+            'customerId': customerId,
+          });
+
+      final QueryResult result = await graphQLClient.query(options);
+
+      if (result.hasException) {
+        throw const ServerExceptionError(
+            'Query get all addresses of customer is error!');
+      }
+      final resultData =
+          result.data?['getAllAddressOfCustomer'] as List<dynamic>;
+      return resultData
+          .map((customerAddress) =>
+              CustomerAddressModel.fromJson(customerAddress))
+          .toList();
+    } catch (e) {
+      throw ServerExceptionError(e.toString());
+    }
+  }
+
+  @override
+  Future<CustomerAddressModel> getCustomerAddressById(
+      {required String id}) async {
+    try {
+      final QueryOptions options = QueryOptions(
+          document: gql(AddressGraphqlDocuments.getCustomerAddressById),
+          variables: {
+            'id': id,
+          });
+
+      final QueryResult result = await graphQLClient.query(options);
+
+      if (result.hasException) {
+        throw const ServerExceptionError(
+            'Query get customer address by id is error!');
+      }
+      final resultData = result.data?['getCustomerAddressById'];
+      return CustomerAddressModel.fromJson(resultData);
     } catch (e) {
       throw ServerExceptionError(e.toString());
     }

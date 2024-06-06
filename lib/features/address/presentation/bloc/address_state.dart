@@ -16,3 +16,13 @@ final class CreateCustomerAddressSuccess extends AddressState {
   final CustomerAddress customerAddress;
   CreateCustomerAddressSuccess(this.customerAddress);
 }
+
+final class FetchAllAddressOfCustomerDisplaySuccess extends AddressState {
+  final List<CustomerAddress> customerAddresses;
+  FetchAllAddressOfCustomerDisplaySuccess(this.customerAddresses);
+}
+
+final class GetCustomerAddressByIdDisplaySuccess extends AddressState {
+  final CustomerAddress customerAddress;
+  GetCustomerAddressByIdDisplaySuccess(this.customerAddress);
+}

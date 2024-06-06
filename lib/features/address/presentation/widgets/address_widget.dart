@@ -1,3 +1,4 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:house_helper_rental_application/core/common/widgets/input_field.dart';
 import 'package:house_helper_rental_application/core/theme/app_palette.dart';
@@ -51,8 +52,11 @@ class AddressWidget extends StatelessWidget {
               children: [
                 const PageName(textName: "Address"),
                 TextButton(
-                  onPressed: () {},
-                  child: const Text("See all"),
+                  onPressed: () {
+                    Beamer.of(context)
+                        .beamToNamed('/booking_home/choose_address_page');
+                  },
+                  child: const Text("Choose address"),
                 ),
               ],
             ),

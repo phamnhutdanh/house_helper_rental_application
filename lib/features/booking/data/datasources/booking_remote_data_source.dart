@@ -42,7 +42,7 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
         note: note,
         paymentMethod: paymentMethod,
         serviceId: serviceId,
-        customerId: customerId,
+        accountId: customerId,
         customerAddressId: customerAddressId,
       );
 

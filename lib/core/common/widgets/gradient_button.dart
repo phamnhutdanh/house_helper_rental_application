@@ -6,6 +6,7 @@ class GradientButton extends StatelessWidget {
   final VoidCallback onPressed;
   final List<Color>? colors;
   final Color? textColor;
+  final double? width;
 
   const GradientButton({
     super.key,
@@ -13,12 +14,13 @@ class GradientButton extends StatelessWidget {
     required this.onPressed,
     this.colors,
     this.textColor,
+    this.width,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
+      width: width ?? double.infinity,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: colors ?? [AppPalette.gradient3, AppPalette.thirdColor],

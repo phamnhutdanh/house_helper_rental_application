@@ -1,11 +1,13 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:house_helper_rental_application/core/objects/checkout_data_object.dart';
+import 'package:house_helper_rental_application/features/accounts/presentation/pages/accounts_page.dart';
+import 'package:house_helper_rental_application/features/address/presentation/pages/choose_address_page.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/pages/checkout_page.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/pages/confirm_checkout_page.dart';
-import 'package:house_helper_rental_application/features/employees/presentation/pages/employee_detail_booking_page.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/pages/home_booking_page.dart';
 import 'package:house_helper_rental_application/core/common/pages/success_page.dart';
+import 'package:house_helper_rental_application/features/employees/presentation/pages/userProfilePage.dart';
 
 class HomeRouter extends BeamLocation<BeamState> {
   HomeRouter(super.routeInformation);
@@ -16,6 +18,7 @@ class HomeRouter extends BeamLocation<BeamState> {
         '/booking_home/check_out/:serviceId',
         '/booking_home/confirm_page',
         '/booking_home/success_page',
+        '/booking_home/choose_address_page',
       ];
 
   @override
@@ -32,9 +35,10 @@ class HomeRouter extends BeamLocation<BeamState> {
     if (state.uri.pathSegments.length == 2) {
       if (state.uri.pathSegments[1] == 'employee_details') {
         pages.add(const BeamPage(
-            key: ValueKey('booking_home/employee_details'),
-            title: 'Employee details',
-            child: Text("Employee details")));
+          key: ValueKey('booking_home/employee_details'),
+          title: 'Employee details',
+          child: ProfilePage(),
+        ));
       }
     }
 
@@ -53,13 +57,13 @@ class HomeRouter extends BeamLocation<BeamState> {
 
     if (state.uri.pathSegments.length == 2) {
       if (state.uri.pathSegments[1] == 'confirm_page') {
-        final checkoutDataObject = (data as CheckoutDataObject);
+        final bookingDetailsObject = (data as BookingDetailsObject);
         pages.add(
           BeamPage(
             key: const ValueKey('booking_home/confirm_page'),
             title: 'Confirm page',
             child: ConfirmCheckoutPage(
-              checkoutDataObject: checkoutDataObject,
+              bookingDetailsObject: bookingDetailsObject,
             ),
           ),
         );
@@ -74,6 +78,18 @@ class HomeRouter extends BeamLocation<BeamState> {
             title: 'Success page',
             popToNamed: '/booking_home',
             child: SuccessPage(),
+          ),
+        );
+      }
+    }
+
+    if (state.uri.pathSegments.length == 2) {
+      if (state.uri.pathSegments[1] == 'choose_address_page') {
+        pages.add(
+          BeamPage(
+            key: ValueKey('booking_home/choose_address_page'),
+            title: 'Choose address',
+            child: ChooseAddressPage(),
           ),
         );
       }

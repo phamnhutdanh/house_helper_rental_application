@@ -10,15 +10,7 @@ class HomeAppBar extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        IconButton(
-          onPressed: () {},
-          style: IconButton.styleFrom(
-            backgroundColor: Color(0xffF5F5F5),
-            padding: const EdgeInsets.all(15),
-          ),
-          iconSize: 30,
-          icon: const Icon(IconlyLight.user),
-        ),
+        const SizedBox(width: 30),
         Text(
           "Welcome " + username,
           style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
