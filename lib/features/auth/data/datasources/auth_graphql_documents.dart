@@ -65,15 +65,23 @@ class CreateSessionInput {
 }
 
 class AuthGraphqlDocuments {
-  static String createCustomerAccountMutation = """
+  static String createAccountMutation = """
     mutation CreateAccount(\$createAccountInput: CreateAccountInput, \$createSessionInput: CreateSessionInput) {
       createAccount(createAccountInput: \$createAccountInput, createSessionInput: \$createSessionInput) {
         id
         email
-        createdAt
-        updatedAt
-        status
         accountRole
+        status
+        employee {
+          id
+          name
+          imageUri
+        }
+        customer {
+          id
+          name
+          imageUri
+        }
       }
     }
     """;
@@ -84,9 +92,17 @@ class AuthGraphqlDocuments {
         id
         email
         accountRole
-        createdAt
-        updatedAt
         status
+        employee {
+          id
+          name
+          imageUri
+        }
+        customer {
+          id
+          name
+          imageUri
+        }
       }
     }""";
 }

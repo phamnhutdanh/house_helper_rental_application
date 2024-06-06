@@ -1,9 +1,9 @@
 class Service {
   final String? id;
   final String? name;
+  final String? serviceCode;
   final String? description;
   final String? imageUri;
-  final String? serviceCode;
   final List<ServiceDetails>? serviceDetails;
 
   Service({

@@ -1,22 +1,22 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:house_helper_rental_application/core/error/exceptions.dart';
 import 'package:house_helper_rental_application/features/auth/data/datasources/auth_graphql_documents.dart';
-import 'package:house_helper_rental_application/features/auth/data/models/account_info_model.dart';
+import 'package:house_helper_rental_application/features/auth/data/models/account_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract interface class AuthRemoteDataSource {
   Session? get currentUserSession;
-  Future<AccountInfoModel> signUpWithEmailPassword({
+  Future<AccountModel> signUpWithEmailPassword({
     required String name,
     required String email,
     required String password,
     required bool isEmployee,
   });
-  Future<AccountInfoModel> loginWithEmailPassword({
+  Future<AccountModel> loginWithEmailPassword({
     required String email,
     required String password,
   });
-  Future<AccountInfoModel?> getCurrentAccountInfoData();
+  Future<AccountModel?> getCurrentAccountInfoData();
   Future<void> signOut();
 }
 
@@ -30,7 +30,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Session? get currentUserSession => supabaseClient.auth.currentSession;
 
   @override
-  Future<AccountInfoModel> loginWithEmailPassword({
+  Future<AccountModel> loginWithEmailPassword({
     required String email,
     required String password,
   }) async {
@@ -56,8 +56,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
             'Query login with email and password is error!');
       }
 
-      return AccountInfoModel.fromJson(
-          result.data?['getAccountInfoById'] ?? {});
+      return AccountModel.fromJson(result.data?['getAccountInfoById'] ?? {});
     } on AuthException catch (e) {
       throw ServerExceptionError(e.message);
     } catch (e) {
@@ -66,7 +65,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<AccountInfoModel> signUpWithEmailPassword({
+  Future<AccountModel> signUpWithEmailPassword({
     required String name,
     required String email,
     required String password,
@@ -103,7 +102,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           accountId: response.user?.id ?? '',
           isEmployee: isEmployee);
       final MutationOptions options = MutationOptions(
-          document: gql(AuthGraphqlDocuments.createCustomerAccountMutation),
+          document: gql(AuthGraphqlDocuments.createAccountMutation),
           variables: {
             'createAccountInput': accountInput.toJson(),
             'createSessionInput': sessionInput.toJson()
@@ -115,7 +114,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw const ServerExceptionError(
             'Mutation sign up with email and password is error!');
       }
-      return AccountInfoModel.fromJson(result.data?['createAccount'] ?? {});
+      return AccountModel.fromJson(result.data?['createAccount'] ?? {});
     } on AuthException catch (e) {
       throw ServerExceptionError(e.message);
     } catch (e) {
@@ -124,7 +123,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<AccountInfoModel?> getCurrentAccountInfoData() async {
+  Future<AccountModel?> getCurrentAccountInfoData() async {
     try {
       if (currentUserSession != null) {
         final QueryOptions options = QueryOptions(
@@ -139,8 +138,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           throw const ServerExceptionError(
               'Query get current info account data is error!');
         }
-        return AccountInfoModel.fromJson(
-            result.data?['getAccountInfoById'] ?? {});
+        return AccountModel.fromJson(result.data?['getAccountInfoById'] ?? {});
       }
       return null;
     } catch (e) {

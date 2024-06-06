@@ -6,7 +6,7 @@ import 'package:house_helper_rental_application/features/accounts/presentation/p
 import 'package:house_helper_rental_application/features/address/presentation/bloc/address_bloc.dart';
 import 'package:house_helper_rental_application/features/address/presentation/widgets/address_item.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:house_helper_rental_application/features/app_user/presentation/cubits/app_user/app_account_cubit.dart';
+import 'package:house_helper_rental_application/features/auth/presentation/cubits/app_user/app_account_cubit.dart';
 
 class ChooseAddressPage extends StatefulWidget {
   const ChooseAddressPage({

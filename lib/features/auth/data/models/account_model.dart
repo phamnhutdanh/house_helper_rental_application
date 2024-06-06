@@ -2,9 +2,12 @@ import 'package:house_helper_rental_application/core/common/entities/account_inf
 import 'package:house_helper_rental_application/core/common/entities/customer.dart';
 import 'package:house_helper_rental_application/core/common/entities/employee.dart';
 import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
+import 'package:house_helper_rental_application/core/utils/format_date.dart';
+import 'package:house_helper_rental_application/features/customers/data/models/customer_model.dart';
+import 'package:house_helper_rental_application/features/employees/data/models/employee_model.dart';
 
-class AccountItemModel extends AccountInfo {
-  AccountItemModel({
+class AccountModel extends AccountInfo {
+  AccountModel({
     super.id,
     super.email,
     super.accountRole,
@@ -15,52 +18,48 @@ class AccountItemModel extends AccountInfo {
     super.employee,
   });
 
-  factory AccountItemModel.fromJson(Map<String, dynamic> map) {
-    return AccountItemModel(
-      id: map['id'] as String? ?? '',
-      email: map['email'] as String? ?? '',
-      accountRole: map['accountRole'] == 'ADMIN'
+  factory AccountModel.fromJson(Map<String, dynamic> map) {
+    return AccountModel(
+      id: map['id'] as String?,
+      email: map['email'] as String?,
+      accountRole: (map['accountRole'] == 'ADMIN'
           ? AccountInfoRole.ADMIN
           : map['accountRole'] == 'CUSTOMER'
               ? AccountInfoRole.CUSTOMER
-              : AccountInfoRole.EMPLOYEE,
-      status: map['status'] == 'NONE'
+              : AccountInfoRole.EMPLOYEE) as AccountInfoRole?,
+      status: (map['status'] == 'NONE'
           ? AccountStatus.NONE
           : map['status'] == 'WARNING'
               ? AccountStatus.WARNING
-              : AccountStatus.BANNED,
+              : AccountStatus.BANNED) as AccountStatus?,
+      createdAt: convertDateFromMillisecondsString(map['createdAt'] as String?),
+      updatedAt: convertDateFromMillisecondsString(map['updatedAt'] as String?),
       customer: map['accountRole'] == 'CUSTOMER'
-          ? Customer(
-              id: map['customer']['id'] as String,
-              name: map['customer']['name'] as String,
-              imageUri: map['customer']['imageUri'] as String,
-              phoneNumber: map['customer']['phoneNumber'] as String? ?? '',
-            )
+          ? CustomerModel.fromJson(map['customer'] ?? {})
           : null,
       employee: map['accountRole'] == 'EMPLOYEE'
-          ? Employee(
-              id: map['employee']['id'] as String,
-              name: map['employee']['name'] as String,
-              imageUri: map['employee']['imageUri'] as String,
-              phoneNumber: map['employee']['phoneNumber'] as String?  ?? '',
-            )
+          ? EmployeeModel.fromJson(map['employee'] ?? {})
           : null,
     );
   }
 
-  AccountItemModel copyWith({
+  AccountModel copyWith({
     String? id,
     String? email,
     AccountInfoRole? accountRole,
     AccountStatus? status,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     Customer? customer,
     Employee? employee,
   }) {
-    return AccountItemModel(
+    return AccountModel(
       id: id ?? this.id,
       email: email ?? this.email,
       accountRole: accountRole ?? this.accountRole,
       status: status ?? this.status,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
       customer: customer ?? this.customer,
       employee: employee ?? this.employee,
     );

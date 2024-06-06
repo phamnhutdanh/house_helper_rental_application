@@ -1,5 +1,5 @@
 import 'package:house_helper_rental_application/features/address/presentation/bloc/address_bloc.dart';
-import 'package:house_helper_rental_application/features/app_user/presentation/cubits/app_user/app_account_cubit.dart';
+import 'package:house_helper_rental_application/features/auth/presentation/cubits/app_user/app_account_cubit.dart';
 import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
 import 'package:house_helper_rental_application/core/routers/admin_app/admin_router.dart';
 import 'package:house_helper_rental_application/core/routers/employee_app/task_router.dart';

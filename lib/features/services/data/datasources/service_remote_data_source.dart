@@ -1,11 +1,11 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:house_helper_rental_application/core/error/exceptions.dart';
 import 'package:house_helper_rental_application/features/services/data/datasources/service_graphql_documents.dart';
-import 'package:house_helper_rental_application/features/services/data/models/service_list_item_model.dart';
+
 import 'package:house_helper_rental_application/features/services/data/models/service_model.dart';
 
 abstract interface class ServicesRemoteDataSource {
-  Future<List<ServiceListItemModel>> getAllServices();
+  Future<List<ServiceModel>> getAllServices();
   Future<ServiceModel> getServiceById({required String id});
 }
 
@@ -14,7 +14,7 @@ class ServicesRemoteDataSourceImpl implements ServicesRemoteDataSource {
   ServicesRemoteDataSourceImpl(this.graphQLClient);
 
   @override
-  Future<List<ServiceListItemModel>> getAllServices() async {
+  Future<List<ServiceModel>> getAllServices() async {
     try {
       final QueryOptions options = QueryOptions(
           document: gql(ServiceGraphqlDocuments.getAllServicesQuery));
@@ -27,7 +27,7 @@ class ServicesRemoteDataSourceImpl implements ServicesRemoteDataSource {
 
       final resultData = result.data?['getAllServices'] as List<dynamic>;
       return resultData
-          .map((service) => ServiceListItemModel.fromJson(service))
+          .map((service) => ServiceModel.fromJson(service))
           .toList();
     } catch (e) {
       throw ServerExceptionError(e.toString());

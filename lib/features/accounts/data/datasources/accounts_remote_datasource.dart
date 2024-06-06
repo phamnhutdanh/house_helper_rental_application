@@ -1,10 +1,10 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:house_helper_rental_application/core/error/exceptions.dart';
 import 'package:house_helper_rental_application/features/accounts/data/datasources/accounts_graphql_documents.dart';
-import 'package:house_helper_rental_application/features/accounts/data/models/account_item_model.dart';
+import 'package:house_helper_rental_application/features/auth/data/models/account_model.dart';
 
 abstract interface class AccountsRemoteDataSource {
-  Future<List<AccountItemModel>> getAllAccounts();
+  Future<List<AccountModel>> getAllAccounts();
 }
 
 class AccountRemoteDataSourceImpl implements AccountsRemoteDataSource {
@@ -12,7 +12,7 @@ class AccountRemoteDataSourceImpl implements AccountsRemoteDataSource {
   AccountRemoteDataSourceImpl(this.graphQLClient);
 
   @override
-  Future<List<AccountItemModel>> getAllAccounts() async {
+  Future<List<AccountModel>> getAllAccounts() async {
     try {
       final QueryOptions options = QueryOptions(
         document: gql(
@@ -28,7 +28,7 @@ class AccountRemoteDataSourceImpl implements AccountsRemoteDataSource {
 
       final resultData = result.data?['getAllAccountInfos'] as List<dynamic>;
       return resultData
-          .map((account) => AccountItemModel.fromJson(account))
+          .map((account) => AccountModel.fromJson(account))
           .toList();
     } catch (e) {
       throw ServerExceptionError(e.toString());
