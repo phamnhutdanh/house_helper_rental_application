@@ -17,7 +17,9 @@ class ServicesRemoteDataSourceImpl implements ServicesRemoteDataSource {
   Future<List<ServiceModel>> getAllServices() async {
     try {
       final QueryOptions options = QueryOptions(
-          document: gql(ServiceGraphqlDocuments.getAllServicesQuery));
+        document: gql(ServiceGraphqlDocuments.getAllServicesQuery),
+        fetchPolicy: FetchPolicy.networkOnly,
+      );
 
       final QueryResult result = await graphQLClient.query(options);
 
@@ -40,10 +42,12 @@ class ServicesRemoteDataSourceImpl implements ServicesRemoteDataSource {
   }) async {
     try {
       final QueryOptions options = QueryOptions(
-          document: gql(ServiceGraphqlDocuments.getServiceByIdQuery),
-          variables: {
-            'id': id,
-          });
+        document: gql(ServiceGraphqlDocuments.getServiceByIdQuery),
+        variables: {
+          'id': id,
+        },
+        fetchPolicy: FetchPolicy.networkOnly,
+      );
 
       final QueryResult result = await graphQLClient.query(options);
 

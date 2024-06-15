@@ -1,8 +1,6 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:house_helper_rental_application/core/objects/checkout_data_object.dart';
-import 'package:house_helper_rental_application/features/accounts/presentation/pages/accounts_page.dart';
-import 'package:house_helper_rental_application/features/address/presentation/pages/choose_address_page.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/pages/checkout_page.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/pages/confirm_checkout_page.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/pages/home_booking_page.dart';
@@ -78,18 +76,6 @@ class HomeRouter extends BeamLocation<BeamState> {
             title: 'Success page',
             popToNamed: '/booking_home',
             child: SuccessPage(),
-          ),
-        );
-      }
-    }
-
-    if (state.uri.pathSegments.length == 2) {
-      if (state.uri.pathSegments[1] == 'choose_address_page') {
-        pages.add(
-          BeamPage(
-            key: ValueKey('booking_home/choose_address_page'),
-            title: 'Choose address',
-            child: ChooseAddressPage(),
           ),
         );
       }

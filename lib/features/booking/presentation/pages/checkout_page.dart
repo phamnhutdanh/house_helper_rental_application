@@ -1,6 +1,7 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:house_helper_rental_application/core/common/entities/address.dart';
 import 'package:house_helper_rental_application/core/common/entities/service.dart';
 import 'package:house_helper_rental_application/core/common/widgets/default_app_bar.dart';
 import 'package:house_helper_rental_application/core/common/widgets/input_field.dart';
@@ -34,18 +35,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
   final formKey = GlobalKey<FormState>();
 
   final scrollController = ItemScrollController();
-  final fullNameController = TextEditingController();
-  final phoneController = TextEditingController();
-  final addressController = TextEditingController();
   final noteController = TextEditingController();
 
   int selectedRepeat = 0;
   bool isSavingAddress = false;
-
   String selectedHour = '06:30';
   String paymentRadioValue = 'COD';
 
-  final List<ServiceDetails> selectedServices = [];
   final List<String> hours = <String>[
     '06:00',
     '06:30',
@@ -92,6 +88,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
   DateTime focusedDate = DateTime.now();
   DateTime? selectedDate;
 
+  final List<ServiceDetails> selectedServices = [];
+  CustomerAddress? selectedCustomerAddress;
+
   late BookingDetailsObject bookingDetailsObject;
 
   @override
@@ -112,9 +111,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
   @override
   void dispose() {
-    fullNameController.dispose();
-    phoneController.dispose();
-    addressController.dispose();
+    noteController.dispose();
     super.dispose();
   }
 
@@ -346,14 +343,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
             ),
           ),
           content: AddressWidget(
-            formKey: formKey,
-            fullNameController: fullNameController,
-            addressController: addressController,
-            phoneController: phoneController,
-            isSavingAddress: isSavingAddress,
-            onChangedCheckbox: (b) {
+            onPressItem: ({customerAddress}) {
               setState(() {
-                isSavingAddress = b;
+                if (customerAddress != null) {
+                  selectedCustomerAddress = customerAddress;
+                }
               });
             },
           ),
@@ -411,6 +405,16 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     if (isLastStep) {
                       setState(() => isCompleted = true);
 
+                      if (selectedServices.isEmpty) {
+                        showSnackBar(context, "Please choose a service");
+                        return;
+                      }
+
+                      if (selectedCustomerAddress == null) {
+                        showSnackBar(context, "Please choose a address");
+                        return;
+                      }
+
                       var hours = selectedHour.split(":");
                       selectedDate = selectedDate!.toLocal();
                       selectedDate = DateTime(
@@ -443,20 +447,18 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         serviceId: widget.serviceId,
                         serviceDetails: selectedServices,
                         totalPrice: totalPrice,
-                        address: addressController.text.trim(),
-                        fullName: fullNameController.text.trim(),
-                        phone: phoneController.text.trim(),
-                        customerAddressId: '',
+                        address:
+                            selectedCustomerAddress!.address!.address ?? '',
+                        fullName:
+                            selectedCustomerAddress!.address!.fullName ?? '',
+                        phone: selectedCustomerAddress!.address!.phone ?? '',
+                        customerAddressId: selectedCustomerAddress!.id ?? '',
                       );
 
                       Beamer.of(context).beamToNamed(
                           '/booking_home/confirm_page',
                           data: bookingDetailsObject);
-
-                      /// send data to server
-                    } else {
-                      /// code
-                    }
+                    } else {}
                     setState(() => currentStep += 1);
                   },
                   onStepTapped: (step) => setState(() => currentStep = step),
@@ -469,9 +471,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       (BuildContext context, ControlsDetails controls) {
                     final isLastStep = currentStep == getSteps().length - 1;
                     return Container(
-                      margin:
-                          // EdgeInsets.only(top: SizeConfig.screenHeight! / 68.3),
-                          const EdgeInsets.only(top: 16.0),
+                      margin: const EdgeInsets.only(top: 16.0),
                       child: Row(
                         children: [
                           if (currentStep != 0)

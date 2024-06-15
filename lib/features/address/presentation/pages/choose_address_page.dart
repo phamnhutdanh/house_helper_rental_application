@@ -2,6 +2,7 @@ import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:house_helper_rental_application/core/common/widgets/default_app_bar.dart';
+import 'package:house_helper_rental_application/core/common/widgets/gradient_button.dart';
 import 'package:house_helper_rental_application/features/accounts/presentation/pages/accounts_page.dart';
 import 'package:house_helper_rental_application/features/address/presentation/bloc/address_bloc.dart';
 import 'package:house_helper_rental_application/features/address/presentation/widgets/address_item.dart';
@@ -40,10 +41,16 @@ class _ChooseAddressPageState extends State<ChooseAddressPage> {
           onPressBack: () {
             Beamer.of(context).beamBack();
           }),
-      body: Container(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Handle button press
+          print('FAB pressed!');
+        },
+        child: Icon(Icons.add),
+      ),
+      body: Padding(
         padding: const EdgeInsets.all(20),
         child: ListView.separated(
-          shrinkWrap: true,
           physics: const ClampingScrollPhysics(),
           itemCount: 10,
           itemBuilder: (context, index) => GestureDetector(

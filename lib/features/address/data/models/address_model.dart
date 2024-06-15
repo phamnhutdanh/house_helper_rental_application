@@ -2,18 +2,18 @@ import 'package:house_helper_rental_application/core/common/entities/address.dar
 
 class AddressModel extends Address {
   AddressModel({
-    required super.id,
-    required super.address,
-    required super.fullName,
-    required super.phone,
+    super.id,
+    super.address,
+    super.fullName,
+    super.phone,
   });
 
   factory AddressModel.fromJson(Map<String, dynamic> map) {
     return AddressModel(
-      id: map['id'] as String,
-      address: map['address'] as String,
-      fullName: map['fullName'] as String,
-      phone: map['phone'] as String,
+      id: map['id'] as String?,
+      address: map['address'] as String?,
+      fullName: map['fullName'] as String?,
+      phone: map['phone'] as String?,
     );
   }
 

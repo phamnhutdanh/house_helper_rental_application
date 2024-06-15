@@ -18,6 +18,7 @@ class AccountRemoteDataSourceImpl implements AccountsRemoteDataSource {
         document: gql(
           AccountsGraphqlDocuments.getAllAccounts,
         ),
+        fetchPolicy: FetchPolicy.networkOnly,
       );
 
       final QueryResult result = await graphQLClient.query(options);

@@ -51,6 +51,7 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDataSource {
           'createAddressInput': createAddressInput.toJson(),
           'createCustomerAddressInput': createCustomerAddressInput.toJson(),
         },
+        fetchPolicy: FetchPolicy.networkOnly,
       );
 
       final QueryResult result = await graphQLClient.mutate(options);
@@ -71,10 +72,12 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDataSource {
       {required String customerId}) async {
     try {
       final QueryOptions options = QueryOptions(
-          document: gql(AddressGraphqlDocuments.getAllAddressOfCustomer),
-          variables: {
-            'customerId': customerId,
-          });
+        document: gql(AddressGraphqlDocuments.getAllAddressOfCustomer),
+        variables: {
+          'customerId': customerId,
+        },
+        fetchPolicy: FetchPolicy.networkOnly,
+      );
 
       final QueryResult result = await graphQLClient.query(options);
 
@@ -98,10 +101,12 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDataSource {
       {required String id}) async {
     try {
       final QueryOptions options = QueryOptions(
-          document: gql(AddressGraphqlDocuments.getCustomerAddressById),
-          variables: {
-            'id': id,
-          });
+        document: gql(AddressGraphqlDocuments.getCustomerAddressById),
+        variables: {
+          'id': id,
+        },
+        fetchPolicy: FetchPolicy.networkOnly,
+      );
 
       final QueryResult result = await graphQLClient.query(options);
 

@@ -51,27 +51,6 @@ class _SuccessPageState extends State<SuccessPage> {
                 Beamer.of(context).beamToReplacementNamed('/booking_home');
               },
             ),
-            // InkWell(
-            //     onTap: () {
-            //       Beamer.of(context).beamToReplacementNamed('/booking_home');
-            //     },
-            //     child: Container(
-            //       width: 20.0,
-            //       height: 12.0,
-            //       decoration: BoxDecoration(
-            //         color: AppPalette.thirdColor,
-            //         borderRadius: BorderRadius.circular(30),
-            //       ),
-            //       child: const Center(
-            //         child: Text(
-            //           "OK",
-            //           style: TextStyle(
-            //             color: Colors.white,
-            //             fontSize: 12.0,
-            //           ),
-            //         ),
-            //       ),
-            //     )),
           ],
         ),
       ),

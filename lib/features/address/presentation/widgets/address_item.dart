@@ -4,9 +4,14 @@ import 'package:house_helper_rental_application/core/theme/app_palette.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:iconly/iconly.dart';
 
-class AddressItem extends StatelessWidget {
+class AddressItem extends StatefulWidget {
   const AddressItem({super.key});
 
+  @override
+  State<AddressItem> createState() => _AddressItemState();
+}
+
+class _AddressItemState extends State<AddressItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -46,7 +51,12 @@ class AddressItem extends StatelessWidget {
                 ),
               ),
               IconButton(
-                  onPressed: () {}, icon: const Icon(IconlyBold.more_circle)),
+                  onPressed: () {
+                    setState(() {
+                      return moreOptionBottomSheet(context);
+                    });
+                  },
+                  icon: const Icon(IconlyBold.more_circle)),
             ],
           ),
           Row(

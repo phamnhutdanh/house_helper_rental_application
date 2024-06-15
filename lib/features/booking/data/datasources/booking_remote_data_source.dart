@@ -56,6 +56,7 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
             };
           }).toList(),
         },
+        fetchPolicy: FetchPolicy.networkOnly,
       );
 
       final QueryResult result = await graphQLClient.mutate(options);

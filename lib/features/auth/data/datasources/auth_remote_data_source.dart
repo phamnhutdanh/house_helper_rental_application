@@ -44,10 +44,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       }
 
       final QueryOptions options = QueryOptions(
-          document: gql(AuthGraphqlDocuments.getAccountInfoByIdQuery),
-          variables: {
-            'id': response.user?.id ?? '',
-          });
+        document: gql(AuthGraphqlDocuments.getAccountInfoByIdQuery),
+        variables: {
+          'id': response.user?.id ?? '',
+        },
+        fetchPolicy: FetchPolicy.networkOnly,
+      );
 
       final QueryResult result = await graphQLClient.query(options);
 
@@ -102,11 +104,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           accountId: response.user?.id ?? '',
           isEmployee: isEmployee);
       final MutationOptions options = MutationOptions(
-          document: gql(AuthGraphqlDocuments.createAccountMutation),
-          variables: {
-            'createAccountInput': accountInput.toJson(),
-            'createSessionInput': sessionInput.toJson()
-          });
+        document: gql(AuthGraphqlDocuments.createAccountMutation),
+        variables: {
+          'createAccountInput': accountInput.toJson(),
+          'createSessionInput': sessionInput.toJson()
+        },
+        fetchPolicy: FetchPolicy.networkOnly,
+      );
 
       final QueryResult result = await graphQLClient.mutate(options);
 
@@ -127,10 +131,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     try {
       if (currentUserSession != null) {
         final QueryOptions options = QueryOptions(
-            document: gql(AuthGraphqlDocuments.getAccountInfoByIdQuery),
-            variables: {
-              'id': currentUserSession?.user.id ?? '',
-            });
+          document: gql(AuthGraphqlDocuments.getAccountInfoByIdQuery),
+          variables: {
+            'id': currentUserSession?.user.id ?? '',
+          },
+          fetchPolicy: FetchPolicy.networkOnly,
+        );
 
         final QueryResult result = await graphQLClient.query(options);
 

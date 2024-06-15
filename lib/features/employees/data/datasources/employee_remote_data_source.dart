@@ -14,8 +14,10 @@ class EmployeesRemoteDataSourceImpl implements EmployeesRemoteDataSource {
   @override
   Future<List<EmployeeModel>> getTopEmployees() async {
     try {
-      final QueryOptions options =
-          QueryOptions(document: gql(EmployeeGraphqlDocuments.getTopEmployees));
+      final QueryOptions options = QueryOptions(
+        document: gql(EmployeeGraphqlDocuments.getTopEmployees),
+        fetchPolicy: FetchPolicy.networkOnly,
+      );
 
       final QueryResult result = await graphQLClient.query(options);
 

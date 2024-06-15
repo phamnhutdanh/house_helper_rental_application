@@ -4,18 +4,18 @@ import 'package:house_helper_rental_application/core/utils/format_date.dart';
 
 class BookingModel extends Booking {
   BookingModel({
-    required super.id,
-    required super.bookingTime,
-    required super.totalPrice,
-    required super.status,
-    required super.repeatStatus,
-    required super.paymentMethod,
-    required super.note,
-    required super.createdAt,
-    required super.updatedAt,
-    required super.serviceId,
-    required super.customerId,
-    required super.customerAddressId,
+     super.id,
+     super.bookingTime,
+     super.totalPrice,
+     super.status,
+     super.repeatStatus,
+     super.paymentMethod,
+     super.note,
+     super.createdAt,
+     super.updatedAt,
+     super.serviceId,
+     super.customerId,
+     super.customerAddressId,
   });
 
   factory BookingModel.fromJson(Map<String, dynamic> map) {
