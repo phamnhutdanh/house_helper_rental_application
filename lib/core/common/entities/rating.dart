@@ -1,9 +1,8 @@
 import 'package:house_helper_rental_application/core/common/entities/customer.dart';
-import 'package:house_helper_rental_application/core/common/entities/employee.dart';
 
 class RatingEmployee {
   final String? id;
-  final double? score;
+  final int? score;
   final String? comment;
   final DateTime? createdAt;
   final DateTime? updatedAt;
@@ -13,7 +12,6 @@ class RatingEmployee {
   final String? customerId;
   final Customer? customer;
   final String? employeeId;
-  final Employee? employee;
 
   RatingEmployee({
     this.id,
@@ -25,6 +23,5 @@ class RatingEmployee {
     this.customerId,
     this.customer,
     this.employeeId,
-    this.employee,
   });
 }

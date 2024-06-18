@@ -2,6 +2,7 @@ import 'package:beamer/beamer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
+import 'package:house_helper_rental_application/core/common/entities/rating.dart';
 import 'package:house_helper_rental_application/core/common/entities/service.dart';
 import 'package:house_helper_rental_application/core/common/widgets/gradient_button.dart';
 import 'package:house_helper_rental_application/core/common/widgets/loader.dart';
@@ -12,10 +13,13 @@ import 'package:house_helper_rental_application/core/utils/show_snackbar.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/bloc/booking_bloc.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/widgets/change_status_bottomsheet_dialog.dart';
+import 'package:house_helper_rental_application/features/employees/presentation/widgets/rating_employee_bottomsheet_dialog.dart';
 import 'package:house_helper_rental_application/features/services/presentation/widgets/service_details_view.dart';
+import 'package:iconly/iconly.dart';
 
 class BookingDetailWidget extends StatefulWidget {
   final String bookingId;
+  final String employeeId;
   final String fullName;
   final String phone;
   final String address;
@@ -26,10 +30,12 @@ class BookingDetailWidget extends StatefulWidget {
   final int totalPrice;
   final BookingStatus bookingStatus;
   final List<ServiceDetails> serviceDetails;
+  final RatingEmployee? ratingEmployee;
 
   const BookingDetailWidget({
     super.key,
     required this.bookingId,
+    required this.employeeId,
     required this.fullName,
     required this.phone,
     required this.address,
@@ -40,6 +46,7 @@ class BookingDetailWidget extends StatefulWidget {
     required this.totalPrice,
     required this.serviceDetails,
     required this.bookingStatus,
+    this.ratingEmployee,
   });
 
   @override
@@ -217,6 +224,63 @@ class _BookingDetailWidgetState extends State<BookingDetailWidget> {
                         ),
                       ],
                     );
+                  }
+
+                  if (widget.bookingStatus == BookingStatus.COMPLETED) {
+                    if (widget.ratingEmployee == null) {
+                      return Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: GradientButton(
+                              colors: const [
+                                AppPalette.thirdColor,
+                                AppPalette.thirdColor,
+                              ],
+                              textColor: AppPalette.whiteColor,
+                              buttonText: 'Rating booking',
+                              onPressed: () {
+                                final account =
+                                    (BlocProvider.of<AuthBloc>(context).state
+                                            as AuthSuccess)
+                                        .accountInfo;
+
+                                setState(() {
+                                  return showRatingBottomSheetDialog(
+                                    context: context,
+                                    bookingId: widget.bookingId,
+                                    customerId: account.customer!.id ?? '',
+                                    employeeId: widget.employeeId,
+                                  );
+                                });
+                              },
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                    if (widget.ratingEmployee != null) {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const PageName(textName: 'Score'),
+                          const SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Text(widget.ratingEmployee!.score.toString(),
+                                  style: const TextStyle(
+                                      color: AppPalette.blackColor,
+                                      fontWeight: FontWeight.w500)),
+                              const Icon(
+                                IconlyBold.star,
+                                color: AppPalette.yellowStarColor,
+                              )
+                            ],
+                          )
+                        ],
+                      );
+                    }
                   }
                 }
 

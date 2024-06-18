@@ -5,6 +5,7 @@ import 'package:house_helper_rental_application/core/common/entities/service.dar
 import 'package:house_helper_rental_application/core/utils/format_date.dart';
 import 'package:house_helper_rental_application/features/address/data/models/customer_address_model.dart';
 import 'package:house_helper_rental_application/features/booking/data/models/booking_service_detail_model.dart';
+import 'package:house_helper_rental_application/features/employees/data/models/rating_employee_model.dart';
 import 'package:house_helper_rental_application/features/services/data/models/service_model.dart';
 
 class BookingModel extends Booking {
@@ -21,9 +22,11 @@ class BookingModel extends Booking {
     super.serviceId,
     super.service,
     super.customerId,
+    super.employeeId,
     super.customerAddressId,
     super.customerAddress,
     super.bookingServiceDetails,
+    super.ratingEmployee,
   });
 
   factory BookingModel.fromJson(Map<String, dynamic> map) {
@@ -54,6 +57,7 @@ class BookingModel extends Booking {
       updatedAt: convertDateFromMillisecondsString(map['updatedAt'] as String?),
       serviceId: map['serviceId'] as String?,
       customerId: map['customerId'] as String?,
+      employeeId: map['employeeId'] as String?,
       customerAddressId: map['customerAddressId'] as String?,
       service: ServiceModel.fromJson(map['service'] ?? {}),
       customerAddress:
@@ -63,6 +67,9 @@ class BookingModel extends Booking {
               .map((bookingServiceDetail) =>
                   BookingServiceDetailModel.fromJson(bookingServiceDetail))
               .toList()
+          : null,
+      ratingEmployee: map['ratingEmployee'] != null
+          ? RatingEmployeeModel.fromJson(map['ratingEmployee'] ?? {})
           : null,
     );
   }

@@ -4,3 +4,4 @@ part of 'employee_bloc.dart';
 sealed class EmployeeEvent {}
 
 final class FetchTopEmployeesEvent extends EmployeeEvent {}
+

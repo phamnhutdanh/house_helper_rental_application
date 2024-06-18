@@ -6,7 +6,7 @@ import 'package:iconly/iconly.dart';
 class CommentRatingItem extends StatelessWidget {
   final String imageUri;
   final String name;
-  final double score;
+  final int score;
   final String comment;
   final DateTime commentDate;
 
@@ -59,7 +59,7 @@ class CommentRatingItem extends StatelessWidget {
                     children: [
                       Text(score.toString(),
                           style: const TextStyle(
-                              color: Colors.black,
+                              color: AppPalette.blackColor,
                               fontWeight: FontWeight.w500)),
                       const Icon(
                         IconlyBold.star,

@@ -10,6 +10,7 @@ import 'package:house_helper_rental_application/features/auth/presentation/pages
 import 'package:house_helper_rental_application/features/booking/presentation/bloc/booking_bloc.dart';
 import 'package:house_helper_rental_application/core/routers/customer_app/booking_router.dart';
 import 'package:house_helper_rental_application/features/employees/presentation/bloc/employee_bloc.dart';
+import 'package:house_helper_rental_application/features/employees/presentation/bloc/rating_bloc.dart';
 import 'package:house_helper_rental_application/features/services/presentation/bloc/service_bloc.dart';
 import 'package:house_helper_rental_application/init_dependencies.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +43,9 @@ void main() async {
       ),
       BlocProvider(
         create: (_) => serviceLocator<AddressBloc>(),
+      ),
+      BlocProvider(
+        create: (_) => serviceLocator<RatingBloc>(),
       ),
     ],
     child: GraphQLProvider(

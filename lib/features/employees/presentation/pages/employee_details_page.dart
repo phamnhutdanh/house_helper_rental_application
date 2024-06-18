@@ -151,7 +151,7 @@ Widget buildRatingList({required List<RatingEmployee> ratings}) {
                 return CommentRatingItem(
                   imageUri: ratings[index].customer!.imageUri ?? '',
                   name: ratings[index].customer!.name ?? '',
-                  score: ratings[index].score ?? 0.0,
+                  score: ratings[index].score ?? 0,
                   comment: ratings[index].comment ?? '',
                   commentDate: ratings[index].updatedAt ?? DateTime.now(),
                 );

@@ -22,7 +22,7 @@ class AppPalette {
   static const Color thirdColor = Color(0xFFFF9505);
   static const Color fourthColor = Color(0xffff660e);
 
-  static const Color yellowStarColor = Color.fromRGBO(234, 255, 72, 1);
+  static const Color yellowStarColor = Color.fromRGBO(176, 168, 3, 1);
 
   static const kAccentColor = Color(0xFFF1F1F1);
   static const kWhiteColor = Color(0xFFFFFFFF);

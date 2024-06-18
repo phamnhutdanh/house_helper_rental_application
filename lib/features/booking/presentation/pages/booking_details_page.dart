@@ -70,6 +70,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
 
               return BookingDetailWidget(
                 bookingId: widget.bookingId,
+                employeeId: booking.employeeId ?? '',
                 fullName: booking.customerAddress!.address!.fullName ?? '',
                 phone: booking.customerAddress!.address!.phone ?? '',
                 address: booking.customerAddress!.address!.address ?? '',
@@ -88,6 +89,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                 serviceDetails: serviceDetails,
                 totalPrice: booking.totalPrice ?? 0,
                 bookingStatus: booking.status ?? BookingStatus.CANCELED,
+                ratingEmployee: booking.ratingEmployee,
               );
             }
             return const SizedBox();

@@ -148,7 +148,7 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
   Future<BookingModel> getBookingById({required String id}) async {
     try {
       final QueryOptions options = QueryOptions(
-        document: gql(BookingGraphqlDocuments.getBookingById),
+        document: gql(BookingGraphqlDocuments.getBookingByIdQuery),
         variables: {
           'id': id,
         },

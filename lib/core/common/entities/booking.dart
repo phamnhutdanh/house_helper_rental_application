@@ -1,5 +1,6 @@
 import 'package:house_helper_rental_application/core/common/entities/address.dart';
 import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
+import 'package:house_helper_rental_application/core/common/entities/rating.dart';
 import 'package:house_helper_rental_application/core/common/entities/service.dart';
 
 class Booking {
@@ -23,6 +24,8 @@ class Booking {
   final CustomerAddress? customerAddress;
   final List<BookingServiceDetail>? bookingServiceDetails;
 
+  final RatingEmployee? ratingEmployee;
+
   Booking({
     this.id,
     this.bookingTime,
@@ -40,6 +43,7 @@ class Booking {
     this.customerAddressId,
     this.customerAddress,
     this.bookingServiceDetails,
+    this.ratingEmployee,
   });
 }
 

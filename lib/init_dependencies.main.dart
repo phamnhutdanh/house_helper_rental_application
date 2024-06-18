@@ -159,10 +159,18 @@ void _initEmployees() {
     ..registerFactory(
       () => GetTopEmployees(serviceLocator()),
     )
+    ..registerFactory(
+      () => CreateRatingEmployee(serviceLocator()),
+    )
     // Bloc
     ..registerLazySingleton(
       () => EmployeeBloc(
         getTopEmployees: serviceLocator(),
+      ),
+    )
+    ..registerLazySingleton(
+      () => RatingBloc(
+        createRatingEmployee: serviceLocator(),
       ),
     );
 }

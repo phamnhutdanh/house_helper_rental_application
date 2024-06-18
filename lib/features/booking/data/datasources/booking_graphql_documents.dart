@@ -107,8 +107,8 @@ class BookingGraphqlDocuments {
     }
 """;
 
-  static String getBookingById = """
-    query GetBookingById(\$id: String) {
+  static String getBookingByIdQuery = """
+  query GetBookingById(\$id: String) {
       getBookingById(id: \$id) {
         id
         customerAddress {
@@ -125,6 +125,18 @@ class BookingGraphqlDocuments {
         note
         totalPrice
         status
+        ratingEmployee {
+          score
+          comment
+          bookingId
+          customerId
+          customer {
+            name
+            phoneNumber
+            imageUri
+          }
+        }
+        employeeId
         bookingServiceDetails {
           serviceDetails {
             id
