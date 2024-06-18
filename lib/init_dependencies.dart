@@ -24,6 +24,9 @@ import 'package:house_helper_rental_application/features/auth/presentation/bloc/
 import 'package:get_it/get_it.dart';
 import 'package:house_helper_rental_application/features/address/data/datasources/address_remote_data_source.dart';
 import 'package:house_helper_rental_application/features/booking/data/datasources/booking_remote_data_source.dart';
+import 'package:house_helper_rental_application/features/booking/domain/usecases/change_booking_status.dart';
+import 'package:house_helper_rental_application/features/booking/domain/usecases/get_all_booking_of_customer.dart';
+import 'package:house_helper_rental_application/features/booking/domain/usecases/get_booking_by_id.dart';
 import 'package:house_helper_rental_application/features/employees/data/datasources/employee_remote_data_source.dart';
 import 'package:house_helper_rental_application/features/employees/data/repositories/employee_repository_impl.dart';
 import 'package:house_helper_rental_application/features/employees/domain/repository/employee_repository.dart';

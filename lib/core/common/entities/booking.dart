@@ -21,6 +21,7 @@ class Booking {
 
   final String? customerAddressId;
   final CustomerAddress? customerAddress;
+  final List<BookingServiceDetail>? bookingServiceDetails;
 
   Booking({
     this.id,
@@ -38,17 +39,21 @@ class Booking {
     this.employeeId,
     this.customerAddressId,
     this.customerAddress,
+    this.bookingServiceDetails,
   });
 }
 
 class BookingServiceDetail {
   final String? id;
   final String? serviceDetailId;
+  final ServiceDetails? serviceDetails;
+
   final String? bookingId;
 
   BookingServiceDetail({
     this.id,
     this.serviceDetailId,
+    this.serviceDetails,
     this.bookingId,
   });
 }

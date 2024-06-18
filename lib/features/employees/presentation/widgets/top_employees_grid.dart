@@ -1,12 +1,15 @@
-import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:house_helper_rental_application/core/common/entities/employee.dart';
 import 'package:house_helper_rental_application/features/employees/presentation/widgets/employee_card.dart';
 
 class TopEmployeesGrid extends StatelessWidget {
   final List<Employee> topEmployees;
-
-  const TopEmployeesGrid({super.key, required this.topEmployees});
+  final void Function(String) onTapItem;
+  const TopEmployeesGrid({
+    super.key,
+    required this.topEmployees,
+    required this.onTapItem,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +18,6 @@ class TopEmployeesGrid extends StatelessWidget {
       shrinkWrap: true,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        // crossAxisSpacing: 8,
-        // mainAxisSpacing: 8,
       ),
       itemCount: topEmployees.length,
       itemBuilder: (context, index) {
@@ -24,8 +25,8 @@ class TopEmployeesGrid extends StatelessWidget {
             margin: const EdgeInsets.all(8),
             child: GestureDetector(
               onTap: () {
-                Beamer.of(context)
-                    .beamToNamed('/booking_home/employee_details');
+                final String employeeId = topEmployees[index].id ?? '';
+                onTapItem(employeeId);
               },
               child: EmployeeCard(
                 employee: topEmployees[index],

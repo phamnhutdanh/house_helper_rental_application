@@ -66,7 +66,24 @@ class _AccountsPageState extends State<AccountsPage> {
             ],
           );
         }
-        return const SizedBox();
+        return GenericTabPage(
+          title: 'All accounts',
+          isScrollableTab: false,
+          tabs: const [
+            TabItem(title: 'EMPLOYEE', count: 0),
+            TabItem(title: 'CUSTOMER', count: 0),
+          ],
+          children: [
+            AccountTab(
+              accounts: const [],
+              onTapItem: (accountId) {},
+            ),
+            AccountTab(
+              accounts: const [],
+              onTapItem: (accountId) {},
+            ),
+          ],
+        );
       },
     );
   }

@@ -5,14 +5,14 @@ import 'package:house_helper_rental_application/features/booking/presentation/pa
 import 'package:house_helper_rental_application/features/booking/presentation/pages/confirm_checkout_page.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/pages/home_booking_page.dart';
 import 'package:house_helper_rental_application/core/common/pages/success_page.dart';
-import 'package:house_helper_rental_application/features/employees/presentation/pages/userProfilePage.dart';
+import 'package:house_helper_rental_application/features/employees/presentation/pages/employee_details_page.dart';
 
 class HomeRouter extends BeamLocation<BeamState> {
   HomeRouter(super.routeInformation);
   @override
   List<String> get pathPatterns => [
         '/booking_home',
-        'booking_home/employee_details',
+        'booking_home/employee_details/:employeeId',
         '/booking_home/check_out/:serviceId',
         '/booking_home/confirm_page',
         '/booking_home/success_page',
@@ -30,13 +30,16 @@ class HomeRouter extends BeamLocation<BeamState> {
       ),
     ];
 
-    if (state.uri.pathSegments.length == 2) {
+    if (state.uri.pathSegments.length == 3) {
       if (state.uri.pathSegments[1] == 'employee_details') {
-        pages.add(const BeamPage(
-          key: ValueKey('booking_home/employee_details'),
-          title: 'Employee details',
-          child: ProfilePage(),
-        ));
+        String? employeeId = state.pathParameters['employeeId'];
+        if (employeeId != null) {
+          pages.add(BeamPage(
+            key: ValueKey('booking_home/employee_details/$employeeId'),
+            title: 'Checkout',
+            child: EmployeeDetailsPage(employeeId: employeeId),
+          ));
+        }
       }
     }
 

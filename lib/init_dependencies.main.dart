@@ -211,10 +211,22 @@ void _initBooking() {
     ..registerFactory(
       () => CreateBooking(serviceLocator()),
     )
+    ..registerFactory(
+      () => GetAllBookingOfCustomer(serviceLocator()),
+    )
+    ..registerFactory(
+      () => GetBookingById(serviceLocator()),
+    )
+    ..registerFactory(
+      () => ChangeBookingStatus(serviceLocator()),
+    )
     // Bloc
     ..registerLazySingleton(
       () => BookingBloc(
         createBooking: serviceLocator(),
+        getBookingById: serviceLocator(),
+        getAllBookingOfCustomer: serviceLocator(),
+        changeBookingStatus: serviceLocator(),
       ),
     );
 }

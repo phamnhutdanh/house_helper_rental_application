@@ -16,3 +16,18 @@ final class CreateBookingSuccess extends BookingState {
   final Booking booking;
   CreateBookingSuccess(this.booking);
 }
+
+final class AllBookingOfCustomerDisplaySuccess extends BookingState {
+  final List<Booking> bookings;
+  AllBookingOfCustomerDisplaySuccess(this.bookings);
+}
+
+final class GetBookingByIdDisplaySuccess extends BookingState {
+  final Booking booking;
+  GetBookingByIdDisplaySuccess(this.booking);
+}
+
+final class ChangeBookingStatusSuccess extends BookingState {
+  final Booking booking;
+  ChangeBookingStatusSuccess(this.booking);
+}

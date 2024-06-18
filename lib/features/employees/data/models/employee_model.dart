@@ -22,6 +22,7 @@ class EmployeeModel extends Employee {
       description: map['description'] as String?,
       age: map['age'] as int?,
       workingHours: map['workingHours'] as int?,
+     // averageRating: map['averageRating'] as double?,
       averageRating: map['averageRating'].toDouble() as double?,
       accountInfoId: map['accountInfoId'] as String?,
     );

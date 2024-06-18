@@ -21,7 +21,7 @@ class BookingItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: AppPalette.whiteColor, // Container color
         border: Border.all(
@@ -33,7 +33,7 @@ class BookingItem extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(width: 12),
+          const SizedBox(width: 12),
           Row(
             children: [
               Expanded(
@@ -70,7 +70,7 @@ class BookingItem extends StatelessWidget {
                   onPressed: () {}, icon: const Icon(IconlyBold.arrow_right_2)),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 12,
           ),
           Row(
@@ -78,8 +78,8 @@ class BookingItem extends StatelessWidget {
               Expanded(
                 child: Row(
                   children: [
-                    Icon(IconlyBold.ticket),
-                    SizedBox(width: 12),
+                    const Icon(IconlyBold.ticket),
+                    const SizedBox(width: 12),
                     Expanded(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -100,8 +100,8 @@ class BookingItem extends StatelessWidget {
               Expanded(
                 child: Row(
                   children: [
-                    Icon(IconlyBold.calendar),
-                    SizedBox(width: 12),
+                    const Icon(IconlyBold.calendar),
+                    const SizedBox(width: 12),
                     Expanded(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,

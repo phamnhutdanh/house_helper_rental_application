@@ -1,8 +1,13 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:house_helper_rental_application/core/common/entities/booking.dart';
 import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
-import 'package:house_helper_rental_application/core/common/entities/service.dart';
 import 'package:house_helper_rental_application/core/common/pages/generic_tab_page.dart';
+import 'package:house_helper_rental_application/core/common/widgets/loader.dart';
+import 'package:house_helper_rental_application/core/utils/show_snackbar.dart';
+import 'package:house_helper_rental_application/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:house_helper_rental_application/features/booking/presentation/bloc/booking_bloc.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/widgets/history_booking_tab.dart';
 import 'package:house_helper_rental_application/core/common/widgets/tab_item.dart';
 
@@ -14,134 +19,145 @@ class HistoryBookingPage extends StatefulWidget {
 }
 
 class _HistoryBookingPageState extends State<HistoryBookingPage> {
-  final List<Booking> bookings = [
-    Booking(
-      id: '1',
-      status: BookingStatus.PENDING,
-      bookingTime: DateTime.now(),
-      service: Service(
-        id: 'service1',
-        name: 'name service 1',
-      ),
-      totalPrice: 120,
-    ),
-    Booking(
-      id: '2',
-      status: BookingStatus.CANCELED,
-      bookingTime: DateTime.now(),
-      service: Service(
-        id: 'service2',
-        name: 'name service 2',
-      ),
-      totalPrice: 240,
-    ),
-    Booking(
-      id: '1',
-      status: BookingStatus.ACCEPTED,
-      bookingTime: DateTime.now(),
-      service: Service(
-        id: 'service1',
-        name: 'name service 1',
-      ),
-      totalPrice: 120,
-    ),
-    Booking(
-      id: '3',
-      status: BookingStatus.COMPLETED,
-      bookingTime: DateTime.now(),
-      service: Service(
-        id: 'service3',
-        name: 'name service 3',
-      ),
-      totalPrice: 360,
-    ),
-    Booking(
-      id: '4',
-      status: BookingStatus.COMPLETED,
-      bookingTime: DateTime.now(),
-      service: Service(
-        id: 'service4',
-        name: 'name service 4',
-      ),
-      totalPrice: 460,
-    ),
-    Booking(
-      id: '5',
-      status: BookingStatus.PENDING,
-      bookingTime: DateTime.now(),
-      service: Service(
-        id: 'service5',
-        name: 'name service 5',
-      ),
-      totalPrice: 560,
-    ),
-    Booking(
-      id: '6',
-      status: BookingStatus.CANCELED,
-      bookingTime: DateTime.now(),
-      service: Service(
-        id: 'service6',
-        name: 'name service 6',
-      ),
-      totalPrice: 660,
-    ),
-  ];
-
-  late List<Booking> pendingBookings = bookings
-      .where((element) => element.status == BookingStatus.PENDING)
-      .toList();
-
-  late List<Booking> cancelBookings = bookings
-      .where((element) => element.status == BookingStatus.CANCELED)
-      .toList();
-
-  late List<Booking> completeBookings = bookings
-      .where((element) => element.status == BookingStatus.COMPLETED)
-      .toList();
-
-  late List<Booking> acceptBookings = bookings
-      .where((element) => element.status == BookingStatus.ACCEPTED)
-      .toList();
-
   @override
   void initState() {
+    final account =
+        (BlocProvider.of<AuthBloc>(context).state as AuthSuccess).accountInfo;
+
+    context.read<BookingBloc>().add(
+        GetAllBookingOfCustomerEvent(customerId: account.customer!.id ?? ''));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return GenericTabPage(
-      title: 'History',
-      isScrollableTab: true,
-      tabs: [
-        TabItem(title: 'ALL', count: bookings.length),
-        TabItem(title: 'PENDING', count: pendingBookings.length),
-        TabItem(title: 'ACCEPTED', count: acceptBookings.length),
-        TabItem(title: 'CANCELED', count: cancelBookings.length),
-        TabItem(title: 'COMPLETED', count: completeBookings.length),
-      ],
-      children: [
-        HistoryBookingTab(
-          bookings: bookings,
-          onTapItem: (bookingId) {},
-        ),
-        HistoryBookingTab(
-          bookings: pendingBookings,
-          onTapItem: (bookingId) {},
-        ),
-        HistoryBookingTab(
-          bookings: acceptBookings,
-          onTapItem: (bookingId) {},
-        ),
-        HistoryBookingTab(
-          bookings: cancelBookings,
-          onTapItem: (bookingId) {},
-        ),
-        HistoryBookingTab(
-          bookings: completeBookings,
-          onTapItem: (bookingId) {},
-        ),
-      ],
+    return BlocConsumer<BookingBloc, BookingState>(
+      listener: (context, state) {
+        if (state is BookingFailure) {
+          showSnackBar(context, state.error);
+        }
+      },
+      builder: (context, state) {
+        if (state is BookingLoading) {
+          return const Loader();
+        }
+        if (state is AllBookingOfCustomerDisplaySuccess) {
+          final bookings = state.bookings;
+
+          late List<Booking> pendingBookings = bookings
+              .where((element) => element.status == BookingStatus.PENDING)
+              .toList();
+
+          late List<Booking> cancelBookings = bookings
+              .where((element) => element.status == BookingStatus.CANCELED)
+              .toList();
+
+          late List<Booking> completeBookings = bookings
+              .where((element) => element.status == BookingStatus.COMPLETED)
+              .toList();
+
+          late List<Booking> acceptBookings = bookings
+              .where((element) => element.status == BookingStatus.ACCEPTED)
+              .toList();
+          return GenericTabPage(
+            title: 'History',
+            isScrollableTab: true,
+            tabs: [
+              TabItem(title: 'ALL', count: bookings.length),
+              TabItem(title: 'PENDING', count: pendingBookings.length),
+              TabItem(title: 'ACCEPTED', count: acceptBookings.length),
+              TabItem(title: 'CANCELED', count: cancelBookings.length),
+              TabItem(title: 'COMPLETED', count: completeBookings.length),
+            ],
+            children: [
+              HistoryBookingTab(
+                bookings: bookings,
+                onTapItem: (bookingId) {
+                  Beamer.of(context).beamToNamed(
+                      '/booking_history/booking_details/$bookingId');
+                },
+              ),
+              HistoryBookingTab(
+                bookings: pendingBookings,
+                onTapItem: (bookingId) {
+                  Beamer.of(context).beamToNamed(
+                      '/booking_history/booking_details/$bookingId');
+                },
+              ),
+              HistoryBookingTab(
+                bookings: acceptBookings,
+                onTapItem: (bookingId) {
+                  Beamer.of(context).beamToNamed(
+                      '/booking_history/booking_details/$bookingId');
+                },
+              ),
+              HistoryBookingTab(
+                bookings: cancelBookings,
+                onTapItem: (bookingId) {
+                  Beamer.of(context).beamToNamed(
+                      '/booking_history/booking_details/$bookingId');
+                },
+              ),
+              HistoryBookingTab(
+                bookings: completeBookings,
+                onTapItem: (bookingId) {
+                  Beamer.of(context).beamToNamed(
+                      '/booking_history/booking_details/$bookingId');
+                },
+              ),
+            ],
+          );
+        }
+
+        return GenericTabPage(
+          title: 'History',
+          isScrollableTab: true,
+          tabs: const [
+            TabItem(title: 'ALL', count: 0),
+            TabItem(title: 'PENDING', count: 0),
+            TabItem(title: 'ACCEPTED', count: 0),
+            TabItem(title: 'CANCELED', count: 0),
+            TabItem(title: 'COMPLETED', count: 0),
+          ],
+          children: [
+            HistoryBookingTab(
+              bookings: const [],
+              onTapItem: (bookingId) {
+                Beamer.of(context)
+                    .beamToNamed('/booking_history/booking_details/$bookingId');
+              },
+            ),
+            HistoryBookingTab(
+              bookings: const [],
+              onTapItem: (bookingId) {
+                Beamer.of(context)
+                    .beamToNamed('/booking_history/booking_details/$bookingId');
+              },
+            ),
+            HistoryBookingTab(
+              bookings: const [],
+              onTapItem: (bookingId) {
+                Beamer.of(context)
+                    .beamToNamed('/booking_history/booking_details/$bookingId');
+              },
+            ),
+            HistoryBookingTab(
+              bookings: const [],
+              onTapItem: (bookingId) {
+                Beamer.of(context)
+                    .beamToNamed('/booking_history/booking_details/$bookingId');
+              },
+            ),
+            HistoryBookingTab(
+              bookings: const [],
+              onTapItem: (bookingId) {
+                Beamer.of(context)
+                    .beamToNamed('/booking_history/booking_details/$bookingId');
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:house_helper_rental_application/features/employees/presentation/widgets/appBarWidget.dart';
-import 'package:house_helper_rental_application/features/employees/presentation/widgets/buttonWidget.dart';
-import 'package:house_helper_rental_application/features/employees/presentation/widgets/numberWidget.dart';
+import 'package:house_helper_rental_application/features/employees/presentation/widgets/button_widget.dart';
+import 'package:house_helper_rental_application/features/employees/presentation/widgets/numbers_widget.dart';
 import 'package:house_helper_rental_application/features/employees/presentation/widgets/userProfileWidget.dart';
 
 class User {
@@ -42,7 +41,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
 
     return Scaffold(
-      appBar: buildAppBar(context),
+      //appBar: buildAppBar(context),
       body: ListView(
         physics: BouncingScrollPhysics(),
         children: [
@@ -55,7 +54,7 @@ class _ProfilePageState extends State<ProfilePage> {
           const SizedBox(height: 24),
           Center(child: buildUpgradeButton()),
           const SizedBox(height: 24),
-          NumbersWidget(),
+        //  NumbersWidget(),
           const SizedBox(height: 48),
           buildAbout(user),
         ],

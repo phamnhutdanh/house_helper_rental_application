@@ -4,13 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:house_helper_rental_application/core/common/entities/address.dart';
 import 'package:house_helper_rental_application/core/common/entities/service.dart';
 import 'package:house_helper_rental_application/core/common/widgets/default_app_bar.dart';
+import 'package:house_helper_rental_application/core/common/widgets/gradient_button.dart';
 import 'package:house_helper_rental_application/core/common/widgets/input_field.dart';
 import 'package:house_helper_rental_application/core/common/widgets/loader.dart';
 import 'package:house_helper_rental_application/core/constants/constants.dart';
 import 'package:house_helper_rental_application/core/objects/checkout_data_object.dart';
 import 'package:house_helper_rental_application/core/theme/app_palette.dart';
 import 'package:house_helper_rental_application/core/utils/show_snackbar.dart';
-import 'package:house_helper_rental_application/features/booking/presentation/bloc/booking_bloc.dart';
 import 'package:house_helper_rental_application/features/address/presentation/widgets/address_widget.dart';
 import 'package:house_helper_rental_application/core/common/widgets/page_name.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/widgets/payment_widget.dart';
@@ -82,11 +82,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
   ];
 
   int currentStep = 0;
-  bool isCompleted = false;
 
   CalendarFormat calendarFormat = CalendarFormat.month;
   DateTime focusedDate = DateTime.now();
-  DateTime? selectedDate;
+  DateTime? selectedDate = DateTime.now();
 
   final List<ServiceDetails> selectedServices = [];
   CustomerAddress? selectedCustomerAddress;
@@ -273,7 +272,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   }
                 },
                 builder: (context, state) {
-                  if (state is BookingLoading) {
+                  if (state is ServiceLoading) {
                     return const Loader();
                   }
                   if (state is ServiceDetailDisplaySuccess) {
@@ -389,144 +388,159 @@ class _CheckoutPageState extends State<CheckoutPage> {
         ),
         resizeToAvoidBottomInset: true,
         backgroundColor: AppPalette.whiteColor,
-        body: isCompleted
-            ? const SizedBox()
-            : Theme(
-                data: Theme.of(context).copyWith(
-                    colorScheme: const ColorScheme.light(
-                        primary: AppPalette.thirdColor)),
-                child: Stepper(
-                  type: StepperType.vertical,
-                  steps: getSteps(),
-                  currentStep: currentStep,
-                  onStepContinue: () {
-                    final isLastStep = currentStep == getSteps().length - 1;
+        body: Theme(
+            data: Theme.of(context).copyWith(
+                colorScheme:
+                    const ColorScheme.light(primary: AppPalette.thirdColor)),
+            child: Stepper(
+              type: StepperType.vertical,
+              steps: getSteps(),
+              currentStep: currentStep,
+              onStepContinue: () {
+                final isLastStep = currentStep == getSteps().length - 1;
 
-                    if (isLastStep) {
-                      setState(() => isCompleted = true);
+                if (isLastStep) {
+                  if (selectedServices.isEmpty) {
+                    showSnackBar(context, "Please choose a service");
+                    return;
+                  }
 
-                      if (selectedServices.isEmpty) {
-                        showSnackBar(context, "Please choose a service");
-                        return;
-                      }
+                  if (selectedCustomerAddress == null) {
+                    showSnackBar(context, "Please choose a address");
+                    return;
+                  }
 
-                      if (selectedCustomerAddress == null) {
-                        showSnackBar(context, "Please choose a address");
-                        return;
-                      }
+                  var hours = selectedHour.split(":");
+                  selectedDate = selectedDate!.toLocal();
+                  selectedDate = DateTime(
+                    selectedDate!.year,
+                    selectedDate!.month,
+                    selectedDate!.day,
+                    int.parse(hours[0]),
+                    int.parse(hours[1]),
+                    //  selectedDate.second,
+                    //  selectedDate.millisecond,
+                    //  selectedDate.microsecond,
+                  );
 
-                      var hours = selectedHour.split(":");
-                      selectedDate = selectedDate!.toLocal();
-                      selectedDate = DateTime(
-                        selectedDate!.year,
-                        selectedDate!.month,
-                        selectedDate!.day,
-                        int.parse(hours[0]),
-                        int.parse(hours[1]),
-                        //  selectedDate.second,
-                        //  selectedDate.millisecond,
-                        //  selectedDate.microsecond,
-                      );
+                  int totalPrice = 0;
+                  for (var element in selectedServices) {
+                    totalPrice += element.fee ?? 0;
+                  }
 
-                      int totalPrice = 0;
-                      for (var element in selectedServices) {
-                        totalPrice += element.fee ?? 0;
-                      }
+                  bookingDetailsObject = BookingDetailsObject(
+                    bookingTime: selectedDate!.toIso8601String(),
+                    repeatStatus: selectedRepeat == 0
+                        ? "NO_REPEAT"
+                        : selectedRepeat == 1
+                            ? "EVERY_DAY"
+                            : selectedRepeat == 2
+                                ? "EVERY_WEEK"
+                                : "EVERY_MONTH",
+                    note: noteController.text.trim(),
+                    paymentMethod: paymentRadioValue,
+                    serviceId: widget.serviceId,
+                    serviceDetails: selectedServices,
+                    totalPrice: totalPrice,
+                    address: selectedCustomerAddress!.address!.address ?? '',
+                    fullName: selectedCustomerAddress!.address!.fullName ?? '',
+                    phone: selectedCustomerAddress!.address!.phone ?? '',
+                    customerAddressId: selectedCustomerAddress!.id ?? '',
+                  );
 
-                      bookingDetailsObject = BookingDetailsObject(
-                        bookingTime: selectedDate!.toIso8601String(),
-                        repeatStatus: selectedRepeat == 0
-                            ? "NO_REPEAT"
-                            : selectedRepeat == 1
-                                ? "EVERY_DAY"
-                                : selectedRepeat == 2
-                                    ? "EVERY_WEEK"
-                                    : "EVERY_MONTH",
-                        note: noteController.text.trim(),
-                        paymentMethod: paymentRadioValue,
-                        serviceId: widget.serviceId,
-                        serviceDetails: selectedServices,
-                        totalPrice: totalPrice,
-                        address:
-                            selectedCustomerAddress!.address!.address ?? '',
-                        fullName:
-                            selectedCustomerAddress!.address!.fullName ?? '',
-                        phone: selectedCustomerAddress!.address!.phone ?? '',
-                        customerAddressId: selectedCustomerAddress!.id ?? '',
-                      );
+                  Beamer.of(context).beamToNamed(
+                    '/booking_home/confirm_page',
+                    data: bookingDetailsObject,
+                  );
 
-                      Beamer.of(context).beamToNamed(
-                          '/booking_home/confirm_page',
-                          data: bookingDetailsObject);
-                    } else {}
-                    setState(() => currentStep += 1);
-                  },
-                  onStepTapped: (step) => setState(() => currentStep = step),
-                  onStepCancel: currentStep == 0
-                      ? null
-                      : () {
-                          setState(() => currentStep -= 1);
-                        },
-                  controlsBuilder:
-                      (BuildContext context, ControlsDetails controls) {
-                    final isLastStep = currentStep == getSteps().length - 1;
-                    return Container(
-                      margin: const EdgeInsets.only(top: 16.0),
-                      child: Row(
-                        children: [
-                          if (currentStep != 0)
-                            Expanded(
-                              child: InkWell(
-                                onTap: controls.onStepCancel,
-                                child: Container(
-                                  height: 40.0,
-                                  decoration: BoxDecoration(
-                                      color: AppPalette.greyColor,
-                                      borderRadius:
-                                          BorderRadius.circular(12.0)),
-                                  child: const Center(
-                                    child: Text(
-                                      "Back",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          if (currentStep != 0)
-                            const SizedBox(
-                              width: 20.0,
-                            ),
-                          Expanded(
-                            child: InkWell(
-                              onTap: controls.onStepContinue,
-                              child: Container(
-                                height: 40.0,
-                                decoration: BoxDecoration(
-                                    color: AppPalette.thirdColor,
-                                    borderRadius: BorderRadius.circular(12.0)),
-                                child: Center(
-                                  child: Text(
-                                    isLastStep ? "Confirm" : "Next",
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
+                  return;
+                } else {}
+                setState(() => currentStep += 1);
+              },
+              onStepTapped: (step) => setState(() => currentStep = step),
+              onStepCancel: currentStep == 0
+                  ? null
+                  : () {
+                      setState(() => currentStep -= 1);
+                    },
+              controlsBuilder:
+                  (BuildContext context, ControlsDetails controls) {
+                final isLastStep = currentStep == getSteps().length - 1;
+                return Container(
+                  margin: const EdgeInsets.only(top: 16.0),
+                  child: Row(
+                    children: [
+                      if (currentStep != 0)
+                        Expanded(
+                          flex: 5,
+                          child: GradientButton(
+                            buttonText: "Back",
+                            colors: const [
+                              AppPalette.greyColor,
+                              AppPalette.greyColor,
+                            ],
+                            textColor: AppPalette.whiteColor,
+                            onPressed: controls.onStepCancel!,
                           ),
-                        ],
+                        ),
+                      // Expanded(
+                      //   child: InkWell(
+                      //     onTap: controls.onStepCancel,
+                      //     child: Container(
+                      //       height: 40.0,
+                      //       decoration: BoxDecoration(
+                      //           color: AppPalette.greyColor,
+                      //           borderRadius: BorderRadius.circular(12.0)),
+                      //       child: const Center(
+                      //         child: Text(
+                      //           "Back",
+                      //           style: TextStyle(
+                      //             color: Colors.white,
+                      //             fontSize: 16.0,
+                      //             fontWeight: FontWeight.bold,
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                      if (currentStep != 0)
+                        const SizedBox(
+                          width: 20.0,
+                        ),
+                      Expanded(
+                        flex: 5,
+                        child: GradientButton(
+                          buttonText: isLastStep ? "Confirm" : "Next",
+                          onPressed: controls.onStepContinue!,
+                        ),
                       ),
-                    );
-                  },
-                )),
+                      // Expanded(
+                      //   child: InkWell(
+                      //     onTap: controls.onStepContinue,
+                      //     child: Container(
+                      //       height: 40.0,
+                      //       decoration: BoxDecoration(
+                      //           color: AppPalette.thirdColor,
+                      //           borderRadius: BorderRadius.circular(12.0)),
+                      //       child: Center(
+                      //         child: Text(
+                      //           isLastStep ? "Confirm" : "Next",
+                      //           style: const TextStyle(
+                      //             color: Colors.white,
+                      //             fontSize: 16.0,
+                      //             fontWeight: FontWeight.bold,
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                    ],
+                  ),
+                );
+              },
+            )),
       ),
     );
   }

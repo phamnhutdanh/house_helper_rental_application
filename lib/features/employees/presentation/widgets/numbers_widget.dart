@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
 
 class NumbersWidget extends StatelessWidget {
-  const NumbersWidget({super.key});
+  final double averageRating;
+  final int ratingCount;
+
+  const NumbersWidget({
+    super.key,
+    required this.averageRating,
+    required this.ratingCount,
+  });
 
   @override
   Widget build(BuildContext context) => Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          buildButton(context, '4.8', 'Ranking'),
+          buildButton(context, averageRating.toString(), 'Average score'),
           buildDivider(),
-          buildButton(context, '35', 'Following'),
-          buildDivider(),
-          buildButton(context, '50', 'Followers'),
+          buildButton(context, ratingCount.toString(), 'Total ratings'),
         ],
       );
+
   Widget buildDivider() => Container(
         height: 24,
-        child: VerticalDivider(),
+        child: const VerticalDivider(),
       );
 
   Widget buildButton(BuildContext context, String value, String text) =>

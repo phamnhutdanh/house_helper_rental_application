@@ -1,7 +1,10 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:house_helper_rental_application/core/common/widgets/gradient_button.dart';
 import 'package:house_helper_rental_application/core/theme/app_palette.dart';
+import 'package:house_helper_rental_application/features/employees/presentation/bloc/employee_bloc.dart';
+import 'package:house_helper_rental_application/features/services/presentation/bloc/service_bloc.dart';
 import 'package:lottie/lottie.dart';
 
 class SuccessPage extends StatefulWidget {
@@ -26,7 +29,6 @@ class _SuccessPageState extends State<SuccessPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 20.0),
-
             Center(
               child: Lottie.network(
                 "https://assets8.lottiefiles.com/packages/lf20_jz2wa00k.json",
@@ -36,7 +38,6 @@ class _SuccessPageState extends State<SuccessPage> {
               ),
             ),
             const SizedBox(height: 20.0),
-
             const Text(
               "Successfully completed!",
               style: TextStyle(
@@ -48,6 +49,9 @@ class _SuccessPageState extends State<SuccessPage> {
             GradientButton(
               buttonText: "Back to home",
               onPressed: () {
+                context.read<ServiceBloc>().add(FetchAllServicesEvent());
+                context.read<EmployeeBloc>().add(FetchTopEmployeesEvent());
+
                 Beamer.of(context).beamToReplacementNamed('/booking_home');
               },
             ),

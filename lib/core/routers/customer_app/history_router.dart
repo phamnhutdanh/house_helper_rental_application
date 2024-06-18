@@ -28,11 +28,9 @@ class HistoryRouter extends BeamLocation<BeamState> {
         if (bookingId != null) {
           pages.add(
             BeamPage(
-              key: ValueKey('booking_history/booking_details'),
+              key: ValueKey('booking_history/booking_details/$bookingId'),
               title: 'Booking details',
-              child: BookingDetailsPage(
-                bookingId: bookingId,
-              ),
+              child: BookingDetailsPage(bookingId: bookingId),
             ),
           );
         }

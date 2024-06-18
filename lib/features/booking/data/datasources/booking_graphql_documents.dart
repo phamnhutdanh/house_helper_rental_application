@@ -1,3 +1,5 @@
+import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
+
 class CreateBookingInput {
   final String bookingTime;
   final String repeatStatus;
@@ -47,6 +49,29 @@ class CreateBookingServiceDetailInput {
   }
 }
 
+class ChangeBookingStatusInput {
+  final String id;
+  final BookingStatus bookingStatus;
+
+  ChangeBookingStatusInput({
+    required this.id,
+    required this.bookingStatus,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'bookingStatus': bookingStatus == BookingStatus.PENDING
+          ? "PENDING"
+          : bookingStatus == BookingStatus.ACCEPTED
+              ? "ACCEPTED"
+              : bookingStatus == BookingStatus.CANCELED
+                  ? "CANCELED"
+                  : "COMPLETED",
+    };
+  }
+}
+
 class BookingGraphqlDocuments {
   static String createBookingMutation = """
     mutation Mutation(\$createBookingInput: CreateBookingInput, \$createBookingServiceDetailListInput: [CreateBookingServiceDetailInput]) {
@@ -63,6 +88,60 @@ class BookingGraphqlDocuments {
         serviceId
         customerId
         customerAddressId
+      }
+    }
+""";
+
+  static String getAllBookingOfCustomerQuery = """
+    query GetAllBookingOfCustomer(\$customerId: String) {
+      getAllBookingOfCustomer(customerId: \$customerId) {
+        id
+        bookingTime
+        status
+        service {
+          id
+          name
+        }
+        totalPrice
+      }
+    }
+""";
+
+  static String getBookingById = """
+    query GetBookingById(\$id: String) {
+      getBookingById(id: \$id) {
+        id
+        customerAddress {
+          address {
+            id
+            address
+            fullName
+            phone 
+          }
+        }
+        bookingTime
+        paymentMethod
+        repeatStatus
+        note
+        totalPrice
+        status
+        bookingServiceDetails {
+          serviceDetails {
+            id
+            imageUri
+            name
+            fee
+          }
+        }
+      }
+    }
+""";
+
+  static String changeBookingStatusMutation = """
+    mutation ChangeBookingStatus(\$changeBookingStatusInput: ChangeBookingStatusInput) {
+      changeBookingStatus(changeBookingStatusInput: \$changeBookingStatusInput) {
+        id
+        status
       }
     }
 """;

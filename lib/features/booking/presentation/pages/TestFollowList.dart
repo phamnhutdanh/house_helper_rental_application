@@ -227,11 +227,10 @@ class FollowingPage extends StatefulWidget {
 
 class _FollowingPageState extends State<FollowingPage>
     with TickerProviderStateMixin {
-
   List<User> _users = [
     User(
         'Elliana Palacios',
-        '@elliana',
+        '@ellianaadfasdfasdfasdfasdfsajldfljsakldjfklajsdklfjklsajdlfkdfsajldfljsakldjfklajsdklfjklsajdlfkdfsajldfljsakldjfklajsdklfjklsajdlfkdfsajldfljsakldjfklajsdklfjklsajdlfkdfsajldfljsakldjfklajsdklfjklsajdlfkdfsajldfljsakldjfklajsdklfjklsajdlfkdfsajldfljsakldjfklajsdklfjklsajdlfkdfsajldfljsakldjfklajsdklfjklsajdlfkjsalkdjflkajsdklfjsalkdjflkajsdlkfjlaksdjflkjasdlkfjasld',
         'https://images.unsplash.com/photo-1504735217152-b768bcab5ebc?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=0ec8291c3fd2f774a365c8651210a18b',
         false),
     User(
@@ -283,52 +282,70 @@ class _FollowingPageState extends State<FollowingPage>
 
   userComponent({required User user}) {
     return Container(
-      padding: EdgeInsets.only(top: 10, bottom: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      width: double.infinity,
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(children: [
-            Container(
-                width: 60,
-                height: 60,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(50),
-                  child: Image.network(user.image),
-                )),
-            SizedBox(width: 10),
-            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(user.name,
-                  style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.w500)),
+          Row(
+            children: [
+              Container(
+                  width: 60,
+                  height: 60,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: Image.network(user.image),
+                  )),
               SizedBox(
-                height: 5,
+                width: 8,
               ),
-              Text(user.username, style: TextStyle(color: Colors.grey[600])),
-            ])
-          ]),
-          Container(
-              height: 40,
-              decoration: BoxDecoration(
-                border: Border.all(color: Color(0xffeeeeee)),
-                borderRadius: BorderRadius.circular(50),
-              ),
-              child: MaterialButton(
-                elevation: 0,
-                color:
-                    user.isFollowedByMe ? Color(0xffeeeeee) : Color(0xffffff),
-                onPressed: () {
-                  setState(() {
-                    user.isFollowedByMe = !user.isFollowedByMe;
-                  });
-                },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                child: Text(user.isFollowedByMe ? 'Unfollow' : 'Follow',
-                    style: TextStyle(color: Colors.black)),
-              ))
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(user.name,
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w500)),
+                  Text('rating',
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w500)),
+                ],
+              )
+            ],
+          ),
+          SizedBox(
+            height: 12,
+          ),
+          Text(user.username,
+              // softWrap: true,
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                color: Colors.grey[600],
+              )),
         ],
       ),
     );
   }
 }
+
+// Container(
+//                 height: 40,
+//                 decoration: BoxDecoration(
+//                   border: Border.all(color: Color(0xffeeeeee)),
+//                   borderRadius: BorderRadius.circular(50),
+//                 ),
+//                 child: MaterialButton(
+//                   elevation: 0,
+//                   color:
+//                       user.isFollowedByMe ? Color(0xffeeeeee) : Color(0xffffff),
+//                   onPressed: () {
+//                     setState(() {
+//                       user.isFollowedByMe = !user.isFollowedByMe;
+//                     });
+//                   },
+//                   shape: RoundedRectangleBorder(
+//                     borderRadius: BorderRadius.circular(50),
+//                   ),
+//                   child: Text(user.isFollowedByMe ? 'Unfollow' : 'Follow',
+//                       style: TextStyle(color: Colors.black)),
+//                 ),
+//               ),

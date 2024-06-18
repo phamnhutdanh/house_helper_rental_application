@@ -121,6 +121,10 @@ class _HomeBookingPageState extends State<HomeBookingPage> {
                     if (state is TopEmployeesDisplaySuccess) {
                       return TopEmployeesGrid(
                         topEmployees: state.topEmployees,
+                        onTapItem: (employeeId) {
+                          Beamer.of(context).beamToNamed(
+                              '/booking_home/employee_details/$employeeId');
+                        },
                       );
                     }
                     return const SizedBox();

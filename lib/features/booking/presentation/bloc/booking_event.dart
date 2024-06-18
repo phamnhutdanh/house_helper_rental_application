@@ -26,3 +26,29 @@ final class BookingCreateDataEvent extends BookingEvent {
     required this.serviceDetails,
   });
 }
+
+final class BookingChangeStatusEvent extends BookingEvent {
+  final String id;
+  final BookingStatus bookingStatus;
+
+  BookingChangeStatusEvent({
+    required this.id,
+    required this.bookingStatus,
+  });
+}
+
+final class GetAllBookingOfCustomerEvent extends BookingEvent {
+  final String customerId;
+
+  GetAllBookingOfCustomerEvent({
+    required this.customerId,
+  });
+}
+
+final class GetBookingByIdEvent extends BookingEvent {
+  final String id;
+
+  GetBookingByIdEvent({
+    required this.id,
+  });
+}

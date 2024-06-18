@@ -20,6 +20,7 @@ class GenericTabPage extends StatelessWidget {
     return DefaultTabController(
       length: tabs.length,
       child: Scaffold(
+        backgroundColor: AppPalette.whiteColor,
         appBar: AppBar(
           title: Text(
             title,
@@ -39,7 +40,7 @@ class GenericTabPage extends StatelessWidget {
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               child: Container(
                 height: 40,
-                margin: EdgeInsets.symmetric(horizontal: 20),
+                margin: const EdgeInsets.symmetric(horizontal: 20),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   color: AppPalette.greyColor.withOpacity(0.1),

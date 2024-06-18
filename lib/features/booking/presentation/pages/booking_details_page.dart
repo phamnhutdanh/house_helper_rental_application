@@ -1,11 +1,16 @@
 import 'package:beamer/beamer.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
+import 'package:house_helper_rental_application/core/common/entities/service.dart';
 import 'package:house_helper_rental_application/core/common/widgets/default_app_bar.dart';
-import 'package:house_helper_rental_application/core/common/widgets/gradient_button.dart';
+import 'package:house_helper_rental_application/core/common/widgets/loader.dart';
 import 'package:house_helper_rental_application/core/theme/app_palette.dart';
-import 'package:house_helper_rental_application/core/common/widgets/page_name.dart';
+import 'package:house_helper_rental_application/core/utils/show_snackbar.dart';
+import 'package:house_helper_rental_application/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:house_helper_rental_application/features/booking/presentation/bloc/booking_bloc.dart';
+import 'package:house_helper_rental_application/features/booking/presentation/widgets/booking_detail_widget.dart';
 
 class BookingDetailsPage extends StatefulWidget {
   final String bookingId;
@@ -21,117 +26,72 @@ class BookingDetailsPage extends StatefulWidget {
 class _BookingDetailsPageState extends State<BookingDetailsPage> {
   @override
   void initState() {
+    context.read<BookingBloc>().add(GetBookingByIdEvent(id: widget.bookingId));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: DefaultAppBar(
-        title: 'Booking details',
-        isVisibleBackButton: true,
-        onPressBack: () {
-          Beamer.of(context).beamBack();
-        },
-      ),
-      resizeToAvoidBottomInset: true,
-      backgroundColor: AppPalette.whiteColor,
-      body: SingleChildScrollView(
-        child: Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const PageName(textName: 'Full name'),
-                const SizedBox(height: 10),
-                Text(
-                  // widget.booking.customerAddress,
-                  "Full name customer",
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: AppPalette.blackColor,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                const PageName(textName: 'Phone'),
-                const SizedBox(height: 10),
-                Text(
-                  //  widget.checkoutDataObject.phone,
-                  "Phone customer",
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: AppPalette.blackColor,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                const PageName(textName: 'Address'),
-                const SizedBox(height: 10),
-                Text(
-                  // widget.checkoutDataObject.address,
-                  "Address customer",
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: AppPalette.blackColor,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                const PageName(textName: 'Booking time'),
-                const SizedBox(height: 10),
-                Text(
-                  "Booking time customer",
-                  // widget.checkoutDataObject.bookingTime,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: AppPalette.blackColor,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                const PageName(textName: 'Repeat'),
-                const SizedBox(height: 10),
-                Text(
-                  "Repeat status customer",
-                  //   widget.checkoutDataObject.repeatStatus,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: AppPalette.blackColor,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                const PageName(textName: 'Service details'),
-                const SizedBox(height: 10),
-                Container(
-                  height: 150,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: AppPalette.transparentColor,
-                  ),
-                  child: Expanded(
-                    child: Text('Service details'),
-                    // child: ServiceDetailsView(
-                    //   serviceDetails: widget.checkoutDataObject.serviceDetails,
-                    // ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                const PageName(textName: 'Payment method'),
-                const SizedBox(height: 10),
-                Text('Full name customer'),
-                // Text(widget.checkoutDataObject.paymentMethod),
-                const SizedBox(height: 20),
-                GradientButton(
-                    buttonText: "Cancel booking",
-                    colors: const [
-                      AppPalette.errorColor,
-                      AppPalette.errorColor,
-                    ],
-                    textColor: AppPalette.whiteColor,
-                    onPressed: () {
-                      Beamer.of(context).beamBack();
-                    }),
-              ],
-            ),
-          ),
+    return PopScope(
+      onPopInvokedWithResult: (didPop, result) {
+        final account =
+            (BlocProvider.of<AuthBloc>(context).state as AuthSuccess)
+                .accountInfo;
+
+        context.read<BookingBloc>().add(GetAllBookingOfCustomerEvent(
+            customerId: account.customer!.id ?? ''));
+      },
+      child: Scaffold(
+        appBar: DefaultAppBar(
+          title: 'Booking details',
+          isVisibleBackButton: true,
+          onPressBack: () {
+            Beamer.of(context).beamBack();
+          },
+        ),
+        resizeToAvoidBottomInset: true,
+        backgroundColor: AppPalette.whiteColor,
+        body: BlocConsumer<BookingBloc, BookingState>(
+          listener: (context, state) {
+            if (state is BookingFailure) {
+              showSnackBar(context, state.error);
+            }
+          },
+          builder: (context, state) {
+            if (state is BookingLoading) {
+              return const Loader();
+            }
+            if (state is GetBookingByIdDisplaySuccess) {
+              final booking = state.booking;
+              final List<ServiceDetails> serviceDetails = booking
+                  .bookingServiceDetails!
+                  .map((item) => item.serviceDetails!)
+                  .toList();
+
+              return BookingDetailWidget(
+                bookingId: widget.bookingId,
+                fullName: booking.customerAddress!.address!.fullName ?? '',
+                phone: booking.customerAddress!.address!.phone ?? '',
+                address: booking.customerAddress!.address!.address ?? '',
+                note: booking.note ?? '',
+                paymentMethod:
+                    booking.paymentMethod == PaymentMethod.COD ? "COD" : "MOMO",
+                repeatStatus: booking.repeatStatus ==
+                        RepeatBookingStatus.NO_REPEAT
+                    ? "NO_REPEAT"
+                    : booking.repeatStatus == RepeatBookingStatus.EVERY_DAY
+                        ? "EVERY_DAY"
+                        : booking.repeatStatus == RepeatBookingStatus.EVERY_WEEK
+                            ? "EVERY_WEEK"
+                            : "EVERY_MONTH",
+                selectedDate: booking.bookingTime ?? DateTime.now(),
+                serviceDetails: serviceDetails,
+                totalPrice: booking.totalPrice ?? 0,
+                bookingStatus: booking.status ?? BookingStatus.CANCELED,
+              );
+            }
+            return const SizedBox();
+          },
         ),
       ),
     );
