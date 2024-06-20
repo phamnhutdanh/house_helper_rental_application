@@ -4,6 +4,9 @@ import 'package:house_helper_rental_application/core/theme/app_palette.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/pages/login_page.dart';
 
 class BannedPage extends StatefulWidget {
+  static route() => MaterialPageRoute(
+        builder: (context) => const BannedPage(),
+      );
   const BannedPage({super.key});
 
   @override

@@ -1,9 +1,11 @@
 import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
 import 'package:house_helper_rental_application/core/common/widgets/loader.dart';
+import 'package:house_helper_rental_application/core/routers/admin_app/admin_router.dart';
 import 'package:house_helper_rental_application/core/routers/customer_app/booking_router.dart';
 import 'package:house_helper_rental_application/core/routers/employee_app/task_router.dart';
 import 'package:house_helper_rental_application/core/theme/app_palette.dart';
 import 'package:house_helper_rental_application/core/utils/show_snackbar.dart';
+import 'package:house_helper_rental_application/features/accounts/presentation/pages/banned_page.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/pages/signup_page.dart';
 import 'package:house_helper_rental_application/core/common/widgets/input_field.dart';
@@ -44,6 +46,15 @@ class _LoginPageState extends State<LoginPage> {
             if (state is AuthFailure) {
               showSnackBar(context, state.message);
             } else if (state is AuthSuccess) {
+              if (state.accountInfo.status == AccountStatus.BANNED) {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const BannedPage()),
+                  (route) => false,
+                );
+                return;
+              }
+
               if (state.accountInfo.accountRole == AccountInfoRole.CUSTOMER) {
                 Navigator.pushAndRemoveUntil(
                   context,
@@ -55,6 +66,13 @@ class _LoginPageState extends State<LoginPage> {
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => TaskRouter()),
+                  (route) => false,
+                );
+              } else if (state.accountInfo.accountRole ==
+                  AccountInfoRole.ADMIN) {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => AdminRouter()),
                   (route) => false,
                 );
               }

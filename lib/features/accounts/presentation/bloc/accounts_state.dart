@@ -19,3 +19,8 @@ final class AccountsDisplaySuccess extends AccountsState {
     this.accounts,
   );
 }
+
+final class GetAccountByIdSuccess extends AccountsState {
+  final AccountInfo accountInfo;
+  GetAccountByIdSuccess(this.accountInfo);
+}

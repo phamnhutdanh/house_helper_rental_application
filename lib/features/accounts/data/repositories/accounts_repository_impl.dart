@@ -21,4 +21,15 @@ class AccountsRepositoryImpl implements AccountsRepository {
       return left(Failure(e.message));
     }
   }
+
+  @override
+  Future<Either<Failure, AccountInfo>> getAccountById(
+      {required String id}) async {
+    try {
+      final account = await accountRemoteDataSource.getAccountById(id: id);
+      return right(account);
+    } on ServerExceptionError catch (e) {
+      return left(Failure(e.message));
+    }
+  }
 }

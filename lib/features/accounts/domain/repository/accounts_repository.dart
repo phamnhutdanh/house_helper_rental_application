@@ -4,4 +4,5 @@ import 'package:fpdart/fpdart.dart';
 
 abstract interface class AccountsRepository {
   Future<Either<Failure, List<AccountInfo>>> getAllAccounts();
+  Future<Either<Failure, AccountInfo>> getAccountById({required String id});
 }

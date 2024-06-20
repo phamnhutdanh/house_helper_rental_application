@@ -43,9 +43,9 @@ class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
 
   final _routerDelegates = [
     BeamerDelegate(
-      initialPath: '/accounts_router',
+      initialPath: '/admin_home',
       locationBuilder: (routeInformation, _) {
-        if (routeInformation.uri.toString().contains('/accounts_router')) {
+        if (routeInformation.uri.toString().contains('/admin_home')) {
           return AccountsRouter(routeInformation);
         }
         return NotFound(path: routeInformation.uri.toString());
@@ -75,7 +75,7 @@ class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     final uriString = Beamer.of(context).configuration.uri.toString();
-    _currentIndex = uriString.contains('/accounts_router') ? 0 : 1;
+    _currentIndex = uriString.contains('/admin_home') ? 0 : 1;
   }
 
   @override

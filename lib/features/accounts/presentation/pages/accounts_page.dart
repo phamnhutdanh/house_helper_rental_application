@@ -1,3 +1,4 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:house_helper_rental_application/core/common/entities/account_info.dart';
@@ -57,11 +58,19 @@ class _AccountsPageState extends State<AccountsPage> {
             children: [
               AccountTab(
                 accounts: employees,
-                onTapItem: (accountId) {},
+                onTapItem: (accountId) {
+                  final employeeId = accountId;
+                  Beamer.of(context)
+                      .beamToNamed('/admin_home/employee_details/$employeeId');
+                },
               ),
               AccountTab(
                 accounts: customers,
-                onTapItem: (accountId) {},
+                onTapItem: (accountId) {
+                  final customerId = accountId;
+                  Beamer.of(context)
+                      .beamToNamed('/admin_home/customer_details/$customerId');
+                },
               ),
             ],
           );

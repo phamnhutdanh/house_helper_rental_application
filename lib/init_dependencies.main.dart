@@ -61,10 +61,13 @@ void _initAccounts() {
     ..registerFactory(
       () => GetAllAccounts(serviceLocator()),
     )
+    ..registerFactory(
+      () => GetAccountById(serviceLocator()),
+    )
     // Bloc
     ..registerLazySingleton(
       () => AccountsBloc(
-        getAllAccounts: serviceLocator(),
+        getAllAccounts: serviceLocator(), getAccountById: serviceLocator(),
       ),
     );
 }
