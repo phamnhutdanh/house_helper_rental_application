@@ -3,7 +3,12 @@ import 'package:house_helper_rental_application/features/address/data/repositori
 import 'package:house_helper_rental_application/features/address/domain/repository/address_repository.dart';
 import 'package:house_helper_rental_application/features/address/domain/usecases/get_all_address_of_customer.dart';
 import 'package:house_helper_rental_application/features/address/domain/usecases/get_customer_address_by_id.dart';
+import 'package:house_helper_rental_application/features/address/domain/usecases/remove_customer_address.dart';
 import 'package:house_helper_rental_application/features/address/presentation/bloc/address_bloc.dart';
+import 'package:house_helper_rental_application/features/auth/domain/usecases/change_noti_status.dart';
+import 'package:house_helper_rental_application/features/auth/domain/usecases/get_all_noti.dart';
+import 'package:house_helper_rental_application/features/auth/domain/usecases/update_info_customer.dart';
+import 'package:house_helper_rental_application/features/auth/presentation/bloc/noti_bloc.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/cubits/app_user/app_account_cubit.dart';
 import 'package:house_helper_rental_application/core/network/connection_checker.dart';
 import 'package:house_helper_rental_application/core/secrets/app_secrets.dart';
@@ -30,8 +35,14 @@ import 'package:house_helper_rental_application/features/booking/domain/usecases
 import 'package:house_helper_rental_application/features/employees/data/datasources/employee_remote_data_source.dart';
 import 'package:house_helper_rental_application/features/employees/data/repositories/employee_repository_impl.dart';
 import 'package:house_helper_rental_application/features/employees/domain/repository/employee_repository.dart';
+import 'package:house_helper_rental_application/features/employees/domain/usecases/add_to_favorite.dart';
+import 'package:house_helper_rental_application/features/employees/domain/usecases/check_favorite.dart';
 import 'package:house_helper_rental_application/features/employees/domain/usecases/create_rating_employee.dart';
+import 'package:house_helper_rental_application/features/employees/domain/usecases/get_employee_by_id.dart';
+import 'package:house_helper_rental_application/features/employees/domain/usecases/get_favorite_employees_of_customer.dart';
+import 'package:house_helper_rental_application/features/employees/domain/usecases/remove_from_favorite.dart';
 import 'package:house_helper_rental_application/features/employees/presentation/bloc/employee_bloc.dart';
+import 'package:house_helper_rental_application/features/employees/presentation/bloc/favorite_employee_bloc.dart';
 import 'package:house_helper_rental_application/features/employees/presentation/bloc/rating_bloc.dart';
 import 'package:house_helper_rental_application/features/services/data/datasources/service_remote_data_source.dart';
 import 'package:house_helper_rental_application/features/booking/data/repositories/booking_repository_impl.dart';

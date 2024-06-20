@@ -17,3 +17,8 @@ final class TopEmployeesDisplaySuccess extends EmployeeState {
 
   TopEmployeesDisplaySuccess(this.topEmployees);
 }
+
+final class GetEmployeeByIdDisplaySuccess extends EmployeeState {
+  final Employee employee;
+  GetEmployeeByIdDisplaySuccess(this.employee);
+}

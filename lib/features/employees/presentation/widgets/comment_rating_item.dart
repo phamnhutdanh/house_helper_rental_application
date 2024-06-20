@@ -42,19 +42,14 @@ class CommentRatingItem extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(name,
-                          style: const TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500)),
-                      Text(formatDateByhhmmDDMMYYYY(commentDate),
-                          style: const TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500)),
-                    ],
-                  ),
+                  Text(name,
+                      style: const TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w500)),
+                  Text(formatDateByhhmmDDMMYYYY(commentDate),
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                      )),
                   Row(
                     children: [
                       Text(score.toString(),

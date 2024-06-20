@@ -18,4 +18,8 @@ abstract interface class AddressRepository {
   Future<Either<Failure, CustomerAddress>> getCustomerAddressById({
     required String id,
   });
+
+  Future<Either<Failure, CustomerAddress>> removeCustomerAddress({
+    required String id,
+  });
 }

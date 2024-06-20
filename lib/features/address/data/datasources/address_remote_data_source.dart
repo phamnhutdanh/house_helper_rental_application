@@ -19,6 +19,10 @@ abstract interface class AddressRemoteDataSource {
   Future<CustomerAddressModel> getCustomerAddressById({
     required String id,
   });
+
+  Future<CustomerAddressModel> removeCustomerAddress({
+    required String id,
+  });
 }
 
 class AddressRemoteDataSourceImpl implements AddressRemoteDataSource {
@@ -46,7 +50,7 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDataSource {
       );
 
       final MutationOptions options = MutationOptions(
-        document: gql(AddressGraphqlDocuments.createCustomerAddress),
+        document: gql(AddressGraphqlDocuments.createCustomerAddressMutation),
         variables: {
           'createAddressInput': createAddressInput.toJson(),
           'createCustomerAddressInput': createCustomerAddressInput.toJson(),
@@ -72,7 +76,7 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDataSource {
       {required String customerId}) async {
     try {
       final QueryOptions options = QueryOptions(
-        document: gql(AddressGraphqlDocuments.getAllAddressOfCustomer),
+        document: gql(AddressGraphqlDocuments.getAllAddressOfCustomerQuery),
         variables: {
           'customerId': customerId,
         },
@@ -101,7 +105,7 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDataSource {
       {required String id}) async {
     try {
       final QueryOptions options = QueryOptions(
-        document: gql(AddressGraphqlDocuments.getCustomerAddressById),
+        document: gql(AddressGraphqlDocuments.getCustomerAddressByIdQuery),
         variables: {
           'id': id,
         },
@@ -116,6 +120,31 @@ class AddressRemoteDataSourceImpl implements AddressRemoteDataSource {
       }
       final resultData = result.data?['getCustomerAddressById'];
       return CustomerAddressModel.fromJson(resultData);
+    } catch (e) {
+      throw ServerExceptionError(e.toString());
+    }
+  }
+
+  @override
+  Future<CustomerAddressModel> removeCustomerAddress(
+      {required String id}) async {
+    try {
+      final MutationOptions options = MutationOptions(
+        document: gql(AddressGraphqlDocuments.removeCustomerAddressMutation),
+        variables: {
+          'id': id,
+        },
+        fetchPolicy: FetchPolicy.networkOnly,
+      );
+
+      final QueryResult result = await graphQLClient.mutate(options);
+
+      if (result.hasException) {
+        throw const ServerExceptionError(
+            'Mutation delete customer address is error!');
+      }
+      return CustomerAddressModel.fromJson(
+          result.data?['removeCustomerAddress'] ?? {});
     } catch (e) {
       throw ServerExceptionError(e.toString());
     }

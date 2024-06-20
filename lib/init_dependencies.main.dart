@@ -99,6 +99,15 @@ void _initAuth() {
     ..registerFactory(
       () => CurrentAccountInfo(serviceLocator()),
     )
+    ..registerFactory(
+      () => UpdateInfoCustomer(serviceLocator()),
+    )
+    ..registerFactory(
+      () => ChangeNotiStatus(serviceLocator()),
+    )
+    ..registerFactory(
+      () => GetAllNoti(serviceLocator()),
+    )
     // Bloc
     ..registerLazySingleton(
       () => AuthBloc(
@@ -107,6 +116,13 @@ void _initAuth() {
         currentAccountInfo: serviceLocator(),
         appAccountCubit: serviceLocator(),
         accountSignOut: serviceLocator(),
+        updateInfoCustomer: serviceLocator(),
+      ),
+    )
+    ..registerLazySingleton(
+      () => NotiBloc(
+        changeNotiStatus: serviceLocator(),
+        getAllNoti: serviceLocator(),
       ),
     );
 }
@@ -133,12 +149,16 @@ void _initAddress() {
     ..registerFactory(
       () => GetCustomerAddressById(serviceLocator()),
     )
+    ..registerFactory(
+      () => RemoveCustomerAddress(serviceLocator()),
+    )
     // Bloc
     ..registerLazySingleton(
       () => AddressBloc(
         createCustomerAddress: serviceLocator(),
         getAllAddressOfCustomer: serviceLocator(),
         getCustomerAddressById: serviceLocator(),
+        removeCustomerAddress: serviceLocator(),
       ),
     );
 }
@@ -162,15 +182,40 @@ void _initEmployees() {
     ..registerFactory(
       () => CreateRatingEmployee(serviceLocator()),
     )
+    ..registerFactory(
+      () => GetEmployeeById(serviceLocator()),
+    )
+    ..registerFactory(
+      () => AddToFavorite(serviceLocator()),
+    )
+    ..registerFactory(
+      () => RemoveFromFavorite(serviceLocator()),
+    )
+    ..registerFactory(
+      () => GetFavoriteEmployeesOfCustomer(serviceLocator()),
+    )
+    ..registerFactory(
+      () => CheckFavorite(serviceLocator()),
+    )
     // Bloc
     ..registerLazySingleton(
       () => EmployeeBloc(
         getTopEmployees: serviceLocator(),
+        getEmployeeById: serviceLocator(),
       ),
     )
     ..registerLazySingleton(
       () => RatingBloc(
         createRatingEmployee: serviceLocator(),
+      ),
+    )
+    ..registerLazySingleton(
+      () => FavoriteEmployeeBloc(
+        addToFavorite: serviceLocator(),
+        removeFromFavorite: serviceLocator(),
+        getEmployeeById: serviceLocator(),
+        getFavoriteEmployeesOfCustomer: serviceLocator(),
+        checkFavorite: serviceLocator(),
       ),
     );
 }

@@ -24,6 +24,23 @@ class CreateRatingEmployeeInput {
   }
 }
 
+class FavoriteInput {
+  final String employeeId;
+  final String customerId;
+
+  FavoriteInput({
+    required this.employeeId,
+    required this.customerId,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'employeeId': employeeId,
+      'customerId': customerId,
+    };
+  }
+}
+
 class EmployeeGraphqlDocuments {
   static String getTopEmployeesQuery = """
     query GetTopEmployees {
@@ -48,5 +65,78 @@ class EmployeeGraphqlDocuments {
         comment
       }
     }
+  """;
+
+  static String addToFavoriteMutation = """
+    mutation AddToFavorite(\$favoriteInput: FavoriteInput) {
+      addToFavorite(favoriteInput: \$favoriteInput) {
+        id
+      }
+    }
+  """;
+
+  static String removeFromFavoriteMutation = """
+    mutation RemoveFromFavorite(\$favoriteInput: FavoriteInput) {
+      removeFromFavorite(favoriteInput: \$favoriteInput) {
+        id
+      }
+    }
+  """;
+
+    static String getFavoriteEmployeesOfCustomerQuery = """
+      query GetFavoriteEmployeesOfCustomer(\$customerId: String) {
+        getFavoriteEmployeesOfCustomer(customerId: \$customerId) {
+          id
+          employeeId
+          employee {
+            id
+            imageUri
+            name
+            averageRating
+            accountInfo {
+              email
+            }
+          }
+        }
+      }
+  """;
+
+  static String checkFavoriteQuery = """
+      query Query(\$favoriteInput: FavoriteInput) {
+        checkFavorite(favoriteInput: \$favoriteInput)
+      }
+  """;
+
+  static String getEmployeeByIdQuery = """
+      query GetEmployeeById(\$id: String) {
+        getEmployeeById(id: \$id) {
+          id
+          imageUri
+          name
+          phoneNumber
+          ratings {
+            id
+            score
+            updatedAt
+            customer {
+              imageUri
+              name
+            }
+            comment
+          }
+          accountInfo {
+            email
+          }
+          description
+          age
+          averageRating
+          workingHours
+          employeeAddresses {
+            address {
+              address
+            }
+          }
+        }
+      }
   """;
 }

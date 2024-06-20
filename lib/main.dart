@@ -1,4 +1,5 @@
 import 'package:house_helper_rental_application/features/address/presentation/bloc/address_bloc.dart';
+import 'package:house_helper_rental_application/features/auth/presentation/bloc/noti_bloc.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/cubits/app_user/app_account_cubit.dart';
 import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
 import 'package:house_helper_rental_application/core/routers/admin_app/admin_router.dart';
@@ -10,6 +11,7 @@ import 'package:house_helper_rental_application/features/auth/presentation/pages
 import 'package:house_helper_rental_application/features/booking/presentation/bloc/booking_bloc.dart';
 import 'package:house_helper_rental_application/core/routers/customer_app/booking_router.dart';
 import 'package:house_helper_rental_application/features/employees/presentation/bloc/employee_bloc.dart';
+import 'package:house_helper_rental_application/features/employees/presentation/bloc/favorite_employee_bloc.dart';
 import 'package:house_helper_rental_application/features/employees/presentation/bloc/rating_bloc.dart';
 import 'package:house_helper_rental_application/features/services/presentation/bloc/service_bloc.dart';
 import 'package:house_helper_rental_application/init_dependencies.dart';
@@ -46,6 +48,12 @@ void main() async {
       ),
       BlocProvider(
         create: (_) => serviceLocator<RatingBloc>(),
+      ),
+      BlocProvider(
+        create: (_) => serviceLocator<FavoriteEmployeeBloc>(),
+      ),
+      BlocProvider(
+        create: (_) => serviceLocator<NotiBloc>(),
       ),
     ],
     child: GraphQLProvider(

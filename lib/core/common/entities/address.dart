@@ -1,4 +1,5 @@
 import 'package:house_helper_rental_application/core/common/entities/customer.dart';
+import 'package:house_helper_rental_application/core/common/entities/employee.dart';
 import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
 
 class Address {
@@ -37,12 +38,16 @@ class EmployeeAddress {
   final String? id;
   final AddressType? addressType;
   final String? employeeId;
+  final Employee? employee;
   final String? addressId;
+  final Address? address;
 
   EmployeeAddress({
     this.id,
     this.addressType,
     this.employeeId,
     this.addressId,
+    this.employee,
+    this.address,
   });
 }

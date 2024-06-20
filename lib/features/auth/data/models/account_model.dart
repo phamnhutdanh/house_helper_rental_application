@@ -3,7 +3,7 @@ import 'package:house_helper_rental_application/core/common/entities/customer.da
 import 'package:house_helper_rental_application/core/common/entities/employee.dart';
 import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
 import 'package:house_helper_rental_application/core/utils/format_date.dart';
-import 'package:house_helper_rental_application/features/customers/data/models/customer_model.dart';
+import 'package:house_helper_rental_application/features/employees/data/models/customer_model.dart';
 import 'package:house_helper_rental_application/features/employees/data/models/employee_model.dart';
 
 class AccountModel extends AccountInfo {
@@ -34,10 +34,10 @@ class AccountModel extends AccountInfo {
               : AccountStatus.BANNED) as AccountStatus?,
       createdAt: convertDateFromMillisecondsString(map['createdAt'] as String?),
       updatedAt: convertDateFromMillisecondsString(map['updatedAt'] as String?),
-      customer: map['accountRole'] == 'CUSTOMER'
+      customer: map['customer'] != null
           ? CustomerModel.fromJson(map['customer'] ?? {})
           : null,
-      employee: map['accountRole'] == 'EMPLOYEE'
+      employee: map['employee'] != null
           ? EmployeeModel.fromJson(map['employee'] ?? {})
           : null,
     );

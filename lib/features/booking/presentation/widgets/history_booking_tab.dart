@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:house_helper_rental_application/core/common/entities/booking.dart';
 import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
+import 'package:house_helper_rental_application/core/common/widgets/empty_widget.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/widgets/booking_item.dart';
 
 class HistoryBookingTab extends StatelessWidget {
@@ -36,7 +37,7 @@ class HistoryBookingTab extends StatelessWidget {
               ),
               separatorBuilder: (_, __) => const SizedBox(height: 20),
             )
-          : const Text('No booking found.'),
+          : const EmptyWidget(title: 'There is no booking here'),
     );
   }
 }

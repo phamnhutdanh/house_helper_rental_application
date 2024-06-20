@@ -36,7 +36,7 @@ class CreateCustomerAddressInput {
 }
 
 class AddressGraphqlDocuments {
-  static String createCustomerAddress = """
+  static String createCustomerAddressMutation = """
       mutation CreateCustomerAddress(\$createAddressInput: CreateAddressInput, \$createCustomerAddressInput: CreateCustomerAddressInput) {
       createCustomerAddress(createAddressInput: \$createAddressInput, createCustomerAddressInput: \$createCustomerAddressInput) {
           id
@@ -57,7 +57,15 @@ class AddressGraphqlDocuments {
     }
 """;
 
-  static String getAllAddressOfCustomer = """
+  static String removeCustomerAddressMutation = """
+    mutation Mutation(\$id: String) {
+      removeCustomerAddress(id: \$id) {
+        id
+      }
+    }
+""";
+
+  static String getAllAddressOfCustomerQuery = """
       query GetAllAddressOfCustomer(\$customerId: String) {
         getAllAddressOfCustomer(customerId: \$customerId) {
           id
@@ -78,7 +86,7 @@ class AddressGraphqlDocuments {
       }
 """;
 
-  static String getCustomerAddressById = """
+  static String getCustomerAddressByIdQuery = """
       query GetCustomerAddressById(\$id: String) {
         getCustomerAddressById(id: \$id) {
           id

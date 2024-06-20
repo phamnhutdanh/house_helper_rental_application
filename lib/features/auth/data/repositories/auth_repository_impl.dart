@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:house_helper_rental_application/core/common/entities/account_info.dart';
+import 'package:house_helper_rental_application/core/common/entities/notification.dart';
 import 'package:house_helper_rental_application/core/constants/constants.dart';
 import 'package:house_helper_rental_application/core/error/exceptions.dart';
 import 'package:house_helper_rental_application/core/error/failures.dart';
@@ -83,6 +86,62 @@ class AuthRepositoryImpl implements AuthRepository {
         return left(Failure(Constants.noConnectionErrorMessage));
       }
       return right(await remoteDataSource.signOut());
+    } on ServerExceptionError catch (e) {
+      return left(Failure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, AccountInfo>> updateInfoCustomer({
+    required File? image,
+    required String name,
+    required String phone,
+    required String customerId,
+  }) async {
+    try {
+      late AccountInfo accountInfo;
+      if (image != null) {
+        final imageUrl = await remoteDataSource.uploadImageCustomer(
+          image: image,
+        );
+        accountInfo = await remoteDataSource.updateInfoCustomer(
+            customerId: customerId,
+            imageUri: imageUrl,
+            name: name,
+            phone: phone);
+      } else {
+        accountInfo = await remoteDataSource.updateInfoCustomer(
+            customerId: customerId, imageUri: '', name: name, phone: phone);
+      }
+
+      return right(accountInfo);
+    } on ServerExceptionError catch (e) {
+      return left(Failure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, NotificationAccount>> changeNotificationStatus(
+      {required String id, required String status}) async {
+    try {
+      final data = await remoteDataSource.changeNotificationStatus(
+        id: id,
+        status: status,
+      );
+      return right(data);
+    } on ServerExceptionError catch (e) {
+      return left(Failure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<NotificationAccount>>> getAllNotification(
+      {required String accountId}) async {
+    try {
+      final data = await remoteDataSource.getAllNotification(
+        accountId: accountId,
+      );
+      return right(data);
     } on ServerExceptionError catch (e) {
       return left(Failure(e.message));
     }

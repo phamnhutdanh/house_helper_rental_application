@@ -2,7 +2,7 @@ import 'package:house_helper_rental_application/core/common/entities/address.dar
 import 'package:house_helper_rental_application/core/common/entities/customer.dart';
 import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
 import 'package:house_helper_rental_application/features/address/data/models/address_model.dart';
-import 'package:house_helper_rental_application/features/customers/data/models/customer_model.dart';
+import 'package:house_helper_rental_application/features/employees/data/models/customer_model.dart';
 
 class CustomerAddressModel extends CustomerAddress {
   CustomerAddressModel({
@@ -18,8 +18,12 @@ class CustomerAddressModel extends CustomerAddress {
       addressType: (map['addressType'] == 'DEFAULT'
           ? AddressType.DEFAULT
           : AddressType.NONE) as AddressType?,
-      customer: CustomerModel.fromJson(map['customer'] ?? {}),
-      address: AddressModel.fromJson(map['address'] ?? {}),
+      customer: map['customer'] != null
+          ? CustomerModel.fromJson(map['customer'] ?? {})
+          : null,
+      address: map['address'] != null
+          ? AddressModel.fromJson(map['address'] ?? {})
+          : null,
     );
   }
 

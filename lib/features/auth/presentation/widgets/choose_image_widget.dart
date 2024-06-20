@@ -1,11 +1,10 @@
-
 import 'package:flutter/material.dart';
 
-class ProfileWidget extends StatelessWidget {
+class ChooseImageWidget extends StatelessWidget {
   final String imagePath;
   final VoidCallback onClicked;
 
-  const ProfileWidget({
+  const ChooseImageWidget({
     super.key,
     required this.imagePath,
     required this.onClicked,

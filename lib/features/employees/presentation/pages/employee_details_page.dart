@@ -1,37 +1,19 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:house_helper_rental_application/core/common/entities/address.dart';
 import 'package:house_helper_rental_application/core/common/entities/rating.dart';
 import 'package:house_helper_rental_application/core/common/widgets/default_back_button.dart';
+import 'package:house_helper_rental_application/core/common/widgets/loader.dart';
+import 'package:house_helper_rental_application/core/theme/app_palette.dart';
+import 'package:house_helper_rental_application/core/utils/show_snackbar.dart';
+import 'package:house_helper_rental_application/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:house_helper_rental_application/features/employees/presentation/bloc/employee_bloc.dart';
-import 'package:house_helper_rental_application/features/employees/presentation/widgets/button_widget.dart';
+import 'package:house_helper_rental_application/features/employees/presentation/bloc/favorite_employee_bloc.dart';
 import 'package:house_helper_rental_application/features/employees/presentation/widgets/comment_rating_item.dart';
 import 'package:house_helper_rental_application/features/employees/presentation/widgets/numbers_widget.dart';
 import 'package:house_helper_rental_application/features/services/presentation/bloc/service_bloc.dart';
 import 'package:iconly/iconly.dart';
-
-//  ratings               RatingEmployee[]
-class User {
-  final String imageUri;
-  final String name;
-  final String email;
-  final String phoneNumber;
-  final String description;
-  final int age;
-  final double averageRating;
-  final List<RatingEmployee> ratings;
-
-  const User({
-    required this.imageUri,
-    required this.name,
-    required this.email,
-    required this.phoneNumber,
-    required this.description,
-    required this.age,
-    required this.averageRating,
-    required this.ratings,
-  });
-}
 
 class EmployeeDetailsPage extends StatefulWidget {
   final String employeeId;
@@ -45,105 +27,182 @@ class EmployeeDetailsPage extends StatefulWidget {
 }
 
 class _EmployeeDetailsPageState extends State<EmployeeDetailsPage> {
+  void onRefreshPreviousScreen() {
+    context.read<ServiceBloc>().add(FetchAllServicesEvent());
+    context.read<EmployeeBloc>().add(FetchTopEmployeesEvent());
+  }
+
+  late final customerId =
+      (BlocProvider.of<AuthBloc>(context).state as AuthSuccess)
+              .accountInfo
+              .customer!
+              .id ??
+          '';
+
+  @override
+  void initState() {
+    context
+        .read<EmployeeBloc>()
+        .add(GetEmployeeByIdEvent(id: widget.employeeId));
+
+    context.read<FavoriteEmployeeBloc>().add(CheckFavoriteEvent(
+        employeeId: widget.employeeId, customerId: customerId));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final user = User(
-      imageUri:
-          'https://images.unsplash.com/photo-1554151228-14d9def656e4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=333&q=80',
-      email: 'asdasd',
-      name: 'nameeeee',
-      phoneNumber: '011111',
-      description:
-          'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem',
-      age: 0,
-      averageRating: 0,
-      ratings: [],
-    );
-    void onRefreshPreviousScreen() {
-      context.read<ServiceBloc>().add(FetchAllServicesEvent());
-      context.read<EmployeeBloc>().add(FetchTopEmployeesEvent());
-    }
-
-    return Scaffold(
-      appBar: AppBar(
-        leading: DefaultBackButton(onPressBack: () {
-          onRefreshPreviousScreen();
-          Beamer.of(context).beamBack();
-        }),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: [
-          IconButton(
-            //icon: Icon(IconlyBold.heart),
-            icon: Icon(IconlyLight.heart),
-            onPressed: () {},
-          ),
-        ],
-      ),
-      body: ListView(
-        physics: const BouncingScrollPhysics(),
-        children: [
-          Center(
-            child: Stack(
-              children: [
-                ClipOval(
-                  child: Material(
-                    color: Colors.transparent,
-                    child: Ink.image(
-                      image: NetworkImage(user.imageUri),
-                      fit: BoxFit.cover,
-                      width: 128,
-                      height: 128,
+    return PopScope(
+      onPopInvokedWithResult: (didPop, result) {
+        onRefreshPreviousScreen();
+      },
+      child: Scaffold(
+        backgroundColor: AppPalette.whiteColor,
+        appBar: AppBar(
+          leading: DefaultBackButton(onPressBack: () {
+            onRefreshPreviousScreen();
+            Beamer.of(context).beamBack();
+          }),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          actions: [
+            BlocConsumer<FavoriteEmployeeBloc, FavoriteEmployeeState>(
+              listener: (context, state) {
+                if (state is FavoriteEmployeeFailure) {
+                  showSnackBar(context, state.error);
+                }
+                if (state is AddToFavoriteSuccess) {
+                  context.read<FavoriteEmployeeBloc>().add(CheckFavoriteEvent(
+                      employeeId: widget.employeeId, customerId: customerId));
+                }
+                if (state is RemoveFromFavoriteSuccess) {
+                  context.read<FavoriteEmployeeBloc>().add(CheckFavoriteEvent(
+                      employeeId: widget.employeeId, customerId: customerId));
+                }
+              },
+              builder: (context, state) {
+                if (state is FavoriteEmployeeLoading) {
+                  return const Loader();
+                }
+                if (state is CheckFavoriteSuccess) {
+                  if (state.isFavorite == true) {
+                    return IconButton(
+                      icon: const Icon(
+                        IconlyBold.heart,
+                        color: AppPalette.errorColor,
+                      ),
+                      onPressed: () {
+                        context.read<FavoriteEmployeeBloc>().add(
+                              RemoveFromFavoriteEvent(
+                                employeeId: widget.employeeId,
+                                customerId: customerId,
+                              ),
+                            );
+                      },
+                    );
+                  }
+                  return IconButton(
+                    icon: const Icon(IconlyLight.heart),
+                    onPressed: () {
+                      context.read<FavoriteEmployeeBloc>().add(
+                            AddToFavoriteEvent(
+                              employeeId: widget.employeeId,
+                              customerId: customerId,
+                            ),
+                          );
+                    },
+                  );
+                }
+                return const SizedBox();
+              },
+            ),
+          ],
+        ),
+        body: BlocConsumer<EmployeeBloc, EmployeeState>(
+          listener: (context, state) {
+            if (state is EmployeeFailure) {
+              showSnackBar(context, state.error);
+            }
+          },
+          builder: (context, state) {
+            if (state is EmployeeLoading) {
+              return const Loader();
+            }
+            if (state is GetEmployeeByIdDisplaySuccess) {
+              final employee = state.employee;
+              return ListView(
+                physics: const BouncingScrollPhysics(),
+                children: [
+                  Center(
+                    child: Stack(
+                      children: [
+                        ClipOval(
+                          child: Material(
+                            color: Colors.transparent,
+                            child: Ink.image(
+                              image: NetworkImage(employee.imageUri ?? ''),
+                              fit: BoxFit.cover,
+                              width: 128,
+                              height: 128,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 24),
-          buildName(
-            email: user.email,
-            name: user.name,
-            phoneNumber: user.phoneNumber,
-            age: user.age,
-          ),
-          const SizedBox(height: 24),
-          Center(
-              child: ButtonWidget(
-            text: 'Book this employee',
-            onClicked: () {},
-          )),
-          const SizedBox(height: 24),
-          NumbersWidget(
-            averageRating: user.averageRating,
-            ratingCount: user.ratings.length,
-          ),
-          const SizedBox(height: 48),
-          buildAbout(description: user.description),
-          const SizedBox(height: 48),
-          buildRatingList(ratings: user.ratings),
-        ],
+                  const SizedBox(height: 24),
+                  _buildName(
+                    email: employee.accountInfo!.email ?? '',
+                    name: employee.name ?? '',
+                    phoneNumber: employee.phoneNumber ?? '',
+                    age: employee.age ?? 0,
+                  ),
+                  // const SizedBox(height: 24),
+                  // Center(
+                  //     child: ButtonWidget(
+                  //   text: 'Book this employee',
+                  //   onClicked: () {},
+                  // )),
+                  const SizedBox(height: 24),
+                  NumbersWidget(
+                    averageRating: employee.averageRating ?? 0.0,
+                    ratingCount:
+                        employee.ratings != null ? employee.ratings!.length : 0,
+                  ),
+                  //const SizedBox(height: 48),
+                  _buildAddress(
+                      employeeAddresses: employee.employeeAddresses ?? []),
+                  const SizedBox(height: 48),
+                  _buildDescription(description: employee.description ?? ''),
+                  const SizedBox(height: 48),
+                  _buildRatingList(ratings: employee.ratings ?? []),
+                ],
+              );
+            }
+
+            return const SizedBox();
+          },
+        ),
       ),
     );
   }
 }
 
-Widget buildRatingList({required List<RatingEmployee> ratings}) {
-  return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 48),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'All ratings',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 16),
-        if (ratings.isEmpty) const Text('There is nothing here!'),
-        if (ratings.isNotEmpty)
-          Container(
-            padding: const EdgeInsets.all(20),
-            child: ListView.separated(
+Widget _buildRatingList({required List<RatingEmployee> ratings}) {
+  if (ratings.isNotEmpty) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 28),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'All ratings',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 16),
+          if (ratings.isEmpty) const Text('There is no rating here!'),
+          if (ratings.isNotEmpty)
+            ListView.separated(
               shrinkWrap: true,
               physics: const ClampingScrollPhysics(),
               itemCount: ratings.length,
@@ -159,13 +218,14 @@ Widget buildRatingList({required List<RatingEmployee> ratings}) {
               separatorBuilder: (BuildContext context, int index) =>
                   const Divider(),
             ),
-          ),
-      ],
-    ),
-  );
+        ],
+      ),
+    );
+  }
+  return const SizedBox();
 }
 
-Widget buildName({
+Widget _buildName({
   required String name,
   required String email,
   required String phoneNumber,
@@ -196,14 +256,16 @@ Widget buildName({
       ],
     );
 
-Widget buildAbout({required String description}) => Container(
-      padding: const EdgeInsets.symmetric(horizontal: 48),
+Widget _buildDescription({required String description}) {
+  if (description != '') {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 28),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
             'Description',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
           Text(
@@ -213,3 +275,35 @@ Widget buildAbout({required String description}) => Container(
         ],
       ),
     );
+  }
+  return const SizedBox();
+}
+
+Widget _buildAddress({required List<EmployeeAddress> employeeAddresses}) {
+  if (employeeAddresses.isNotEmpty) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 28),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Address',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 16),
+          ListView.separated(
+            shrinkWrap: true,
+            physics: const ClampingScrollPhysics(),
+            itemCount: employeeAddresses.length,
+            itemBuilder: (context, index) => Text(
+              employeeAddresses[index].address!.address ?? '',
+              style: const TextStyle(fontSize: 16, height: 1.4),
+            ),
+            separatorBuilder: (_, __) => const SizedBox(height: 4),
+          ),
+        ],
+      ),
+    );
+  }
+  return const SizedBox();
+}

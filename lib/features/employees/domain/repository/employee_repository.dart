@@ -12,4 +12,28 @@ abstract interface class EmployeeRepository {
     required String bookingId,
     required String customerId,
   });
+
+  Future<Either<Failure, Employee>> getEmployeeById({
+    required String id,
+  });
+
+  Future<Either<Failure, List<FavoriteEmployee>>>
+      getFavoriteEmployeesOfCustomer({
+    required String customerId,
+  });
+
+  Future<Either<Failure, FavoriteEmployee>> addToFavorite({
+    required String employeeId,
+    required String customerId,
+  });
+
+  Future<Either<Failure, FavoriteEmployee>> removeFromFavorite({
+    required String employeeId,
+    required String customerId,
+  });
+
+  Future<Either<Failure, bool>> checkFavoriteInput({
+    required String employeeId,
+    required String customerId,
+  });
 }

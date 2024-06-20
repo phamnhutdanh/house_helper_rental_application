@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:house_helper_rental_application/core/theme/app_palette.dart';
-import 'package:house_helper_rental_application/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:iconly/iconly.dart';
 
-class AddressItem extends StatefulWidget {
-  const AddressItem({super.key});
+class AddressItem extends StatelessWidget {
+  final void Function() onPressItem;
+  final String address;
+  final String phone;
+  final String fullName;
+  const AddressItem({
+    super.key,
+    required this.address,
+    required this.phone,
+    required this.fullName,
+    required this.onPressItem,
+  });
 
-  @override
-  State<AddressItem> createState() => _AddressItemState();
-}
-
-class _AddressItemState extends State<AddressItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,20 +33,20 @@ class _AddressItemState extends State<AddressItem> {
           const SizedBox(width: 12),
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'name',
-                      style: TextStyle(
+                      fullName,
+                      style: const TextStyle(
                           color: AppPalette.blackColor,
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      'phone',
-                      style: TextStyle(
+                      phone,
+                      style: const TextStyle(
                           color: AppPalette.blackColor,
                           fontWeight: FontWeight.bold),
                     ),
@@ -52,17 +55,19 @@ class _AddressItemState extends State<AddressItem> {
               ),
               IconButton(
                   onPressed: () {
-                    setState(() {
-                      return moreOptionBottomSheet(context);
-                    });
+                    onPressItem();
                   },
-                  icon: const Icon(IconlyBold.more_circle)),
+                  icon: const Icon(
+                    IconlyBold.delete,
+                    color: AppPalette.errorColor,
+                    size: 40,
+                  )),
             ],
           ),
           Row(
             children: [
               Text(
-                'address addressaddressaddressaddress',
+                address,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             ],
@@ -71,54 +76,4 @@ class _AddressItemState extends State<AddressItem> {
       ),
     );
   }
-}
-
-void moreOptionBottomSheet(BuildContext context) {
-  showModalBottomSheet(
-      isDismissible: false,
-      context: context,
-      builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return const Column(
-              children: [
-                Row(
-                  children: [
-                    SizedBox(width: 20),
-                    Icon(
-                      IconlyBold.edit,
-                      color: AppPalette.blackColor,
-                      size: 16,
-                    ),
-                    SizedBox(width: 4),
-                    Text(
-                      'Edit',
-                      style: TextStyle(
-                          color: AppPalette.blackColor,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    SizedBox(width: 20),
-                    Icon(
-                      IconlyBold.delete,
-                      color: AppPalette.errorColor,
-                      size: 16,
-                    ),
-                    SizedBox(width: 4),
-                    Text(
-                      'Delete',
-                      style: TextStyle(
-                          color: AppPalette.errorColor,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ],
-            );
-          },
-        );
-      });
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:iconly/iconly.dart';
 
 class HomeAppBar extends StatelessWidget {
   final String username;
@@ -15,15 +14,7 @@ class HomeAppBar extends StatelessWidget {
           "Welcome " + username,
           style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        IconButton(
-          onPressed: () {},
-          style: IconButton.styleFrom(
-            backgroundColor: Color(0xffF5F5F5),
-            padding: const EdgeInsets.all(15),
-          ),
-          iconSize: 30,
-          icon: const Icon(IconlyLight.chat),
-        ),
+        const SizedBox(width: 30),
       ],
     );
   }

@@ -91,21 +91,12 @@ class _HomeBookingPageState extends State<HomeBookingPage> {
                   },
                 ),
                 const SizedBox(height: 25),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Top employees",
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: const Text("See all"),
-                    ),
-                  ],
+                const Text(
+                  "Top employees",
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 10),
                 BlocConsumer<EmployeeBloc, EmployeeState>(

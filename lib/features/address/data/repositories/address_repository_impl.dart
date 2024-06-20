@@ -62,4 +62,18 @@ class AddressRepositoryImpl implements AddressRepository {
       return left(Failure(e.message));
     }
   }
+
+  @override
+  Future<Either<Failure, CustomerAddress>> removeCustomerAddress(
+      {required String id}) async {
+    try {
+      final customerAddress =
+          await addressRemoteDataSource.removeCustomerAddress(
+        id: id,
+      );
+      return right(customerAddress);
+    } on ServerExceptionError catch (e) {
+      return left(Failure(e.message));
+    }
+  }
 }

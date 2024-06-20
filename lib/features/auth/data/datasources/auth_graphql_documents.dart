@@ -64,6 +64,46 @@ class CreateSessionInput {
   }
 }
 
+class UpdateCustomerInput {
+  final String customerId;
+  final String name;
+  final String phone;
+  final String imageUri;
+
+  UpdateCustomerInput({
+    required this.customerId,
+    required this.name,
+    required this.phone,
+    required this.imageUri,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'customerId': customerId,
+      'name': name,
+      'phone': phone,
+      'imageUri': imageUri,
+    };
+  }
+}
+
+class ChangeNotiInput {
+  final String id;
+  final String status;
+
+  ChangeNotiInput({
+    required this.id,
+    required this.status,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'status': status,
+    };
+  }
+}
+
 class AuthGraphqlDocuments {
   static String createAccountMutation = """
     mutation CreateAccount(\$createAccountInput: CreateAccountInput, \$createSessionInput: CreateSessionInput) {
@@ -97,12 +137,86 @@ class AuthGraphqlDocuments {
           id
           name
           imageUri
+          phoneNumber
+          averageRating
+          employeeAddresses {
+              address {
+                address
+              }
+          }
         }
         customer {
           id
           name
           imageUri
+          phoneNumber
+          customerAddresses { 
+              address {
+                address
+              }
+          }
         }
       }
     }""";
+
+  static String updateCustomerInfoMutation = """
+mutation Mutation(\$updateCustomerInput: UpdateCustomerInput) {
+  updateCustomerInfo(updateCustomerInput: \$updateCustomerInput) {
+        id
+        email
+        accountRole
+        status
+        employee {
+          id
+          name
+          imageUri
+          averageRating
+          phoneNumber
+          employeeAddresses {
+              address {
+                address
+              }
+          }
+        }
+        customer {
+          id
+          name
+          imageUri
+          phoneNumber
+          customerAddresses { 
+              address {
+                address
+              }
+          }
+        }
+  }
+}
+""";
+
+  static String getNotificationOfAccountQuery = """
+query GetNotificationOfAccount(\$accountId: String) {
+  getNotificationOfAccount(accountId: \$accountId) {
+    id
+    description
+    imageUri
+    status
+    title
+    updatedAt
+    createdAt
+  }
+}
+""";
+
+  static String changeNotiStatusMutation = """
+mutation Mutation(\$changeNotiInput: ChangeNotiInput) {
+  changeNotiStatus(changeNotiInput: \$changeNotiInput) {
+    id
+    title
+    description
+    createdAt
+    accountId
+    updatedAt
+  }
+}
+""";
 }

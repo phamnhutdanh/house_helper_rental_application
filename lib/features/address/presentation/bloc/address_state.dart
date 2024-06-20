@@ -26,3 +26,8 @@ final class GetCustomerAddressByIdDisplaySuccess extends AddressState {
   final CustomerAddress customerAddress;
   GetCustomerAddressByIdDisplaySuccess(this.customerAddress);
 }
+
+final class RemoveCustomerAddressSuccess extends AddressState {
+  final CustomerAddress customerAddress;
+  RemoveCustomerAddressSuccess(this.customerAddress);
+}

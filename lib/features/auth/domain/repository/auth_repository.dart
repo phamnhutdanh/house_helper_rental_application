@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:house_helper_rental_application/core/common/entities/account_info.dart';
+import 'package:house_helper_rental_application/core/common/entities/notification.dart';
 import 'package:house_helper_rental_application/core/error/failures.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -17,4 +20,19 @@ abstract interface class AuthRepository {
 
   Future<Either<Failure, void>> signOut();
 
+  Future<Either<Failure, AccountInfo>> updateInfoCustomer({
+    required File? image,
+    required String name,
+    required String phone,
+    required String customerId,
+  });
+
+  Future<Either<Failure, List<NotificationAccount>>> getAllNotification({
+    required String accountId,
+  });
+
+  Future<Either<Failure, NotificationAccount>> changeNotificationStatus({
+    required String id,
+    required String status,
+  });
 }

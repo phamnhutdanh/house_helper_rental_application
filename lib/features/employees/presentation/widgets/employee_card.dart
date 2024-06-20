@@ -17,7 +17,7 @@ class EmployeeCard extends StatelessWidget {
         Container(
           width: double.infinity,
           decoration: BoxDecoration(
-            color: Color(0xffF5F5F5),
+            color: const Color(0xffF5F5F5),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Column(
@@ -44,20 +44,6 @@ class EmployeeCard extends StatelessWidget {
                         fontSize: 16,
                         overflow: TextOverflow.ellipsis),
                   ),
-                  // Row(
-                  //   children: List.generate(
-                  //     employee.colors.length,
-                  //     (cindex) => Container(
-                  //       height: 15,
-                  //       width: 15,
-                  //       margin: const EdgeInsets.only(right: 2),
-                  //       decoration: BoxDecoration(
-                  //         color: employee.colors[cindex],
-                  //         shape: BoxShape.circle,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // )
                 ],
               )
             ],
@@ -67,8 +53,10 @@ class EmployeeCard extends StatelessWidget {
           child: Align(
             alignment: Alignment.topRight,
             child: Container(
-              width: 30,
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              width: 60,
               height: 30,
+              alignment: Alignment.center,
               decoration: const BoxDecoration(
                 color: AppPalette.fourthColor,
                 borderRadius: BorderRadius.only(
@@ -76,10 +64,23 @@ class EmployeeCard extends StatelessWidget {
                   bottomLeft: Radius.circular(10),
                 ),
               ),
-              child: const Icon(
-                IconlyLight.heart,
-                color: AppPalette.whiteColor,
-                size: 20,
+              child: Expanded(
+                child: Row(
+                  children: [
+                    Text(
+                      "${employee.averageRating}",
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: AppPalette.whiteColor,
+                      ),
+                    ),
+                    const Icon(
+                      IconlyBold.star,
+                      color: AppPalette.yellowStarColor,
+                      size: 20,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

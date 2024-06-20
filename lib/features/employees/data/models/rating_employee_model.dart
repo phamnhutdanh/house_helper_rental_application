@@ -1,6 +1,6 @@
 import 'package:house_helper_rental_application/core/common/entities/rating.dart';
 import 'package:house_helper_rental_application/core/utils/format_date.dart';
-import 'package:house_helper_rental_application/features/customers/data/models/customer_model.dart';
+import 'package:house_helper_rental_application/features/employees/data/models/customer_model.dart';
 
 class RatingEmployeeModel extends RatingEmployee {
   RatingEmployeeModel({
@@ -25,7 +25,9 @@ class RatingEmployeeModel extends RatingEmployee {
       bookingId: map['bookingId'] as String?,
       customerId: map['customerId'] as String?,
       employeeId: map['employeeId'] as String?,
-      customer: CustomerModel.fromJson(map['customer'] ?? {}),
+      customer: map['customer'] != null
+          ? CustomerModel.fromJson(map['customer'] ?? {})
+          : null,
     );
   }
 }

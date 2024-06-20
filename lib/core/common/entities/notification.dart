@@ -1,37 +1,26 @@
+import 'package:house_helper_rental_application/core/common/entities/account_info.dart';
 import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
 
-class NotificationEmployee {
+class NotificationAccount {
   final String? id;
-  final String? title;
   final String? description;
+  final String? title;
   final NotificationStatus? status;
   final String? imageUri;
-  final String? employeeId;
+  final String? accountId;
+  final AccountInfo? account;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
-  NotificationEmployee({
+  NotificationAccount({
     this.id,
     this.title,
     this.description,
     this.status,
     this.imageUri,
-    this.employeeId,
-  });
-}
-
-class NotificationCustomer {
-  final String? id;
-  final String? title;
-  final NotificationStatus? status;
-  final String? description;
-  final String? imageUri;
-  final String? customerId;
-
-  NotificationCustomer({
-    this.id,
-    this.title,
-    this.description,
-    this.status,
-    this.imageUri,
-    this.customerId,
+    this.accountId,
+    this.account,
+    this.createdAt,
+    this.updatedAt,
   });
 }

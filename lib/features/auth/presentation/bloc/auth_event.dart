@@ -30,3 +30,17 @@ final class AuthLogin extends AuthEvent {
 final class AuthSignOut extends AuthEvent {}
 
 final class AuthIsAccountLoggedIn extends AuthEvent {}
+
+final class UpdateInfoCustomerEvent extends AuthEvent {
+  final String customerId;
+  final File? image;
+  final String name;
+  final String phone;
+
+  UpdateInfoCustomerEvent({
+    required this.customerId,
+    required this.image,
+    required this.name,
+    required this.phone,
+  });
+}

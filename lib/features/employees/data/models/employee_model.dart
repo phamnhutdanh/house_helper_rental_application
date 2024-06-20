@@ -1,4 +1,7 @@
 import 'package:house_helper_rental_application/core/common/entities/employee.dart';
+import 'package:house_helper_rental_application/features/address/data/models/employee_address_model.dart';
+import 'package:house_helper_rental_application/features/auth/data/models/account_model.dart';
+import 'package:house_helper_rental_application/features/employees/data/models/rating_employee_model.dart';
 
 class EmployeeModel extends Employee {
   EmployeeModel({
@@ -11,6 +14,9 @@ class EmployeeModel extends Employee {
     super.workingHours,
     super.averageRating,
     super.accountInfoId,
+    super.accountInfo,
+    super.employeeAddresses,
+    super.ratings,
   });
 
   factory EmployeeModel.fromJson(Map<String, dynamic> map) {
@@ -22,9 +28,25 @@ class EmployeeModel extends Employee {
       description: map['description'] as String?,
       age: map['age'] as int?,
       workingHours: map['workingHours'] as int?,
-     // averageRating: map['averageRating'] as double?,
-      averageRating: map['averageRating'].toDouble() as double?,
+      // averageRating: map['averageRating'] as double?,
+      averageRating: map['averageRating'] != null
+          ? map['averageRating'].toDouble() as double?
+          : null,
       accountInfoId: map['accountInfoId'] as String?,
+      accountInfo: map['accountInfo'] != null
+          ? AccountModel.fromJson(map['accountInfo'] ?? {})
+          : null,
+      employeeAddresses: map['employeeAddresses'] != null
+          ? (map['employeeAddresses'] as List<dynamic>)
+              .map((employeeAddress) =>
+                  EmployeeAddressModel.fromJson(employeeAddress))
+              .toList()
+          : null,
+      ratings: map['ratings'] != null
+          ? (map['ratings'] as List<dynamic>)
+              .map((rating) => RatingEmployeeModel.fromJson(rating))
+              .toList()
+          : null,
     );
   }
 

@@ -1,3 +1,4 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:house_helper_rental_application/core/common/widgets/loader.dart';
@@ -12,7 +13,6 @@ final settingLabels = [
   'Edit information',
   'Change address',
   'Favorite employee',
-  'Credit card',
   'Logout',
 ];
 
@@ -69,14 +69,17 @@ class _SettingsBookingPageState extends State<SettingsBookingPage> {
               onTap: () => setState(() {
                 switch (index) {
                   case 0:
-                    return showSnackBar(context, 'Edit information');
+                    Beamer.of(context)
+                        .beamToNamed('/booking_settings/view_info');
+                    return;
                   case 1:
-                    return showSnackBar(context, 'Change address');
+                    Beamer.of(context).beamToNamed('/booking_settings/address');
+                    return;
                   case 2:
-                    return showSnackBar(context, 'Favorite employee');
+                    Beamer.of(context)
+                        .beamToNamed('/booking_settings/favorite_employee');
+                    return;
                   case 3:
-                    return showSnackBar(context, 'Credit card');
-                  case 4:
                     return signOutBottomSheetDialog(context);
                 }
               }),

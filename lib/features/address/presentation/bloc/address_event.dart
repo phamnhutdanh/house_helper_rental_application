@@ -34,3 +34,11 @@ final class GetCustomerAddressByIdEvent extends AddressEvent {
     required this.id,
   });
 }
+
+final class RemoveCustomerAddressEvent extends AddressEvent {
+  final String id;
+
+  RemoveCustomerAddressEvent({
+    required this.id,
+  });
+}

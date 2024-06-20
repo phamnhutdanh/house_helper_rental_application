@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:house_helper_rental_application/features/auth/domain/usecases/update_info_customer.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/cubits/app_user/app_account_cubit.dart';
 import 'package:house_helper_rental_application/core/common/entities/account_info.dart';
 import 'package:house_helper_rental_application/core/usecase/usecase.dart';
@@ -17,23 +20,44 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AccountSignOut _accountSignOut;
   final CurrentAccountInfo _currentAccountInfo;
   final AppAccountCubit _appUserCubit;
+  final UpdateInfoCustomer _updateInfoCustomer;
   AuthBloc({
     required AccountSignUp accountSignUp,
     required AccountLogin accountLogin,
     required AccountSignOut accountSignOut,
     required CurrentAccountInfo currentAccountInfo,
     required AppAccountCubit appAccountCubit,
+    required UpdateInfoCustomer updateInfoCustomer,
   })  : _accountSignUp = accountSignUp,
         _accountLogin = accountLogin,
         _accountSignOut = accountSignOut,
         _currentAccountInfo = currentAccountInfo,
         _appUserCubit = appAccountCubit,
+        _updateInfoCustomer = updateInfoCustomer,
         super(AuthInitial()) {
     on<AuthEvent>((_, emit) => emit(AuthLoading()));
     on<AuthSignUp>(_onAuthSignUp);
     on<AuthLogin>(_onAuthLogin);
     on<AuthSignOut>(_onAuthSignOut);
     on<AuthIsAccountLoggedIn>(_isUserLoggedIn);
+    on<UpdateInfoCustomerEvent>(_onUpdateCustomerInfo);
+  }
+
+  void _onUpdateCustomerInfo(
+    UpdateInfoCustomerEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    final res = await _updateInfoCustomer.call(UpdateInfoCustomerParams(
+      customerId: event.customerId,
+      phone: event.phone,
+      image: event.image,
+      name: event.name,
+    ));
+
+    res.fold(
+      (failure) => emit(AuthFailure(failure.message)),
+      (accountInfo) => _emitAuthSuccess(accountInfo, emit),
+    );
   }
 
   void _isUserLoggedIn(

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
 import 'package:house_helper_rental_application/core/common/entities/notification.dart';
-import 'package:house_helper_rental_application/features/notification/presentation/widgets/notification_item.dart';
+import 'package:house_helper_rental_application/core/common/widgets/empty_widget.dart';
+import 'package:house_helper_rental_application/features/auth/presentation/widgets/notification_item.dart';
 
 class NotificationBookingTab extends StatelessWidget {
-  final List<NotificationCustomer> customerNotifications;
-  final void Function(String) onTapItem;
+  final List<NotificationAccount> customerNotifications;
+  final void Function(String, NotificationStatus) onTapItem;
   const NotificationBookingTab({
     super.key,
     required this.customerNotifications,
@@ -13,6 +15,9 @@ class NotificationBookingTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (customerNotifications.isEmpty) {
+      return const EmptyWidget(title: 'Nothing here');
+    }
     return Container(
       padding: const EdgeInsets.all(20),
       child: ListView.separated(
@@ -22,9 +27,9 @@ class NotificationBookingTab extends StatelessWidget {
         itemBuilder: (context, index) => GestureDetector(
           onTap: () {
             final notificationId = customerNotifications[index].id ?? '';
-            // Beamer.of(context).beamToNamed(
-            //     '/booking_history/booking_details/$notificationId');
-            onTapItem(notificationId);
+            final status = customerNotifications[index].status ??
+                NotificationStatus.UNREAD;
+            onTapItem(notificationId, status);
           },
           child: NotificationItem(
             title: customerNotifications[index].title ?? '',
