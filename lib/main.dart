@@ -1,4 +1,6 @@
+import 'package:house_helper_rental_application/features/accounts/presentation/pages/banned_page.dart';
 import 'package:house_helper_rental_application/features/address/presentation/bloc/address_bloc.dart';
+import 'package:house_helper_rental_application/features/auth/presentation/bloc/admin_bloc.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/bloc/noti_bloc.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/cubits/app_user/app_account_cubit.dart';
 import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
@@ -55,6 +57,9 @@ void main() async {
       BlocProvider(
         create: (_) => serviceLocator<NotiBloc>(),
       ),
+      BlocProvider(
+        create: (_) => serviceLocator<AdminBloc>(),
+      ),
     ],
     child: GraphQLProvider(
         client: ValueNotifier(serviceLocator()),
@@ -89,6 +94,9 @@ class _MyAppState extends State<MyApp> {
         },
         builder: (context, state) {
           if (state is AppAccountLoggedIn) {
+            if (state.accountInfo.status == AccountStatus.BANNED) {
+              return const BannedPage();
+            }
             if (state.accountInfo.accountRole == AccountInfoRole.CUSTOMER) {
               return BookingRouter();
             } else if (state.accountInfo.accountRole ==

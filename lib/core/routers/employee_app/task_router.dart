@@ -71,9 +71,9 @@ class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
       },
     ),
     BeamerDelegate(
-      initialPath: '/task_user_settings',
+      initialPath: '/task_settings',
       locationBuilder: (routeInformation, _) {
-        if (routeInformation.uri.toString().contains('/task_user_settings')) {
+        if (routeInformation.uri.toString().contains('/task_settings')) {
           return SettingsRouter(routeInformation);
         }
         return NotFound(path: routeInformation.uri.toString());

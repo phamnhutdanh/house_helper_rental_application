@@ -35,6 +35,23 @@ class CreateCustomerAddressInput {
   }
 }
 
+class CreateEmployeeAddressInput {
+  final String employeeId;
+  final bool isDefault;
+
+  CreateEmployeeAddressInput({
+    required this.employeeId,
+    required this.isDefault,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'employeeId': employeeId,
+      'isDefault': isDefault,
+    };
+  }
+}
+
 class AddressGraphqlDocuments {
   static String createCustomerAddressMutation = """
       mutation CreateCustomerAddress(\$createAddressInput: CreateAddressInput, \$createCustomerAddressInput: CreateCustomerAddressInput) {
@@ -65,6 +82,35 @@ class AddressGraphqlDocuments {
     }
 """;
 
+  static String createEmployeeAddressMutation = """
+      mutation CreateEmployeeAddress(\$createAddressInput: CreateAddressInput, \$createEmployeeAddressInput: CreateEmployeeAddressInput) {
+      createEmployeeAddress(createAddressInput: \$createAddressInput, createEmployeeAddressInput: \$createEmployeeAddressInput) {
+          id
+          addressType
+          address {
+            id
+            phone
+            fullName
+            address
+          }
+          employee {
+            id
+            imageUri
+            name
+            phoneNumber
+          }
+      }
+    }
+""";
+
+  static String removeEmployeeAddressMutation = """
+    mutation Mutation(\$id: String) {
+      removeEmployeeAddress(id: \$id) {
+        id
+      }
+    }
+""";
+
   static String getAllAddressOfCustomerQuery = """
       query GetAllAddressOfCustomer(\$customerId: String) {
         getAllAddressOfCustomer(customerId: \$customerId) {
@@ -77,6 +123,27 @@ class AddressGraphqlDocuments {
             address
           }
           customer {
+            id
+            imageUri
+            name
+            phoneNumber
+          }
+        }
+      }
+""";
+
+  static String getAllAddressOfEmployeeQuery = """
+      query GetAllAddressOfEmployee(\$employeeId: String) {
+        getAllAddressOfEmployee(employeeId: \$employeeId) {
+          id
+          addressType
+          address {
+            id
+            phone
+            fullName
+            address
+          }
+          employee {
             id
             imageUri
             name

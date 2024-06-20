@@ -31,3 +31,18 @@ final class RemoveCustomerAddressSuccess extends AddressState {
   final CustomerAddress customerAddress;
   RemoveCustomerAddressSuccess(this.customerAddress);
 }
+
+final class CreateEmployeeAddressSuccess extends AddressState {
+  final EmployeeAddress employeeAddress;
+  CreateEmployeeAddressSuccess(this.employeeAddress);
+}
+
+final class FetchAllAddressOfEmployeeDisplaySuccess extends AddressState {
+  final List<EmployeeAddress> employeeAddresses;
+  FetchAllAddressOfEmployeeDisplaySuccess(this.employeeAddresses);
+}
+
+final class RemoveEmployeeAddressSuccess extends AddressState {
+  final EmployeeAddress employeeAddress;
+  RemoveEmployeeAddressSuccess(this.employeeAddress);
+}

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:house_helper_rental_application/core/common/entities/account_info.dart';
+import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
 import 'package:house_helper_rental_application/core/common/entities/notification.dart';
 import 'package:house_helper_rental_application/core/constants/constants.dart';
 import 'package:house_helper_rental_application/core/error/exceptions.dart';
@@ -101,7 +102,7 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       late AccountInfo accountInfo;
       if (image != null) {
-        final imageUrl = await remoteDataSource.uploadImageCustomer(
+        final imageUrl = await remoteDataSource.uploadImage(
           image: image,
         );
         accountInfo = await remoteDataSource.updateInfoCustomer(
@@ -142,6 +143,54 @@ class AuthRepositoryImpl implements AuthRepository {
         accountId: accountId,
       );
       return right(data);
+    } on ServerExceptionError catch (e) {
+      return left(Failure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, AccountInfo>> updateAccountStatus(
+      {required String accountId, required AccountStatus status}) async {
+    try {
+      final data = await remoteDataSource.updateAccountStatus(
+        accountId: accountId,
+        status: status,
+      );
+      return right(data);
+    } on ServerExceptionError catch (e) {
+      return left(Failure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, AccountInfo>> updateInfoEmployee(
+      {required File? image,
+      required String name,
+      required String phone,
+      required String employeeId,
+      required String description}) async {
+    try {
+      late AccountInfo accountInfo;
+      if (image != null) {
+        final imageUrl = await remoteDataSource.uploadImage(
+          image: image,
+        );
+        accountInfo = await remoteDataSource.updateInfoEmployee(
+            employeeId: employeeId,
+            imageUri: imageUrl,
+            name: name,
+            description: description,
+            phone: phone);
+      } else {
+        accountInfo = await remoteDataSource.updateInfoEmployee(
+            employeeId: employeeId,
+            imageUri: '',
+            name: name,
+            description: description,
+            phone: phone);
+      }
+
+      return right(accountInfo);
     } on ServerExceptionError catch (e) {
       return left(Failure(e.message));
     }

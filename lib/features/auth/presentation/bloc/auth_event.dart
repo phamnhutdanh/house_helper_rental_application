@@ -44,3 +44,19 @@ final class UpdateInfoCustomerEvent extends AuthEvent {
     required this.phone,
   });
 }
+
+final class UpdateInfoEmployeeEvent extends AuthEvent {
+  final String employeeId;
+  final File? image;
+  final String name;
+  final String phone;
+  final String description;
+
+  UpdateInfoEmployeeEvent({
+    required this.employeeId,
+    required this.image,
+    required this.name,
+    required this.phone,
+    required this.description,
+  });
+}

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
 import 'package:house_helper_rental_application/core/error/exceptions.dart';
 import 'package:house_helper_rental_application/features/auth/data/datasources/auth_graphql_documents.dart';
 import 'package:house_helper_rental_application/features/auth/data/models/account_model.dart';
@@ -29,7 +30,7 @@ abstract interface class AuthRemoteDataSource {
     required String customerId,
   });
 
-  Future<String> uploadImageCustomer({
+  Future<String> uploadImage({
     required File image,
   });
 
@@ -40,6 +41,19 @@ abstract interface class AuthRemoteDataSource {
   Future<NotificationAccountModel> changeNotificationStatus({
     required String id,
     required String status,
+  });
+
+  Future<AccountModel> updateAccountStatus({
+    required String accountId,
+    required AccountStatus status,
+  });
+
+  Future<AccountModel> updateInfoEmployee({
+    required String imageUri,
+    required String name,
+    required String phone,
+    required String employeeId,
+    required String description,
   });
 }
 
@@ -218,7 +232,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<String> uploadImageCustomer({required File image}) async {
+  Future<String> uploadImage({required File image}) async {
     try {
       final timestamp = DateTime.now().millisecondsSinceEpoch;
       await supabaseClient.storage.from('helpu_buckets').upload(
@@ -287,6 +301,69 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       return resultData
           .map((noti) => NotificationAccountModel.fromJson(noti))
           .toList();
+    } catch (e) {
+      throw ServerExceptionError(e.toString());
+    }
+  }
+
+  @override
+  Future<AccountModel> updateAccountStatus(
+      {required String accountId, required AccountStatus status}) async {
+    try {
+      final input = AccountStatusInput(
+        accountId: accountId,
+        status: status,
+      );
+
+      final MutationOptions options = MutationOptions(
+        document: gql(AuthGraphqlDocuments.updateAccountStatusMutation),
+        variables: {
+          'accountStatusInput': input.toJson(),
+        },
+        fetchPolicy: FetchPolicy.networkOnly,
+      );
+
+      final QueryResult result = await graphQLClient.mutate(options);
+
+      if (result.hasException) {
+        throw const ServerExceptionError('Mutation change status is error!');
+      }
+      return AccountModel.fromJson(result.data?['updateAccountStatus'] ?? {});
+    } catch (e) {
+      throw ServerExceptionError(e.toString());
+    }
+  }
+
+  @override
+  Future<AccountModel> updateInfoEmployee(
+      {required String imageUri,
+      required String name,
+      required String phone,
+      required String employeeId,
+      required String description}) async {
+    try {
+      final accountInput = UpdateEmployeeInput(
+        name: name,
+        phone: phone,
+        imageUri: imageUri,
+        employeeId: employeeId,
+        description: description,
+      );
+
+      final MutationOptions options = MutationOptions(
+        document: gql(AuthGraphqlDocuments.updateEmployeeInfoMutation),
+        variables: {
+          'updateEmployeeInput': accountInput.toJson(),
+        },
+        fetchPolicy: FetchPolicy.networkOnly,
+      );
+
+      final QueryResult result = await graphQLClient.mutate(options);
+
+      if (result.hasException) {
+        throw const ServerExceptionError('Mutation update is error!');
+      }
+      return AccountModel.fromJson(result.data?['updateEmployeeInfo'] ?? {});
     } catch (e) {
       throw ServerExceptionError(e.toString());
     }

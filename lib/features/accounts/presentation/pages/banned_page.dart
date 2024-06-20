@@ -26,8 +26,12 @@ class _BannedPageState extends State<BannedPage> {
           children: [
             const SizedBox(height: 20.0),
             Center(
-              child: Image.network(
-                  "https://ktlpvxvfzxexvghactxx.supabase.co/storage/v1/object/sign/helpu_buckets/banned.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJoZWxwdV9idWNrZXRzL2Jhbm5lZC5wbmciLCJpYXQiOjE3MTg3MjkwNDcsImV4cCI6MTc1MDI2NTA0N30.1px028CC7KoIBWccL3vSI-BFAF7FRTwoAu2n0onYzzk&t=2024-06-18T16%3A44%3A06.988Z"),
+              child: SizedBox(
+                width: 90,
+                height: 90,
+                child: Image.network(
+                    "https://ktlpvxvfzxexvghactxx.supabase.co/storage/v1/object/sign/helpu_buckets/banned.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJoZWxwdV9idWNrZXRzL2Jhbm5lZC5wbmciLCJpYXQiOjE3MTg3MjkwNDcsImV4cCI6MTc1MDI2NTA0N30.1px028CC7KoIBWccL3vSI-BFAF7FRTwoAu2n0onYzzk&t=2024-06-18T16%3A44%3A06.988Z"),
+              ),
             ),
             const SizedBox(height: 20.0),
             const Text(

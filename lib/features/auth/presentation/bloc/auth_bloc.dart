@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:house_helper_rental_application/features/auth/domain/usecases/update_info_customer.dart';
+import 'package:house_helper_rental_application/features/auth/domain/usecases/update_info_employee.dart';
 import 'package:house_helper_rental_application/features/auth/presentation/cubits/app_user/app_account_cubit.dart';
 import 'package:house_helper_rental_application/core/common/entities/account_info.dart';
 import 'package:house_helper_rental_application/core/usecase/usecase.dart';
@@ -21,6 +22,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final CurrentAccountInfo _currentAccountInfo;
   final AppAccountCubit _appUserCubit;
   final UpdateInfoCustomer _updateInfoCustomer;
+  final UpdateInfoEmployee _updateInfoEmployee;
   AuthBloc({
     required AccountSignUp accountSignUp,
     required AccountLogin accountLogin,
@@ -28,12 +30,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required CurrentAccountInfo currentAccountInfo,
     required AppAccountCubit appAccountCubit,
     required UpdateInfoCustomer updateInfoCustomer,
+    required UpdateInfoEmployee updateInfoEmployee,
   })  : _accountSignUp = accountSignUp,
         _accountLogin = accountLogin,
         _accountSignOut = accountSignOut,
         _currentAccountInfo = currentAccountInfo,
         _appUserCubit = appAccountCubit,
         _updateInfoCustomer = updateInfoCustomer,
+        _updateInfoEmployee = updateInfoEmployee,
         super(AuthInitial()) {
     on<AuthEvent>((_, emit) => emit(AuthLoading()));
     on<AuthSignUp>(_onAuthSignUp);
@@ -41,6 +45,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthSignOut>(_onAuthSignOut);
     on<AuthIsAccountLoggedIn>(_isUserLoggedIn);
     on<UpdateInfoCustomerEvent>(_onUpdateCustomerInfo);
+    on<UpdateInfoEmployeeEvent>(_onUpdateEmployeeInfo);
+  }
+  void _onUpdateEmployeeInfo(
+    UpdateInfoEmployeeEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    final res = await _updateInfoEmployee.call(UpdateInfoEmployeeParams(
+      employeeId: event.employeeId,
+      phone: event.phone,
+      image: event.image,
+      name: event.name,
+      description: event.description,
+    ));
+
+    res.fold(
+      (failure) => emit(AuthFailure(failure.message)),
+      (accountInfo) => _emitAuthSuccess(accountInfo, emit),
+    );
   }
 
   void _onUpdateCustomerInfo(

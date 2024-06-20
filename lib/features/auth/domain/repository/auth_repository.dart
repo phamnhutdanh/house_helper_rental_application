@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:house_helper_rental_application/core/common/entities/account_info.dart';
+import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
 import 'package:house_helper_rental_application/core/common/entities/notification.dart';
 import 'package:house_helper_rental_application/core/error/failures.dart';
 import 'package:fpdart/fpdart.dart';
@@ -34,5 +35,18 @@ abstract interface class AuthRepository {
   Future<Either<Failure, NotificationAccount>> changeNotificationStatus({
     required String id,
     required String status,
+  });
+
+  Future<Either<Failure, AccountInfo>> updateAccountStatus({
+    required String accountId,
+    required AccountStatus status,
+  });
+
+  Future<Either<Failure, AccountInfo>> updateInfoEmployee({
+    required File? image,
+    required String name,
+    required String phone,
+    required String employeeId,
+    required String description,
   });
 }

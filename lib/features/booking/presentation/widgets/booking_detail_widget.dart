@@ -1,4 +1,3 @@
-import 'package:beamer/beamer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
@@ -182,14 +181,6 @@ class _BookingDetailWidgetState extends State<BookingDetailWidget> {
               listener: (context, state) {
                 if (state is BookingFailure) {
                   showSnackBar(context, state.error);
-                } else if (state is ChangeBookingStatusSuccess) {
-                  final account =
-                      (BlocProvider.of<AuthBloc>(context).state as AuthSuccess)
-                          .accountInfo;
-
-                  context.read<BookingBloc>().add(GetAllBookingOfCustomerEvent(
-                      customerId: account.customer!.id ?? ''));
-                  Beamer.of(context).beamBack();
                 }
               },
               builder: (context, state) {

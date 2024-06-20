@@ -42,3 +42,35 @@ final class RemoveCustomerAddressEvent extends AddressEvent {
     required this.id,
   });
 }
+
+final class RemoveEmployeeAddressEvent extends AddressEvent {
+  final String id;
+
+  RemoveEmployeeAddressEvent({
+    required this.id,
+  });
+}
+
+final class CreateEmployeeAddressEvent extends AddressEvent {
+  final String address;
+  final String fullName;
+  final String phone;
+  final String employeeId;
+  final bool isDefault;
+
+  CreateEmployeeAddressEvent({
+    required this.address,
+    required this.fullName,
+    required this.phone,
+    required this.employeeId,
+    required this.isDefault,
+  });
+}
+
+final class GetAllAddressOfEmployeeEvent extends AddressEvent {
+  final String employeeId;
+
+  GetAllAddressOfEmployeeEvent({
+    required this.employeeId,
+  });
+}

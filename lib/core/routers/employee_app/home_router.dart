@@ -1,14 +1,14 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
-import 'package:house_helper_rental_application/core/routers/customer_app/TestScreen.dart';
-import 'package:house_helper_rental_application/features/booking/presentation/pages/home_booking_page.dart';
+import 'package:house_helper_rental_application/features/booking/presentation/pages/booking_details_emp_page.dart';
+import 'package:house_helper_rental_application/features/booking/presentation/pages/task_booking_page.dart';
 
 class HomeRouter extends BeamLocation<BeamState> {
   HomeRouter(super.routeInformation);
   @override
   List<String> get pathPatterns => [
         '/task_home',
-        '/task_home/details',
+        '/task_home/booking_details/:bookingId',
       ];
 
   @override
@@ -16,22 +16,24 @@ class HomeRouter extends BeamLocation<BeamState> {
     final pages = [
       const BeamPage(
         key: ValueKey('task_home'),
-        title: 'Task home',
+        title: 'Home page',
         type: BeamPageType.noTransition,
-        child: RootScreen(
-          label: 'label home C11',
-          detailsPath: "/task_home/details",
-        ),
+        child: TaskBookingPage(),
       ),
     ];
-    if (state.uri.pathSegments.length == 2) {
-      pages.add(
-        const BeamPage(
-          key: ValueKey('task_home/details'),
-          title: 'Details home C',
-          child: DetailsScreen(label: 'home C11'),
-        ),
-      );
+    if (state.uri.pathSegments.length == 3) {
+      if (state.uri.pathSegments[1] == 'booking_details') {
+        String? bookingId = state.pathParameters['bookingId'];
+        if (bookingId != null) {
+          pages.add(
+            BeamPage(
+              key: ValueKey('task_home/booking_details/$bookingId'),
+              title: 'Booking details',
+              child: BookingDetailsEmpPage(bookingId: bookingId),
+            ),
+          );
+        }
+      }
     }
 
     return pages;

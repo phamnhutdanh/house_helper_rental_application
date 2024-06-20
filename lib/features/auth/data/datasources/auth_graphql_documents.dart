@@ -1,3 +1,5 @@
+import 'package:house_helper_rental_application/core/common/entities/enum_type.dart';
+
 class CreateAccountInput {
   final String email;
   final String name;
@@ -104,6 +106,53 @@ class ChangeNotiInput {
   }
 }
 
+class UpdateEmployeeInput {
+  final String employeeId;
+  final String name;
+  final String phone;
+  final String imageUri;
+  final String description;
+
+  UpdateEmployeeInput({
+    required this.employeeId,
+    required this.name,
+    required this.phone,
+    required this.imageUri,
+    required this.description,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'employeeId': employeeId,
+      'name': name,
+      'phone': phone,
+      'imageUri': imageUri,
+      'description': description,
+    };
+  }
+}
+
+class AccountStatusInput {
+  final String accountId;
+  final AccountStatus status;
+
+  AccountStatusInput({
+    required this.accountId,
+    required this.status,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'accountId': accountId,
+      'status': status == AccountStatus.NONE
+          ? "NONE"
+          : status == AccountStatus.BANNED
+              ? "BANNED"
+              : "WARNING",
+    };
+  }
+}
+
 class AuthGraphqlDocuments {
   static String createAccountMutation = """
     mutation CreateAccount(\$createAccountInput: CreateAccountInput, \$createSessionInput: CreateSessionInput) {
@@ -193,6 +242,40 @@ mutation Mutation(\$updateCustomerInput: UpdateCustomerInput) {
 }
 """;
 
+static String updateEmployeeInfoMutation = """
+mutation Mutation(\$updateEmployeeInput: UpdateEmployeeInput) {
+  updateEmployeeInfo(updateEmployeeInput: \$updateEmployeeInput) {
+     id
+        email
+        accountRole
+        status
+        employee {
+          id
+          name
+          imageUri
+          averageRating
+          phoneNumber
+          employeeAddresses {
+              address {
+                address
+              }
+          }
+        }
+        customer {
+          id
+          name
+          imageUri
+          phoneNumber
+          customerAddresses { 
+              address {
+                address
+              }
+          }
+        }
+  }
+}
+""";
+
   static String getNotificationOfAccountQuery = """
 query GetNotificationOfAccount(\$accountId: String) {
   getNotificationOfAccount(accountId: \$accountId) {
@@ -218,5 +301,40 @@ mutation Mutation(\$changeNotiInput: ChangeNotiInput) {
     updatedAt
   }
 }
+""";
+
+static String updateAccountStatusMutation = """
+mutation UpdateAccountStatus(\$accountStatusInput: AccountStatusInput) {
+  updateAccountStatus(accountStatusInput: \$accountStatusInput) {
+  id
+        email
+        accountRole
+        status
+        employee {
+          id
+          name
+          imageUri
+          averageRating
+          phoneNumber
+          employeeAddresses {
+              address {
+                address
+              }
+          }
+        }
+        customer {
+          id
+          name
+          imageUri
+          phoneNumber
+          customerAddresses { 
+              address {
+                address
+              }
+          }
+        }  
+  }
+}
+
 """;
 }

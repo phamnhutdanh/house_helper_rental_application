@@ -18,7 +18,17 @@ void showFormAddAddressBottomSheetDialog(BuildContext context) {
               listener: (context, state) {
                 if (state is AddressFailure) {
                   showSnackBar(context, state.error);
-                } else if (state is CreateCustomerAddressSuccess) {
+                }
+
+                if (state is CreateEmployeeAddressSuccess) {
+                  var currentUser =
+                      (BlocProvider.of<AuthBloc>(context).state as AuthSuccess)
+                          .accountInfo;
+                  context.read<AddressBloc>().add(GetAllAddressOfEmployeeEvent(
+                      employeeId: currentUser.employee!.id ?? ''));
+                  Navigator.of(context).pop();
+                }
+                if (state is CreateCustomerAddressSuccess) {
                   var currentUser =
                       (BlocProvider.of<AuthBloc>(context).state as AuthSuccess)
                           .accountInfo;
@@ -51,6 +61,15 @@ void showFormAddAddressBottomSheetDialog(BuildContext context) {
                     } else if (currentUser.accountRole ==
                         AccountInfoRole.EMPLOYEE) {
                       // add employee address
+                      context
+                          .read<AddressBloc>()
+                          .add(CreateEmployeeAddressEvent(
+                            address: address!,
+                            fullName: fullName!,
+                            phone: phone!,
+                            employeeId: currentUser.employee!.id ?? '',
+                            isDefault: false,
+                          ));
                     }
                   },
                 );

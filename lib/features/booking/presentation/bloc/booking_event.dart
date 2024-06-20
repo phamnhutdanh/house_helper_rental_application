@@ -37,11 +37,29 @@ final class BookingChangeStatusEvent extends BookingEvent {
   });
 }
 
+final class BookingEmployeeAcceptEvent extends BookingEvent {
+  final String bookingId;
+  final String employeeId;
+
+  BookingEmployeeAcceptEvent({
+    required this.bookingId,
+    required this.employeeId,
+  });
+}
+
 final class GetAllBookingOfCustomerEvent extends BookingEvent {
   final String customerId;
 
   GetAllBookingOfCustomerEvent({
     required this.customerId,
+  });
+}
+
+final class GetAllBookingEvent extends BookingEvent {
+  final String employeeId;
+
+  GetAllBookingEvent({
+    required this.employeeId,
   });
 }
 

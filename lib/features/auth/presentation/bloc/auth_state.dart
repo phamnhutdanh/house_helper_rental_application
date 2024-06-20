@@ -23,3 +23,8 @@ final class UpdateInfoCustomerSuccess extends AuthState {
   final AccountInfo accountInfo;
   const UpdateInfoCustomerSuccess(this.accountInfo);
 }
+
+final class UpdateInfoEmployeeSuccess extends AuthState {
+  final AccountInfo accountInfo;
+  const UpdateInfoEmployeeSuccess(this.accountInfo);
+}

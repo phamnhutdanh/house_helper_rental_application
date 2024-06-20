@@ -22,4 +22,20 @@ abstract interface class AddressRepository {
   Future<Either<Failure, CustomerAddress>> removeCustomerAddress({
     required String id,
   });
+
+  Future<Either<Failure, List<EmployeeAddress>>> getAllAddressOfEmployee({
+    required String employeeId,
+  });
+
+  Future<Either<Failure, EmployeeAddress>> createEmployeeAddress({
+    required String address,
+    required String fullName,
+    required String phone,
+    required String employeeId,
+    required bool isDefault,
+  });
+
+  Future<Either<Failure, EmployeeAddress>> removeEmployeeAddress({
+    required String id,
+  });
 }

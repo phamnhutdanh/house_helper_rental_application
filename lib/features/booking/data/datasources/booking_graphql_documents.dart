@@ -49,6 +49,23 @@ class CreateBookingServiceDetailInput {
   }
 }
 
+class EmployeeAcceptBookingInput {
+  final String bookingId;
+  final String employeeId;
+
+  EmployeeAcceptBookingInput({
+    required this.bookingId,
+    required this.employeeId,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'bookingId': bookingId,
+      'employeeId': employeeId,
+    };
+  }
+}
+
 class ChangeBookingStatusInput {
   final String id;
   final BookingStatus bookingStatus;
@@ -107,6 +124,22 @@ class BookingGraphqlDocuments {
     }
 """;
 
+  static String getAllBookingQuery = """
+query GetAllBooking(\$employeeId: String) {
+  getAllBooking(employeeId: \$employeeId) {
+        id
+        bookingTime
+        status
+        employeeId
+        service {
+          id
+          name
+        }
+        totalPrice
+  }
+}
+""";
+
   static String getBookingByIdQuery = """
   query GetBookingById(\$id: String) {
       getBookingById(id: \$id) {
@@ -156,5 +189,14 @@ class BookingGraphqlDocuments {
         status
       }
     }
+""";
+
+  static String employeeAcceptBookingMutation = """
+    mutation EmployeeAcceptBooking(\$employeeAcceptBookingInput: EmployeeAcceptBookingInput) {
+  employeeAcceptBooking(employeeAcceptBookingInput: \$employeeAcceptBookingInput) {
+     id
+    status
+  }
+}
 """;
 }

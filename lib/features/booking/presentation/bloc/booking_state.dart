@@ -22,6 +22,11 @@ final class AllBookingOfCustomerDisplaySuccess extends BookingState {
   AllBookingOfCustomerDisplaySuccess(this.bookings);
 }
 
+final class AllBookingDisplaySuccess extends BookingState {
+  final List<Booking> bookings;
+  AllBookingDisplaySuccess(this.bookings);
+}
+
 final class GetBookingByIdDisplaySuccess extends BookingState {
   final Booking booking;
   GetBookingByIdDisplaySuccess(this.booking);
@@ -30,4 +35,9 @@ final class GetBookingByIdDisplaySuccess extends BookingState {
 final class ChangeBookingStatusSuccess extends BookingState {
   final Booking booking;
   ChangeBookingStatusSuccess(this.booking);
+}
+
+final class EmployeeAcceptSuccess extends BookingState {
+  final Booking booking;
+  EmployeeAcceptSuccess(this.booking);
 }

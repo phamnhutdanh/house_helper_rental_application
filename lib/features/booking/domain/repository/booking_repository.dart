@@ -21,6 +21,10 @@ abstract interface class BookingRepository {
     required String customerId,
   });
 
+  Future<Either<Failure, List<Booking>>> getAllBooking({
+    required String employeeId,
+  });
+
   Future<Either<Failure, Booking>> getBookingById({
     required String id,
   });
@@ -28,5 +32,10 @@ abstract interface class BookingRepository {
   Future<Either<Failure, Booking>> changeBookingStatus({
     required String id,
     required BookingStatus bookingStatus,
+  });
+
+  Future<Either<Failure, Booking>> employeeAcceptBooking({
+    required String bookingId,
+    required String employeeId,
   });
 }

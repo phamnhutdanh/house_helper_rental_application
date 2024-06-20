@@ -22,6 +22,10 @@ abstract interface class BookingRemoteDataSource {
     required String customerId,
   });
 
+  Future<List<BookingModel>> getAllBooking({
+    required String employeeId,
+  });
+
   Future<BookingModel> getBookingById({
     required String id,
   });
@@ -29,6 +33,11 @@ abstract interface class BookingRemoteDataSource {
   Future<BookingModel> changeBookingStatus({
     required String id,
     required BookingStatus bookingStatus,
+  });
+
+  Future<BookingModel> employeeAcceptBooking({
+    required String bookingId,
+    required String employeeId,
   });
 }
 
@@ -163,6 +172,62 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
 
       final resultData = result.data?['getBookingById'] ?? {};
       return BookingModel.fromJson(resultData);
+    } catch (e) {
+      throw ServerExceptionError(e.toString());
+    }
+  }
+
+  @override
+  Future<List<BookingModel>> getAllBooking({
+    required String employeeId,
+  }) async {
+    try {
+      final QueryOptions options = QueryOptions(
+        document: gql(BookingGraphqlDocuments.getAllBookingQuery),
+        variables: {
+          'employeeId': employeeId,
+        },
+        fetchPolicy: FetchPolicy.networkOnly,
+      );
+
+      final QueryResult result = await graphQLClient.query(options);
+
+      if (result.hasException) {
+        throw const ServerExceptionError('Query get all booking is error!');
+      }
+
+      final resultData = result.data?['getAllBooking'] as List<dynamic>;
+      return resultData
+          .map((service) => BookingModel.fromJson(service))
+          .toList();
+    } catch (e) {
+      throw ServerExceptionError(e.toString());
+    }
+  }
+
+  @override
+  Future<BookingModel> employeeAcceptBooking(
+      {required String bookingId, required String employeeId}) async {
+    try {
+      final input = EmployeeAcceptBookingInput(
+        bookingId: bookingId,
+        employeeId: employeeId,
+      );
+
+      final MutationOptions options = MutationOptions(
+        document: gql(BookingGraphqlDocuments.employeeAcceptBookingMutation),
+        variables: {
+          'employeeAcceptBookingInput': input.toJson(),
+        },
+        fetchPolicy: FetchPolicy.networkOnly,
+      );
+
+      final QueryResult result = await graphQLClient.mutate(options);
+
+      if (result.hasException) {
+        throw const ServerExceptionError('Mutation accept booking is error!');
+      }
+      return BookingModel.fromJson(result.data?['employeeAcceptBooking'] ?? {});
     } catch (e) {
       throw ServerExceptionError(e.toString());
     }

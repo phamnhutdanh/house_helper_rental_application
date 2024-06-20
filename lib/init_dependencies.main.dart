@@ -108,6 +108,12 @@ void _initAuth() {
     ..registerFactory(
       () => GetAllNoti(serviceLocator()),
     )
+    ..registerFactory(
+      () => UpdateInfoEmployee(serviceLocator()),
+    )
+    ..registerFactory(
+      () => ChangeAccountStatus(serviceLocator()),
+    )
     // Bloc
     ..registerLazySingleton(
       () => AuthBloc(
@@ -117,12 +123,18 @@ void _initAuth() {
         appAccountCubit: serviceLocator(),
         accountSignOut: serviceLocator(),
         updateInfoCustomer: serviceLocator(),
+        updateInfoEmployee: serviceLocator(),
       ),
     )
     ..registerLazySingleton(
       () => NotiBloc(
         changeNotiStatus: serviceLocator(),
         getAllNoti: serviceLocator(),
+      ),
+    )
+    ..registerLazySingleton(
+      () => AdminBloc(
+        changeAccountStatus: serviceLocator(),
       ),
     );
 }
@@ -152,6 +164,15 @@ void _initAddress() {
     ..registerFactory(
       () => RemoveCustomerAddress(serviceLocator()),
     )
+    ..registerFactory(
+      () => CreateEmployeeAddress(serviceLocator()),
+    )
+    ..registerFactory(
+      () => RemoveEmployeeAddress(serviceLocator()),
+    )
+    ..registerFactory(
+      () => GetAllAddressOfEmployee(serviceLocator()),
+    )
     // Bloc
     ..registerLazySingleton(
       () => AddressBloc(
@@ -159,6 +180,9 @@ void _initAddress() {
         getAllAddressOfCustomer: serviceLocator(),
         getCustomerAddressById: serviceLocator(),
         removeCustomerAddress: serviceLocator(),
+        createEmployeeAddress: serviceLocator(),
+        getAllAddressOfEmployee: serviceLocator(),
+        removeEmployeeAddress: serviceLocator(),
       ),
     );
 }
@@ -273,6 +297,12 @@ void _initBooking() {
     ..registerFactory(
       () => ChangeBookingStatus(serviceLocator()),
     )
+    ..registerFactory(
+      () => GetAllBooking(serviceLocator()),
+    )
+    ..registerFactory(
+      () => EmployeeAccept(serviceLocator()),
+    )
     // Bloc
     ..registerLazySingleton(
       () => BookingBloc(
@@ -280,6 +310,8 @@ void _initBooking() {
         getBookingById: serviceLocator(),
         getAllBookingOfCustomer: serviceLocator(),
         changeBookingStatus: serviceLocator(),
+        getAllBooking: serviceLocator(),
+        employeeAccept: serviceLocator(),
       ),
     );
 }

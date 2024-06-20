@@ -12,18 +12,18 @@ import 'package:house_helper_rental_application/features/auth/presentation/bloc/
 import 'package:house_helper_rental_application/features/booking/presentation/bloc/booking_bloc.dart';
 import 'package:house_helper_rental_application/features/booking/presentation/widgets/booking_detail_widget.dart';
 
-class BookingDetailsPage extends StatefulWidget {
+class BookingDetailsEmpPage extends StatefulWidget {
   final String bookingId;
-  const BookingDetailsPage({
+  const BookingDetailsEmpPage({
     super.key,
     required this.bookingId,
   });
 
   @override
-  State<BookingDetailsPage> createState() => _BookingDetailsPageState();
+  State<BookingDetailsEmpPage> createState() => _BookingDetailsEmpPageState();
 }
 
-class _BookingDetailsPageState extends State<BookingDetailsPage> {
+class _BookingDetailsEmpPageState extends State<BookingDetailsEmpPage> {
   @override
   void initState() {
     context.read<BookingBloc>().add(GetBookingByIdEvent(id: widget.bookingId));
@@ -31,11 +31,11 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
   }
 
   void onPressBack() {
-    final account =
+    final currentAccount =
         (BlocProvider.of<AuthBloc>(context).state as AuthSuccess).accountInfo;
-
-    context.read<BookingBloc>().add(
-        GetAllBookingOfCustomerEvent(customerId: account.customer!.id ?? ''));
+    context
+        .read<BookingBloc>()
+        .add(GetAllBookingEvent(employeeId: currentAccount.employee!.id ?? ''));
   }
 
   @override
