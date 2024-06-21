@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:house_helper_rental_application/core/common/widgets/gradient_button.dart';
 import 'package:house_helper_rental_application/core/theme/app_palette.dart';
+import 'package:house_helper_rental_application/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:house_helper_rental_application/features/auth/presentation/bloc/noti_bloc.dart';
+import 'package:house_helper_rental_application/features/booking/presentation/bloc/booking_bloc.dart';
 import 'package:house_helper_rental_application/features/employees/presentation/bloc/employee_bloc.dart';
 import 'package:house_helper_rental_application/features/services/presentation/bloc/service_bloc.dart';
 import 'package:lottie/lottie.dart';
@@ -49,8 +52,16 @@ class _SuccessPageState extends State<SuccessPage> {
             GradientButton(
               buttonText: "Back to home",
               onPressed: () {
+                var account =
+                    (BlocProvider.of<AuthBloc>(context).state as AuthSuccess)
+                        .accountInfo;
                 context.read<ServiceBloc>().add(FetchAllServicesEvent());
                 context.read<EmployeeBloc>().add(FetchTopEmployeesEvent());
+                context.read<BookingBloc>().add(GetAllBookingOfCustomerEvent(
+                    customerId: account.customer!.id ?? ''));
+                context
+                    .read<NotiBloc>()
+                    .add(GetAllNotiEvent(accountId: account.id ?? ''));
 
                 Beamer.of(context).beamToReplacementNamed('/booking_home');
               },
